@@ -11,6 +11,7 @@
     <script src="https://kit.fontawesome.com/40d870b470.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ asset('css/admin/custom.css') }}">
     <script src="{{ asset('js/alertify.js') }}"></script>
+    <script src="{{ asset('js/custom.js') }}"></script>
 </head>
 <body>
     <div class="container-fluid">
@@ -41,7 +42,7 @@
                         </a>
                     </li>
                     <li class="nav-item m-2">
-                        <a class="nav-link text-light" href="#">
+                        <a class="nav-link text-light" href="/admin/categories">
                             <i class="fa-solid fa-list-ol pe-2"></i>
                             <span>Categories</span>
                         </a>
@@ -94,6 +95,11 @@
     @if(session('success'))
         <script>
             alertify.success("{{ session('success') }}");
+        </script>
+    @endif
+    @if(session('error'))
+        <script>
+            alertify.error("{{ session('error') }}");
         </script>
     @endif
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>

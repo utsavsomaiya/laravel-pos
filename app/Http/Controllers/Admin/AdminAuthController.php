@@ -35,7 +35,7 @@ class AdminAuthController extends Controller
 
         Auth::login($user);
 
-        return redirect('/admin/dashboard')->with(['success','Welcome to retail store!!']);
+        return redirect('/admin/dashboard')->with(['success' => 'Welcome to retail store!!']);
     }
 
     public function logout()

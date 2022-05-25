@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AdminAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +13,20 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::middleware('guest')->group(function () {
+    Route::get('/admin', function () {
+        return view('admin.auth.login');
+    })->name('login');
+    Route::get('/admin/register', function () {
+        return view('admin.auth.register');
+    });
+    Route::post('/admin', [AdminAuthController::class,'login']);
+    Route::post('/admin/register', [AdminAuthController::class,'register']);
+});
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware('auth')->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return view('admin.dashboard');
+    });
+    Route::get('/admin/logout', [AdminAuthController::class, 'logout']);
 });

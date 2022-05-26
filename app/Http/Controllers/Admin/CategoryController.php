@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -30,10 +31,17 @@ class CategoryController extends Controller
 
     public function delete($id)
     {
-        Category::find($id)->delete();
+        $category = Product::where('category_id', $id)->first();
+
+        if ($category == null) {
+            Category::find($id)->delete();
+            return back()->with([
+                'success' => 'Category deleted successfully.'
+            ]);
+        }
 
         return back()->with([
-            'success' => 'Category deleted successfully.'
+            'error' => 'This category is used in product.'
         ]);
     }
 

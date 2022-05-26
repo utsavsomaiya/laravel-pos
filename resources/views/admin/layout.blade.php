@@ -37,7 +37,7 @@
                         <span class="nav-category mt-2 mb-2 ms-2">Products</span>
                         <hr class="mt-0 mb-2">
                         <li class="nav-item m-2">
-                            <a class="nav-link text-light" href="#">
+                            <a class="nav-link text-light" href="{{ route('products-list') }}">
                                 <i class="fa-solid fa-list pe-2"></i>
                                 <span>Products</span>
                             </a>
@@ -104,17 +104,22 @@
                 </div>
             </div>
         </div>
-        <script src="{{ asset('js/alertify.js') }}"></script>
-        <script src="{{ asset('js/custom.js') }}"></script>
-        @if(session('success'))
-            <script>
-                alertify.success("{{ session('success') }}");
-            </script>
-        @endif
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-            crossorigin="anonymous"
-        ></script>
-        <script src="https://kit.fontawesome.com/40d870b470.js" crossorigin="anonymous"></script>
-    </body>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"
+    ></script>
+    <script src="{{ asset('js/alertify.js') }}"></script>
+    <script src="{{ asset('js/custom.js') }}"></script>
+    @if(session('success'))
+        <script>
+            alertify.success("{{ session('success') }}");
+        </script>
+    @endif
+    @if(session('error'))
+        <script>
+            alertify.error("{{ session('error') }}");
+        </script>
+    @endif
+</body>
 </html>

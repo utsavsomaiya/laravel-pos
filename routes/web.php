@@ -13,20 +13,15 @@ use App\Http\Controllers\Admin\AdminAuthController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::middleware('guest')->group(function () {
-    Route::get('/admin', function () {
-        return view('admin.auth.login');
-    })->name('login');
-    Route::get('/admin/register', function () {
-        return view('admin.auth.register');
-    });
+    Route::view('/admin', 'admin.auth.login')->name('login');
+    Route::view('/admin/register', 'admin.auth.register')->name('register');
     Route::post('/admin', [AdminAuthController::class,'login']);
     Route::post('/admin/register', [AdminAuthController::class,'register']);
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    });
-    Route::get('/admin/logout', [AdminAuthController::class, 'logout']);
+    Route::view('/admin/dashboard', 'admin.dashboard')->name('dashboard');
+    Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('logout');
 });

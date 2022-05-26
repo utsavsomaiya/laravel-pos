@@ -111,6 +111,7 @@
     ></script>
     <script src="{{ asset('js/alertify.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
+    <script src="https://kit.fontawesome.com/40d870b470.js" crossorigin="anonymous"></script>
     @if(session('success'))
         <script>
             alertify.success("{{ session('success') }}");

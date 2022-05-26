@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,13 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::view('/admin/dashboard', 'admin.dashboard')->name('dashboard');
-    
+
+    Route::view('/admin/categories/add', 'admin.categories.add')->name('category-add');
+    Route::post('admin/categories/add', [CategoryController::class,'store']);
+    Route::get('/admin/categories', [CategoryController::class,'show'])->name('categories-list');
+    Route::post("admin/categories/delete/{id}", [CategoryController::class,'delete'])->name('category-delete');
+    Route::get("admin/categories/edit/{id}", [CategoryController::class,'edit'])->name('category-edit');
+    Route::post("admin/categories/edit/{id}", [CategoryController::class,'update']);
+
     Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('logout');
 });

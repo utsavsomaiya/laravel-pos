@@ -26,7 +26,11 @@
                                     <td>{{ $category->id }}</td>
                                     <td>{{ $category->name }}</td>
                                     <td>
-                                        <a href="{{ route('category-edit', ['id' => $category->id ]) }}" class="link-dark"><i class="fa-solid fa-pencil"></i></a>
+                                        <a href="{{ route('category-edit', ['id' => $category->id ]) }}"
+                                            class="link-dark"
+                                        >
+                                            <i class="fa-solid fa-pencil"></i>
+                                        </a>
                                     </td>
                                     <td>
                                         @once
@@ -38,7 +42,12 @@
                                                 id="delete-category"
                                             >
                                                 @csrf
-                                                <button type="button" class="bg-light border-0" onclick="deleteConfirm('categories')"><i class="fa-solid fa-trash-can"></i></button>
+                                                <button type="button"
+                                                    class="bg-light border-0"
+                                                    onclick="deleteConfirm('categories')"
+                                                >
+                                                    <i class="fa-solid fa-trash-can"></i>
+                                                </button>
                                             </form>
                                         @endonce
                                     </td>

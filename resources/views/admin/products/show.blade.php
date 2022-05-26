@@ -6,7 +6,11 @@
                 <div class="mt-2">
                     <span class="h4 ms-3 me-5">Products</span>
                     <span class="ms-3">
-                        <a href="/admin/products/add" class="link-dark h6">Add New Product</a>
+                        <a href="{{ route('product-add') }}"
+                            class="link-dark h6"
+                        >
+                            Add New Product
+                        </a>
                     </span>
                 </div>
             </div>
@@ -37,12 +41,30 @@
                                 <td>
                                     <img src="{{ asset('storage/image').'/'.$product->image }}"></td>
                                 <td>
-                                    <a href="/admin/products/edit/{{ $product->id }}" class="link-dark"><i class="fa-solid fa-pencil"></i></a>
+                                    <a href="{{ route('product-edit',[ 'id' => $product->id ]) }}"
+                                        class="link-dark"
+                                    >
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </a>
                                 </td>
                                 <td>
-                                    <a class="link-dark" onclick="deleteConfirm('{{ $product->id }}','products')">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </a>
+                                    @once
+                                        @push('scripts')
+                                            <script src="{{ asset('js/custom.js') }}"></script>
+                                        @endpush
+                                        <form method="post"
+                                            action="{{ route('product-delete', ['id' => $product->id]) }}"
+                                            id="delete-product"
+                                        >
+                                            @csrf
+                                            <button type="button"
+                                                class="bg-light border-0"
+                                                onclick="deleteConfirm('products')"
+                                            >
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </button>
+                                        </form>
+                                    @endonce
                                 </td>
                             </tr>
                         @endforeach

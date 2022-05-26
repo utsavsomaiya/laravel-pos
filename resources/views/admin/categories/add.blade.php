@@ -8,12 +8,22 @@
                 </div>
             </div>
             <div class="card-body">
-                <form class="forms-sample w-50" method="post" @isset($category) action="/admin/categories/edit/{{ $category->id }}" @endisset>
+                <form class="forms-sample w-50"
+                    method="post"
+                    @isset($category)
+                        action="/admin/categories/edit/{{ $category->id }}"
+                    @endisset
+                >
                     @csrf
                     <div class="form-group">
                         <label class="pb-1">Category Name</label>
-                        <input type=" text" class="form-control @error('name') is-invalid @enderror" placeholder="Category Name"
-                            name="name" value="{{ old('name') }}@isset($category) {{ $category->name }} @endisset" required>
+                        <input type=" text"
+                            class="form-control @error('name') is-invalid @enderror"
+                            placeholder="Category Name"
+                            name="name"
+                            value="{{ old('name') }}@isset($category) {{ $category->name }} @endisset"
+                            required
+                        >
                         @error('name')
                             <label class="text-danger">{{ $message }}</label>
                         @enderror
@@ -25,7 +35,7 @@
                             Submit
                         @endisset
                     </button>
-                    <a href="/admin/categories" class="btn btn-light mt-3">Cancel</a>
+                    <a href="{{ route('categories-list') }}" class="btn btn-light mt-3">Cancel</a>
                 </form>
             </div>
         </div>

@@ -12,11 +12,13 @@ class ProductController extends Controller
     public function show()
     {
         $products = Product::with('category')->get();
+
         return view('admin.products.show', compact('products'));
     }
     public function add()
     {
         $categories = Category::all();
+
         return view('admin.products.add', compact('categories'));
     }
     public function store(Request $request)
@@ -38,7 +40,7 @@ class ProductController extends Controller
 
         Product::create($product);
 
-        return redirect('/admin/products')->with([
+        return to_route('products-list')->with([
             'success' => 'Products added successfully.'
         ]);
     }
@@ -46,6 +48,7 @@ class ProductController extends Controller
     public function delete($id)
     {
         Product::find($id)->delete();
+
         return back()->with([
             'success' => 'Product deleted successfully.'
         ]);
@@ -54,7 +57,9 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::find($id);
+
         $categories = Category::find($product->category_id)->get();
+
         return view('admin.products.add', compact('product', 'categories'));
     }
 
@@ -76,10 +81,10 @@ class ProductController extends Controller
 
             $product['image'] = $name;
         }
-        
+
         Product::find($id)->update($product);
 
-        return redirect('/admin/products')->with([
+        return to_route('products-list')->with([
             'success' => 'Product updated successfully.'
         ]);
     }

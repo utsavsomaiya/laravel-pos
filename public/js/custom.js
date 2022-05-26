@@ -1,16 +1,16 @@
-function deleteConfirm(id,type) {
+function deleteConfirm(type) {
     if (type == "categories") {
-        return alertify.confirm('Delete Category', 'Are you sure to delete this category?', function () {
-            window.location.href = "/admin/categories/delete/" + id;
+        alertify.confirm('Delete Category', 'Are you sure to delete this category?', function () {
+            document.getElementById("delete-category").submit();
         }, function () {
-
+            return;
         });
     }
     if (type == 'products') {
-        return alertify.confirm('Delete Product', 'Are you sure to delete this product?', function () {
-            window.location.href = "/admin/products/delete/" + id;
+        alertify.confirm('Delete Product', 'Are you sure to delete this product?', function () {
+            document.getElementById("delete-product").submit();
         }, function () {
-
+            return;
         });
     }
 }

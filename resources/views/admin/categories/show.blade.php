@@ -6,7 +6,7 @@
                 <div class="mt-2">
                     <span class="h4 ms-3 me-5">Categories</span>
                     <span class="ms-3">
-                        <a href="/admin/categories/add" class="link-dark h6">Add New Category</a>
+                        <a href="{{ route('category-add') }}" class="link-dark h6">Add New Category</a>
                     </span>
                 </div>
             </div>
@@ -26,10 +26,21 @@
                                     <td>{{ $category->id }}</td>
                                     <td>{{ $category->name }}</td>
                                     <td>
-                                        <a href="/admin/categories/edit/{{ $category->id }}" class="link-dark"><i class="fa-solid fa-pencil"></i></a>
+                                        <a href="{{ route('category-edit', ['id' => $category->id ]) }}" class="link-dark"><i class="fa-solid fa-pencil"></i></a>
                                     </td>
                                     <td>
-                                        <a class="link-dark" onclick="deleteConfirm('{{ $category->id }}','categories')"><i class="fa-solid fa-trash-can"></i></a>
+                                        @once
+                                            @push('scripts')
+                                                <script src="{{ asset('js/custom.js') }}"></script>
+                                            @endpush
+                                            <form method="post"
+                                                action="{{ route('category-delete', ['id' => $category->id]) }}"
+                                                id="delete-category"
+                                            >
+                                                @csrf
+                                                <button type="button" class="bg-light border-0" onclick="deleteConfirm('categories')"><i class="fa-solid fa-trash-can"></i></button>
+                                            </form>
+                                        @endonce
                                     </td>
                                 </tr>
                             @endforeach

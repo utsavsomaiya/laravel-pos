@@ -15,37 +15,30 @@ use App\Http\Controllers\Admin\ProductController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::middleware('guest')->group(function () {
-    Route::get('/admin', function () {
-        return view('admin.auth.login');
-    })->name('login');
-    Route::get('/admin/register', function () {
-        return view('admin.auth.register');
-    });
+    Route::view('/admin', 'admin.auth.login')->name('login');
+    Route::view('/admin/register', 'admin.auth.register')->name('register');
     Route::post('/admin', [AdminAuthController::class,'login']);
     Route::post('/admin/register', [AdminAuthController::class,'register']);
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/admin/logout', [AdminAuthController::class, 'logout']);
+    Route::view('/admin/dashboard', 'admin.dashboard')->name('dashboard');
 
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    });
-
-    Route::get('/admin/products', [ProductController::class,'show']);
-    Route::get('/admin/products/add', [ProductController::class,'add']);
+    Route::get('/admin/products', [ProductController::class,'show'])->name('products-list');
+    Route::get('/admin/products/add', [ProductController::class,'add'])->name('product-add');
     Route::post('/admin/products/add', [ProductController::class,'store']);
-    Route::get('/admin/products/delete/{id}', [ProductController::class,'delete']);
-    Route::get('/admin/products/edit/{id}', [ProductController::class,'edit']);
+    Route::post('/admin/products/delete/{id}', [ProductController::class,'delete'])->name('product-delete');
+    Route::get('/admin/products/edit/{id}', [ProductController::class,'edit'])->name('product-edit');
     Route::post('/admin/products/edit/{id}', [ProductController::class,'update']);
 
-    Route::get('/admin/categories/add', function () {
-        return view('admin.categories.add');
-    });
+    Route::view('/admin/categories/add', 'admin.categories.add')->name('category-add');
     Route::post('admin/categories/add', [CategoryController::class,'store']);
-    Route::get('/admin/categories', [CategoryController::class,'show']);
-    Route::get("admin/categories/delete/{id}", [CategoryController::class,'delete']);
-    Route::get("admin/categories/edit/{id}", [CategoryController::class,'edit']);
+    Route::get('/admin/categories', [CategoryController::class,'show'])->name('categories-list');
+    Route::post("admin/categories/delete/{id}", [CategoryController::class,'delete'])->name('category-delete');
+    Route::get("admin/categories/edit/{id}", [CategoryController::class,'edit'])->name('category-edit');
     Route::post("admin/categories/edit/{id}", [CategoryController::class,'update']);
+
+    Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('logout');
 });

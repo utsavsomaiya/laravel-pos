@@ -17,7 +17,7 @@ class CategoryController extends Controller
 
         Category::create($category);
 
-        return redirect('/admin/categories')->with(
+        return to_route('categories-list')->with(
             ['success' => 'Category added successfully.']
         );
     }
@@ -32,12 +32,14 @@ class CategoryController extends Controller
     public function delete($id)
     {
         $category = Product::where('category_id', $id)->first();
+
         if ($category == null) {
             Category::find($id)->delete();
             return back()->with([
                 'success' => 'Category deleted successfully.'
             ]);
         }
+
         return back()->with([
             'error' => 'This category is used in product.'
         ]);
@@ -46,6 +48,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = Category::find($id)->first();
+
         return view('admin.categories.add', compact('category'));
     }
 
@@ -57,7 +60,7 @@ class CategoryController extends Controller
 
         Category::find($id)->update($category);
 
-        return redirect('/admin/categories')->with([
+        return to_route('categories-list')->with([
             'success' => 'Category Updated successfully'
         ]);
     }

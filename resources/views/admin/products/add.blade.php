@@ -12,26 +12,46 @@
                     @csrf
                     <div class="form-group mb-2">
                         <label class="pb-1">Product Name</label>
-                        <input type=" text" class="form-control @error('name') is-invalid @enderror" placeholder="Product Name"
-                            name="name" value="{{ old('name') }}@isset($product){{ $product->name }}@endisset" required>
+                        <input type=" text"
+                            class="form-control @error('name') is-invalid @enderror"
+                            placeholder="Product Name"
+                            name="name"
+                            value="{{ old('name') }}@isset($product){{ $product->name }}@endisset"
+                            required
+                        >
                         @error('name')
                             <label class="text-danger">{{ $message }}</label>
                         @enderror
                     </div>
                     <div class="form-group mb-2">
                         <label class="pb-1">Product Price</label>
-                        <input type="number" class="form-control @error('price') is-invalid @enderror" placeholder="Product Price"
-                            name="price" value="{{ old('price') }}@isset($product){{ $product->price }}@endisset" required>
+                        <input type="number"
+                            class="form-control @error('price') is-invalid @enderror"
+                            placeholder="Product Price"
+                            name="price"
+                            value="{{ old('price') }}@isset($product){{ $product->price }}@endisset"
+                            required
+                        >
                         @error('price')
                             <label class="text-danger">{{ $message }}</label>
                         @enderror
                     </div>
                     <div class="form-group mb-2">
                         <label class="pb-1">Select Category</label>
-                        <select class="form-control @error('category_id') is-invalid @enderror" name="category_id" required>
+                        <select class="form-control @error('category_id') is-invalid @enderror"
+                            name="category_id"
+                            required
+                        >
                             <option value="">--Select Category--</option>
                             @foreach($categories as $category)
-                                <option value="{{ $category->id }}" @selected(old('category_id') == $category->id) @isset($product) @selected($product->category_id == $category->id) @endisset>{{ $category->name }}</option>
+                                <option value="{{ $category->id }}"
+                                    @selected(old('category_id') == $category->id)
+                                    @isset($product)
+                                        @selected($product->category_id == $category->id)
+                                    @endisset
+                                >
+                                    {{ $category->name }}
+                                </option>
                             @endforeach
                         </select>
                         @error('category_id')
@@ -40,13 +60,41 @@
                     </div>
                     <div class="form-group mb-2">
                         <label class="pb-1">Tax of the Product</label>
-                        <select class="form-control @error('tax') is-invalid @enderror" name="tax" required>
+                        <select class="form-control @error('tax') is-invalid @enderror"
+                            name="tax"
+                            required
+                        >
                             <option value="">--Select Tax--</option>
-                            <option value="5" @selected(old('tax') == "5") @isset($product) @selected($product->tax == "5") @endisset>5%</option>
-                            <option value="10" @selected(old('tax') == "10") @isset($product) @selected($product->tax == "10") @endisset>10%</option>
-                            <option value="15" @selected(old('tax') == "15") @isset($product) @selected($product->tax == "15") @endisset>15%</option>
-                            <option value="20" @selected(old('tax') == "20") @isset($product) @selected($product->tax == "20") @endisset>20%</option>
-                            <option value="25" @selected(old('tax') == "25") @isset($product) @selected($product->tax == "25") @endisset>25%</option>
+                            <option value="5"
+                                @selected(old('tax') == "5")
+                                @isset($product)
+                                    @selected($product->tax == "5")
+                                @endisset
+                            >5%</option>
+                            <option value="10"
+                                @selected(old('tax') == "10")
+                                @isset($product)
+                                    @selected($product->tax == "10")
+                                @endisset
+                            >10%</option>
+                            <option value="15"
+                                @selected(old('tax') == "15")
+                                @isset($product)
+                                    @selected($product->tax == "15")
+                                @endisset
+                            >15%</option>
+                            <option value="20"
+                                @selected(old('tax') == "20")
+                                @isset($product)
+                                    @selected($product->tax == "20")
+                                @endisset
+                            >20%</option>
+                            <option value="25"
+                                @selected(old('tax') == "25")
+                                @isset($product)
+                                    @selected($product->tax == "25")
+                                @endisset
+                            >25%</option>
                         </select>
                         @error('tax')
                             <label class="text-danger">{{ $message }}</label>
@@ -54,8 +102,13 @@
                     </div>
                     <div class="form-group mb-2">
                         <label class="pb-1">Product Stock</label>
-                        <input type="number" class="form-control @error('stock') is-invalid @enderror" placeholder="Product Stock"
-                            name="stock" value="{{ old('stock') }}@isset($product){{ $product->stock }}@endisset" required>
+                        <input type="number"
+                            class="form-control @error('stock') is-invalid @enderror"
+                            placeholder="Product Stock"
+                            name="stock"
+                            value="{{ old('stock') }}@isset($product){{ $product->stock }}@endisset"
+                            required
+                        >
                         @error('stock')
                             <label class="text-danger">{{ $message }}</label>
                         @enderror
@@ -65,7 +118,14 @@
                     @endisset
                     <div class="form-group mb-2">
                         <label class="pb-1">Product Image</label>
-                        <input type="file" class="form-control @error('image') is-invalid @enderror" accept="image/png, image/gif, image/jpeg, image/jpg" name="image" @empty($product) required @endempty>
+                        <input type="file"
+                            class="form-control @error('image') is-invalid @enderror"
+                            accept="image/png, image/gif, image/jpeg, image/jpg"
+                            name="image"
+                            @empty($product)
+                                required
+                            @endempty
+                        >
                         @error('image')
                             <label class="text-danger">{{ $message }}</label>
                         @enderror
@@ -77,7 +137,7 @@
                             Submit
                         @endisset
                     </button>
-                    <a href="/admin/products" class="btn btn-light">
+                    <a href="{{ route('products-list') }}" class="btn btn-light">
                         Cancel
                     </a>
                 </form>

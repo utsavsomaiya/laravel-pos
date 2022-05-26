@@ -18,9 +18,9 @@ class AdminAuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            return to_route('dashboard')->with(['success'=>'Welcome back!!']);
+            return to_route('dashboard')->with(['success'=>'Logged in successfully.']);
         }
-        
+
         return back()->with([
             'error' => 'Incorrect credentials.'
         ]);
@@ -50,7 +50,7 @@ class AdminAuthController extends Controller
         $request->session()->regenerateToken();
 
         return to_route('login')->with([
-            'success' => 'Good Bye!!'
+            'success' => 'Logged out successfully.'
         ]);
     }
 }

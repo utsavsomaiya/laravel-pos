@@ -12,9 +12,7 @@
             integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
             crossorigin="anonymous"
         >
-        <script src="https://kit.fontawesome.com/40d870b470.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="{{ asset('css/admin/custom.css') }}">
-        <script src="{{ asset('js/alertify.js') }}"></script>
     </head>
     <body>
         <div class="container-fluid">
@@ -31,7 +29,7 @@
                     <hr>
                     <ul class="nav flex-column">
                         <li class="nav-item m-2">
-                            <a class="nav-link text-light" href="/admin/dashboard">
+                            <a class="nav-link text-light" href="{{ route('dashboard') }}">
                                 <i class="fa-solid fa-chart-line pe-2"></i>
                                 <span>Dashboard</span>
                             </a>
@@ -39,7 +37,7 @@
                         <span class="nav-category mt-2 mb-2 ms-2">Products</span>
                         <hr class="mt-0 mb-2">
                         <li class="nav-item m-2">
-                            <a class="nav-link text-light" href="/admin/products">
+                            <a class="nav-link text-light" href="#">
                                 <i class="fa-solid fa-list pe-2"></i>
                                 <span>Products</span>
                             </a>
@@ -106,6 +104,7 @@
                 </div>
             </div>
         </div>
+        <script src="{{ asset('js/alertify.js') }}"></script>
         @if(session('success'))
             <script>
                 alertify.success("{{ session('success') }}");
@@ -115,5 +114,6 @@
             integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
             crossorigin="anonymous"
         ></script>
+        <script src="https://kit.fontawesome.com/40d870b470.js" crossorigin="anonymous"></script>
     </body>
 </html>

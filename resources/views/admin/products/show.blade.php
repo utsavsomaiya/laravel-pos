@@ -48,23 +48,18 @@
                                     </a>
                                 </td>
                                 <td>
-                                    @once
-                                        @push('scripts')
-                                            <script src="{{ asset('js/custom.js') }}"></script>
-                                        @endpush
-                                        <form method="post"
-                                            action="{{ route('product-delete', ['id' => $product->id]) }}"
-                                            id="delete-product"
+                                    <form method="post"
+                                        action="{{ route('product-delete', ['id' => $product->id]) }}"
+                                        id="delete-product"
+                                    >
+                                        @csrf
+                                        <button type="button"
+                                            class="bg-light border-0"
+                                            onclick="deleteConfirm('products')"
                                         >
-                                            @csrf
-                                            <button type="button"
-                                                class="bg-light border-0"
-                                                onclick="deleteConfirm('products')"
-                                            >
-                                                <i class="fa-solid fa-trash-can"></i>
-                                            </button>
-                                        </form>
-                                    @endonce
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

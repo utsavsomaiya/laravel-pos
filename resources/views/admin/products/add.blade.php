@@ -16,7 +16,7 @@
                             class="form-control @error('name') is-invalid @enderror"
                             placeholder="Product Name"
                             name="name"
-                            value="{{ old('name') }}@isset($product){{ $product->name }}@endisset"
+                            value="@isset($product){{ $product->name }}@else{{ old('name') }}@endisset"
                             required
                         >
                         @error('name')
@@ -29,7 +29,7 @@
                             class="form-control @error('price') is-invalid @enderror"
                             placeholder="Product Price"
                             name="price"
-                            value="{{ old('price') }}@isset($product){{ $product->price }}@endisset"
+                            value="@isset($product){{ $product->price }}@else{{ old('price') }}@endisset"
                             required
                         >
                         @error('price')
@@ -45,9 +45,10 @@
                             <option value="">--Select Category--</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}"
-                                    @selected(old('category_id') == $category->id)
                                     @isset($product)
                                         @selected($product->category_id == $category->id)
+                                    @else
+                                        @selected(old('category_id') == $category->id)
                                     @endisset
                                 >
                                     {{ $category->name }}
@@ -66,33 +67,38 @@
                         >
                             <option value="">--Select Tax--</option>
                             <option value="5"
-                                @selected(old('tax') == "5")
                                 @isset($product)
                                     @selected($product->tax == "5")
+                                @else
+                                    @selected(old('tax') == "5")
                                 @endisset
                             >5%</option>
                             <option value="10"
-                                @selected(old('tax') == "10")
                                 @isset($product)
                                     @selected($product->tax == "10")
+                                @else
+                                    @selected(old('tax') == "10")
                                 @endisset
                             >10%</option>
                             <option value="15"
-                                @selected(old('tax') == "15")
                                 @isset($product)
                                     @selected($product->tax == "15")
+                                @else
+                                    @selected(old('tax') == "15")
                                 @endisset
                             >15%</option>
                             <option value="20"
-                                @selected(old('tax') == "20")
                                 @isset($product)
                                     @selected($product->tax == "20")
+                                @else
+                                    @selected(old('tax') == "20")
                                 @endisset
                             >20%</option>
                             <option value="25"
-                                @selected(old('tax') == "25")
                                 @isset($product)
                                     @selected($product->tax == "25")
+                                @else
+                                    @selected(old('tax') == "25")
                                 @endisset
                             >25%</option>
                         </select>
@@ -106,7 +112,7 @@
                             class="form-control @error('stock') is-invalid @enderror"
                             placeholder="Product Stock"
                             name="stock"
-                            value="{{ old('stock') }}@isset($product){{ $product->stock }}@endisset"
+                            value="@isset($product){{ $product->stock }}@else{{ old('stock') }}@endisset"
                             required
                         >
                         @error('stock')

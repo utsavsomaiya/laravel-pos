@@ -21,7 +21,7 @@
                             class="form-control @error('name') is-invalid @enderror"
                             placeholder="Category Name"
                             name="name"
-                            value="{{ old('name') }}@isset($category) {{ $category->name }} @endisset"
+                            value="@isset($category){{ $category->name }}@else{{ old('name') }}@endisset"
                             required
                         >
                         @error('name')

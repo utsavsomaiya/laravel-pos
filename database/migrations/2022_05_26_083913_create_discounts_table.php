@@ -17,7 +17,6 @@ return new class extends Migration {
             $table->string('name');
             $table->boolean('status');
             $table->boolean('category');
-            $table->float('minimum_spend_amount');
             $table->timestamps();
         });
     }

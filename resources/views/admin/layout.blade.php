@@ -112,6 +112,7 @@
     <script src="{{ asset('js/alertify.min.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
     <script src="{{ asset('js/discount.js') }}"></script>
+    <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
     <script src="https://kit.fontawesome.com/40d870b470.js" crossorigin="anonymous"></script>
     @if(session('success'))
         <script>

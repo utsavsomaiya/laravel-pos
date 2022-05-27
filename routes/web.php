@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::post("/admin/categories/edit/{id}", [CategoryController::class,'update']);
 
     Route::get('/admin/discounts', [DiscountController::class,'show'])->name('discounts-list');
+    Route::post('/admin/discounts', [DiscountController::class,'statusChanged']);
     Route::get('/admin/discounts/add', [DiscountController::class,'add'])->name('discount-add');
     Route::post('/admin/discounts/add', [DiscountController::class,'store']);
 

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Discount;
+use App\Models\PriceDiscount;
 use App\Models\Product;
+use App\Rules\DiscountTypeIsPercentage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -26,20 +28,63 @@ class DiscountController extends Controller
 
     public function store(Request $request)
     {
-        $a = 1;
-
-        echo $a++;
-        $request->validate([
+        $discount = $request->validate([
             'name' => ['required','unique:discounts,name'],
             'category' => ['required'],
             'type' => ['required_if:category,in:"0"'],
             'minimum_spend_amount' => ['required','array'],
             'minimum_spend_amount.*' => ['required','distinct'],
             'digit' => ['required_if:category,in:"0"','array'],
-            'digit.*' => ['required','distinct'],
+            'digit.*' => ['required','distinct',function ($attribute, $value, $fail) {
+                if (request('type') == 0 && (int) $value > 100) {
+                    $fail('Percentage is not greater than 100');
+                }
+            }],
             'product' => ['required_if:category,in:"1"','array'],
             'product.*' => ['required','distinct'],
             'status' => ['required'],
         ]);
+
+        $discount['category'] = (int) $discount['category'];
+        $discount['status'] = (int) $discount['status'];
+
+        $MainDiscount = [
+            'name' => $discount['name'],
+            'category' => $discount['category'],
+            'status' => $discount['status']
+        ];
+
+        $mainDiscount = Discount::create($MainDiscount);
+
+        if ($discount['category'] == 0) {
+            for ($i = 0; $i < sizeof($discount['minimum_spend_amount']); $i++) {
+                $priceDiscount = [
+                    'discount_id' => $mainDiscount->id,
+                    'type' => (int) $discount['type'],
+                    'minimum_spend_amount' => (double) $discount['minimum_spend_amount'][$i],
+                    'digit' => (double) $discount['digit'][$i]
+                ];
+                PriceDiscount::create($priceDiscount);
+            }
+        }
+        if ($discount['category'] == 1) {
+            for ($i = 0; $i < sizeof($discount['minimum_spend_amount']); $i++) {
+                $giftDiscount = [
+                    'discount_id' => $mainDiscount->id,
+                    'minimum_spend_amount' => (double) $discount['minimum_spend_amount'][$i],
+                    'product' => $discount['product'][$i]
+                ];
+                PriceDiscount::create($giftDiscount);
+            }
+        }
+
+        return to_route('discounts-list')->with([
+            'success' => 'Discount added successfully'
+        ]);
+    }
+
+    public function statusChanged(Request $request)
+    {
+        Discount::find($request->id)->update(['status' => $request->status]);
     }
 }

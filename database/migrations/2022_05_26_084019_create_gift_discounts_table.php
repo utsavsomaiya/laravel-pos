@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('discount_id');
             $table->foreign('discount_id')->references('id')->on('discounts');
+            $table->float('minimum_spend_amount');
             $table->string('product');
             $table->timestamps();
         });

@@ -9,7 +9,7 @@ class GiftDiscount extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['discount_id','product'];
+    protected $fillable = ['discount_id','product','minimum_spend_amount'];
 
     public function discount()
     {

@@ -96,13 +96,13 @@
                 <script>
                     var i = {{ Js::from($i) }};
                     var minimumSpendAmount = {{ Js::from(old('minimum_spend_amount.'.$i)) }};
-                    document.getElementsByClassName('minimum-spend-amount')[i].value = minimumSpendAmount;
+                    document.getElementsByClassName('minimum-spend-amount')[i].value = parseFloat(minimumSpendAmount);
                 </script>
                 @if(old('digit'))
                     <script>
                         var i = {{ Js::from($i) }};
                         var digit = {{ Js::from(old('digit.'.$i)) }};
-                        document.getElementsByClassName('minimum-spend-amount')[i].value = digit;
+                        document.getElementsByClassName('digit')[i].value = parseFloat(digit);
                     </script>
                 @endif
                 @if(old('product'))

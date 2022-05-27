@@ -12,14 +12,13 @@
             </div>
             <div class="card-body">
                 @if(count($discounts) > 0)
-                    <table class="table w-50">
+                    <table class="table w-75">
                         <thead>
                             <tr>
                                 <th>Id</th>
                                 <th>Name</th>
                                 <th>Status</th>
                                 <th>Category</th>
-                                <th>Minimum Spend Amount</th>
                                 <th colspan="2">Action</th>
                             </tr>
                         </thead>
@@ -28,23 +27,33 @@
                                 <tr>
                                     <td>{{ $discount->id }}</td>
                                     <td>{{ $discount->name }}</td>
-                                    <td>{{ $discount->status }}</td>
-                                    <td>{{ $discount->category }}</td>
-                                    <td>{{ $discount->minimum_spend_amount }}</td>
                                     <td>
-                                        <a href="{{ route('category-edit', ['id' => $category->id ]) }}"
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input"
+                                                type="checkbox"
+                                                role="switch"
+                                                id="flexSwitchCheckChecked"
+                                                onclick="discountStatusChanged('{{ $discount->id }}','{{ $discount->status }}','{{ csrf_token() }}')"
+                                                @checked($discount->status == 0)
+                                            >
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if($discount->category == 0)
+                                            Price Discount
+                                        @else
+                                            Gift Discount
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a
                                             class="link-dark"
                                         >
                                             <i class="fa-solid fa-pencil"></i>
                                         </a>
                                     </td>
                                     <td>
-                                        @once
-                                            @push('scripts')
-                                                <script src="{{ asset('js/custom.js') }}"></script>
-                                            @endpush
                                             <form method="post"
-                                                action="{{ route('category-delete', ['id' => $category->id]) }}"
                                                 id="delete-category"
                                             >
                                                 @csrf
@@ -55,7 +64,6 @@
                                                     <i class="fa-solid fa-trash-can"></i>
                                                 </button>
                                             </form>
-                                        @endonce
                                     </td>
                                 </tr>
                             @endforeach

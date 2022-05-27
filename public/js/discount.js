@@ -1,4 +1,22 @@
-if (document.getElementById('discount-category') != null){
+function discountStatusChanged(id, status, token) {
+    status = parseInt(status);
+    id = parseInt(id);
+    if (status == 0)
+        status = status + 1;
+    else
+        status = status - 1;
+    $.ajax({
+        url: "/admin/discounts",
+        data: {
+            id: id,
+            _token: token,
+            status: status
+        },
+        type: "POST",
+    });
+}
+
+if (document.getElementById('discount-category') != null) {
     document.getElementById('discount-category').onchange = function () {
         checkDiscountCategory();
     }

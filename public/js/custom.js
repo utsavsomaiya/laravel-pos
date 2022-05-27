@@ -13,4 +13,11 @@ function deleteConfirm(type) {
             return;
         });
     }
+    if (type == 'discounts') {
+        alertify.confirm('Delete Discount', 'Are you sure to delete this Discount?', function () {
+            document.getElementById("delete-discount").submit();
+        }, function () {
+            return;
+        });
+    }
 }

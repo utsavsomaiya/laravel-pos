@@ -46,6 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/discounts', [DiscountController::class,'statusChanged']);
     Route::get('/admin/discounts/add', [DiscountController::class,'add'])->name('discount-add');
     Route::post('/admin/discounts/add', [DiscountController::class,'store']);
+    Route::post('/admin/discounts/delete/{id}', [DiscountController::class,'delete'])->name('discount-delete');
 
     Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('logout');
 });

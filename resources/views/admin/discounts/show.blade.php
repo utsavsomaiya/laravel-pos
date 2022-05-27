@@ -40,30 +40,35 @@
                                     </td>
                                     <td>
                                         @if($discount->category == 0)
-                                            Price Discount
+                                            <h6 class="badge bg-secondary mb-0">
+                                                Price Discount
+                                            </h6>
                                         @else
-                                            Gift Discount
+                                            <h6 class="badge bg-danger mb-0">
+                                                Gift Discount
+                                            </h6>
                                         @endif
                                     </td>
                                     <td>
-                                        <a
+                                        <a href="#"
                                             class="link-dark"
                                         >
                                             <i class="fa-solid fa-pencil"></i>
                                         </a>
                                     </td>
                                     <td>
-                                            <form method="post"
-                                                id="delete-category"
+                                        <form method="post"
+                                            id="delete-discount"
+                                            action="{{ route('discount-delete',['id' => $discount->id]) }}"
+                                        >
+                                            @csrf
+                                            <button type="button"
+                                                class="bg-light border-0"
+                                                onclick="deleteConfirm('discounts')"
                                             >
-                                                @csrf
-                                                <button type="button"
-                                                    class="bg-light border-0"
-                                                    onclick="deleteConfirm('categories')"
-                                                >
-                                                    <i class="fa-solid fa-trash-can"></i>
-                                                </button>
-                                            </form>
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('price_discounts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('discount_id');
-            $table->foreign('discount_id')->references('id')->on('discounts');
+            $table->foreign('discount_id')->references('id')->on('discounts')->onDelete('cascade');
             $table->float('minimum_spend_amount');
             $table->float('digit');
             $table->boolean('type');

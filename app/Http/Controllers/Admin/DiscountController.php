@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Discount;
+use App\Models\GiftDiscount;
 use App\Models\PriceDiscount;
 use App\Models\Product;
-use App\Rules\DiscountTypeIsPercentage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class DiscountController extends Controller
 {
@@ -74,12 +73,20 @@ class DiscountController extends Controller
                     'minimum_spend_amount' => (double) $discount['minimum_spend_amount'][$i],
                     'product' => $discount['product'][$i]
                 ];
-                PriceDiscount::create($giftDiscount);
+                GiftDiscount::create($giftDiscount);
             }
         }
 
         return to_route('discounts-list')->with([
             'success' => 'Discount added successfully'
+        ]);
+    }
+
+    public function delete($id)
+    {
+        Discount::find($id)->delete();
+        return back()->with([
+            'success' => 'Discount deleted successfully'
         ]);
     }
 

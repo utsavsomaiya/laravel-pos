@@ -33,23 +33,18 @@
                                         </a>
                                     </td>
                                     <td>
-                                        @once
-                                            @push('scripts')
-                                                <script src="{{ asset('js/custom.js') }}"></script>
-                                            @endpush
-                                            <form method="post"
-                                                action="{{ route('category-delete', ['id' => $category->id]) }}"
-                                                id="delete-category"
+                                        <form method="post"
+                                            action="{{ route('category-delete', ['id' => $category->id]) }}"
+                                            id="delete-category"
+                                        >
+                                            @csrf
+                                            <button type="button"
+                                                class="bg-light border-0"
+                                                onclick="deleteConfirm('categories')"
                                             >
-                                                @csrf
-                                                <button type="button"
-                                                    class="bg-light border-0"
-                                                    onclick="deleteConfirm('categories')"
-                                                >
-                                                    <i class="fa-solid fa-trash-can"></i>
-                                                </button>
-                                            </form>
-                                        @endonce
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

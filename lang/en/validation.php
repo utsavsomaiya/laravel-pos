@@ -148,9 +148,18 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'minimum_spend_amount.*' => [
+            'required' => 'The minimum_spend_amount field is required.',
+            'distinct' => 'The minimum_spend_amount field has a duplicate value.'
         ],
+        'digit.*' => [
+            'required' => 'The digit field is required.',
+            'distinct' => 'The digit field has a duplicate value.'
+        ],
+        'product.*' => [
+            'required' => 'The product field is required.',
+            'distinct' => 'The product field has a duplicate value.'
+        ]
     ],
 
     /*

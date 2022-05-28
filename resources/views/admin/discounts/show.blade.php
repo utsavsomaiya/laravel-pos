@@ -50,7 +50,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="#"
+                                        <a href="{{ route('discount-edit',['id' => $discount->id] ) }}"
                                             class="link-dark"
                                         >
                                             <i class="fa-solid fa-pencil"></i>

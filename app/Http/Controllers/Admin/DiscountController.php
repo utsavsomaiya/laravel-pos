@@ -94,4 +94,10 @@ class DiscountController extends Controller
     {
         Discount::find($request->id)->update(['status' => $request->status]);
     }
+
+    public function edit($id)
+    {
+        $discount = Discount::find($id);
+        dd($discount);
+    }
 }

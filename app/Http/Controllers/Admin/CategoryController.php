@@ -39,7 +39,12 @@ class CategoryController extends Controller
     public function update($categoryId, Request $request)
     {
         $category = $request->validate([
-            'name' => [Rule::unique('categories', 'name')->ignore($categoryId),'required','min:3','max:255']
+            'name' => [
+                'required',
+                'min:3',
+                'max:255',
+                Rule::unique('categories', 'name')->ignore($categoryId),
+            ]
         ]);
 
         Category::findOrFail($categoryId)->update($category);

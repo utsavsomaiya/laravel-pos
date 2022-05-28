@@ -8,12 +8,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <form class="forms-sample w-50"
-                    method="post"
-                    @isset($category)
-                        action="{{ route('category_edit',[ 'id' => $category->id ]) }}"
-                    @endisset
-                >
+                <form class="forms-sample w-50" method="post">
                     @csrf
                     <div class="form-group">
                         <label class="pb-1">Category Name</label>

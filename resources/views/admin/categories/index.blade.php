@@ -6,7 +6,7 @@
                 <div class="mt-2">
                     <span class="h4 ms-3 me-5">Categories</span>
                     <span class="ms-3">
-                        <a href="{{ route('category_add') }}" class="link-dark h6">Add New Category</a>
+                        <a href="{{ route('category.add') }}" class="link-dark h6">Add New Category</a>
                     </span>
                 </div>
             </div>
@@ -25,7 +25,7 @@
                                 <td>{{ $category->id }}</td>
                                 <td>{{ $category->name }}</td>
                                 <td>
-                                    <a href="{{ route('category_edit', ['id' => $category->id ]) }}"
+                                    <a href="{{ route('category.edit', ['id' => $category->id ]) }}"
                                         class="link-dark"
                                     >
                                         <i class="fa-solid fa-pencil"></i>
@@ -33,7 +33,7 @@
                                 </td>
                                 <td>
                                     <form method="post"
-                                        action="{{ route('category_delete', ['id' => $category->id]) }}"
+                                        action="{{ route('category.delete', ['id' => $category->id]) }}"
                                         id="delete-category"
                                     >
                                         @csrf

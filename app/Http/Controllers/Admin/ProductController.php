@@ -46,29 +46,29 @@ class ProductController extends Controller
         ]);
     }
 
-    public function delete($id)
+    public function delete($productId)
     {
-        $product = Product::findOrFail($id)->get()->first();
+        $product = Product::findOrFail($productId)->get()->first();
 
         Storage::delete('public/image'.'/'.$product->image);
 
-        Product::findOrFail($id)->delete();
+        Product::findOrFail($productId)->delete();
 
         return back()->with([
             'success' => 'Product deleted successfully.'
         ]);
     }
 
-    public function edit($id)
+    public function edit($productId)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::findOrFail($productId);
 
         $categories = Category::findOrFail($product->category_id)->get();
 
         return view('admin.products.add', compact('product', 'categories'));
     }
 
-    public function update($id, Request $request)
+    public function update($productId, Request $request)
     {
         $product = $request->validate([
             'name' => ['required','min:3','max:255'],
@@ -87,7 +87,7 @@ class ProductController extends Controller
             $product['image'] = $name;
         }
 
-        Product::find($id)->update($product);
+        Product::findOrFail($productId)->update($product);
 
         return to_route('products_list')->with([
             'success' => 'Product updated successfully.'

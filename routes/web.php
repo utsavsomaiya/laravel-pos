@@ -34,11 +34,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/products/edit/{id}', [ProductController::class,'edit'])->name('product_edit');
     Route::post('/admin/products/edit/{id}', [ProductController::class,'update']);
 
-    Route::view('/admin/categories/add', 'admin.categories.add')->name('category-add');
+    Route::view('/admin/categories/add', 'admin.categories.add')->name('category_add');
     Route::post('admin/categories/add', [CategoryController::class,'store']);
-    Route::get('/admin/categories', [CategoryController::class,'index'])->name('categories-list');
-    Route::post("admin/categories/delete/{id}", [CategoryController::class,'delete'])->name('category-delete');
-    Route::get("admin/categories/edit/{id}", [CategoryController::class,'edit'])->name('category-edit');
+    Route::get('/admin/categories', [CategoryController::class,'index'])->name('categories_list');
+    Route::post("admin/categories/delete/{id}", [CategoryController::class,'delete'])->name('category_delete');
+    Route::get("admin/categories/edit/{id}", [CategoryController::class,'edit'])->name('category_edit');
     Route::post("admin/categories/edit/{id}", [CategoryController::class,'update']);
 
     Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('logout');

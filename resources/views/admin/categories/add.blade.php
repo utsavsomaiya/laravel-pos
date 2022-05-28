@@ -11,7 +11,7 @@
                 <form class="forms-sample w-50"
                     method="post"
                     @isset($category)
-                        action="{{ route('category-edit',[ 'id' => $category->id ]) }}"
+                        action="{{ route('category_edit',[ 'id' => $category->id ]) }}"
                     @endisset
                 >
                     @csrf
@@ -35,7 +35,7 @@
                             Submit
                         @endisset
                     </button>
-                    <a href="{{ route('categories-list') }}" class="btn btn-light mt-3">Cancel</a>
+                    <a href="{{ route('categories_list') }}" class="btn btn-light mt-3">Cancel</a>
                 </form>
             </div>
         </div>

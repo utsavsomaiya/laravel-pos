@@ -15,7 +15,6 @@
                 </div>
             </div>
             <div class="card-body">
-                @if(count($products) > 0)
                 <table class="table">
                     <thead>
                         <tr>
@@ -30,7 +29,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($products as $key => $product)
+                        @forelse($products as $key => $product)
                             <tr>
                                 <td>{{ $product->id }}</td>
                                 <td>{{ $product->name }}</td>
@@ -62,12 +61,13 @@
                                     </form>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="8" class="h6">No products found.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
-                @else
-                    <span class="h6">No products found.</span>
-                @endif
             </div>
         </div>
     </div>

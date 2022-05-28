@@ -6,7 +6,7 @@
                 <div class="mt-2">
                     <span class="h4 ms-3 me-5">Products</span>
                     <span class="ms-3">
-                        <a href="{{ route('product_add') }}"
+                        <a href="{{ route('products.add') }}"
                             class="link-dark h6"
                         >
                             Add New Product
@@ -25,7 +25,7 @@
                             <th>Tax</th>
                             <th>Stock</th>
                             <th>Image</th>
-                            <th colspan="2">Action</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,21 +40,20 @@
                                 <td>
                                     <img src="{{ asset('storage/image').'/'.$product->image }}"></td>
                                 <td>
-                                    <a href="{{ route('product_edit',[ 'id' => $product->id ]) }}"
-                                        class="link-dark"
+                                    <a href="{{ route('products.edit', ['id' => $product->id ]) }}"
+                                        class="link-dark text-decoration-none me-4"
                                     >
                                         <i class="fa-solid fa-pencil"></i>
                                     </a>
-                                </td>
-                                <td>
                                     <form method="post"
-                                        action="{{ route('product_delete', ['id' => $product->id]) }}"
-                                        id="delete-product"
+                                        action="{{ route('products.delete', ['id' => $product->id]) }}"
+                                        id="delete-product-{{ $product->id }}"
+                                        class="d-inline-block"
                                     >
                                         @csrf
                                         <button type="button"
                                             class="bg-light border-0"
-                                            onclick="deleteConfirm('products')"
+                                            onclick="deleteConfirm('products','{{ $product->id }}')"
                                         >
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>

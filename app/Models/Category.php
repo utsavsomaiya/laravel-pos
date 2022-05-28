@@ -10,9 +10,4 @@ class Category extends Authenticatable
     use HasFactory;
 
     protected $fillable = ['name'];
-
-    public function products()
-    {
-        return $this->hasMany(Product::class);
-    }
 }

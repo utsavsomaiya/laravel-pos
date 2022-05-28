@@ -17,24 +17,24 @@ class CategoryController extends Controller
 
         Category::create($category);
 
-        return to_route('categories-list')->with(
+        return to_route('categories_list')->with(
             ['success' => 'Category added successfully.']
         );
     }
 
-    public function show()
+    public function index()
     {
         $categories = Category::all();
 
-        return view('admin.categories.show', compact('categories'));
+        return view('admin.categories.index', compact('categories'));
     }
 
-    public function delete($id)
+    public function delete($categoryId)
     {
-        $category = Product::where('category_id', $id)->first();
+        $category = Product::where('category_id', $categoryId)->first();
 
         if ($category == null) {
-            Category::find($id)->delete();
+            Category::findOrFail($categoryId)->delete();
             return back()->with([
                 'success' => 'Category deleted successfully.'
             ]);
@@ -45,22 +45,22 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function edit($id)
+    public function edit($categoryId)
     {
-        $category = Category::find($id)->first();
+        $category = Category::findOrFail($categoryId)->first();
 
         return view('admin.categories.add', compact('category'));
     }
 
-    public function update($id, Request $request)
+    public function update($categoryId, Request $request)
     {
         $category = $request->validate([
             'name' => ['required','min:3','max:255']
         ]);
 
-        Category::find($id)->update($category);
+        Category::findOrFail($categoryId)->update($category);
 
-        return to_route('categories-list')->with([
+        return to_route('categories_list')->with([
             'success' => 'Category Updated successfully'
         ]);
     }

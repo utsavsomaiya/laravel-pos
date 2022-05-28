@@ -4,44 +4,28 @@
         <div class="card border-0 shadow-lg">
             <div class="card-title">
                 <div class="mt-2">
-                    <span class="h4 ms-3 me-5">Products</span>
+                    <span class="h4 ms-3 me-5">Categories</span>
                     <span class="ms-3">
-                        <a href="{{ route('product-add') }}"
-                            class="link-dark h6"
-                        >
-                            Add New Product
-                        </a>
+                        <a href="{{ route('category_add') }}" class="link-dark h6">Add New Category</a>
                     </span>
                 </div>
             </div>
             <div class="card-body">
-                @if(count($products) > 0)
-                <table class="table">
+                <table class="table w-50">
                     <thead>
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
-                            <th>Price</th>
-                            <th>Category</th>
-                            <th>Tax</th>
-                            <th>Stock</th>
-                            <th>Image</th>
                             <th colspan="2">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($products as $key => $product)
+                        @forelse($categories as $category)
                             <tr>
-                                <td>{{ $product->id }}</td>
-                                <td>{{ $product->name }}</td>
-                                <td>{{ '$'.$product->price }}</td>
-                                <td>{{ $product->category->name }}</td>
-                                <td>{{ $product->tax.'%' }}</td>
-                                <td>{{ $product->stock }}</td>
+                                <td>{{ $category->id }}</td>
+                                <td>{{ $category->name }}</td>
                                 <td>
-                                    <img src="{{ asset('storage/image').'/'.$product->image }}"></td>
-                                <td>
-                                    <a href="{{ route('product-edit',[ 'id' => $product->id ]) }}"
+                                    <a href="{{ route('category_edit', ['id' => $category->id ]) }}"
                                         class="link-dark"
                                     >
                                         <i class="fa-solid fa-pencil"></i>
@@ -49,25 +33,26 @@
                                 </td>
                                 <td>
                                     <form method="post"
-                                        action="{{ route('product-delete', ['id' => $product->id]) }}"
-                                        id="delete-product"
+                                        action="{{ route('category_delete', ['id' => $category->id]) }}"
+                                        id="delete-category"
                                     >
                                         @csrf
                                         <button type="button"
                                             class="bg-light border-0"
-                                            onclick="deleteConfirm('products')"
+                                            onclick="deleteConfirm('categories')"
                                         >
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
                                     </form>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="3" class="h6">No categories found.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
-                @else
-                    <span class="h6">No products found.</span>
-                @endif
             </div>
         </div>
     </div>

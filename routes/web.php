@@ -28,19 +28,19 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::view('/admin/dashboard', 'admin.dashboard')->name('dashboard');
 
-    Route::get('/admin/products', [ProductController::class,'show'])->name('products-list');
-    Route::get('/admin/products/add', [ProductController::class,'add'])->name('product-add');
+    Route::view('/admin/categories/add', 'admin.categories.add')->name('category_add');
+    Route::post('admin/categories/add', [CategoryController::class,'store']);
+    Route::get('/admin/categories', [CategoryController::class,'index'])->name('categories_list');
+    Route::post("admin/categories/delete/{id}", [CategoryController::class,'delete'])->name('category_delete');
+    Route::get("admin/categories/edit/{id}", [CategoryController::class,'edit'])->name('category_edit');
+    Route::post("admin/categories/edit/{id}", [CategoryController::class,'update']);
+    
+    Route::get('/admin/products', [ProductController::class,'index'])->name('products_list');
+    Route::get('/admin/products/add', [ProductController::class,'add'])->name('product_add');
     Route::post('/admin/products/add', [ProductController::class,'store']);
-    Route::post('/admin/products/delete/{id}', [ProductController::class,'delete'])->name('product-delete');
-    Route::get('/admin/products/edit/{id}', [ProductController::class,'edit'])->name('product-edit');
+    Route::post('/admin/products/delete/{id}', [ProductController::class,'delete'])->name('product_delete');
+    Route::get('/admin/products/edit/{id}', [ProductController::class,'edit'])->name('product_edit');
     Route::post('/admin/products/edit/{id}', [ProductController::class,'update']);
-
-    Route::view('/admin/categories/add', 'admin.categories.add')->name('category-add');
-    Route::post('/admin/categories/add', [CategoryController::class,'store']);
-    Route::get('/admin/categories', [CategoryController::class,'show'])->name('categories-list');
-    Route::post("/admin/categories/delete/{id}", [CategoryController::class,'delete'])->name('category-delete');
-    Route::get("/admin/categories/edit/{id}", [CategoryController::class,'edit'])->name('category-edit');
-    Route::post("/admin/categories/edit/{id}", [CategoryController::class,'update']);
 
     Route::get('/admin/discounts', [DiscountController::class,'show'])->name('discounts-list');
     Route::post('/admin/discounts', [DiscountController::class,'statusChanged']);
@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/discounts/add', [DiscountController::class,'store']);
     Route::post('/admin/discounts/delete/{id}', [DiscountController::class,'delete'])->name('discount-delete');
     Route::get('/admin/discounts/edit/{id}', [DiscountController::class,'edit'])->name('discount-edit');
+
 
     Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('logout');
 });

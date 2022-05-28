@@ -8,12 +8,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <form class="forms-sample w-50"
-                    method="post"
-                    @isset($category)
-                        action="{{ route('category-edit',[ 'id' => $category->id ]) }}"
-                    @endisset
-                >
+                <form class="forms-sample w-50" method="post">
                     @csrf
                     <div class="form-group">
                         <label class="pb-1">Category Name</label>
@@ -35,7 +30,7 @@
                             Submit
                         @endisset
                     </button>
-                    <a href="{{ route('categories-list') }}" class="btn btn-light mt-3">Cancel</a>
+                    <a href="{{ route('categories_list') }}" class="btn btn-light mt-3">Cancel</a>
                 </form>
             </div>
         </div>

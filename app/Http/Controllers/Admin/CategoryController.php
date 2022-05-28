@@ -16,7 +16,7 @@ class CategoryController extends Controller
 
         Category::create($category);
 
-        return to_route('categories-list')->with(
+        return to_route('categories_list')->with(
             ['success' => 'Category added successfully.']
         );
     }
@@ -52,7 +52,7 @@ class CategoryController extends Controller
 
         Category::findOrFail($categoryId)->update($category);
 
-        return to_route('categories-list')->with([
+        return to_route('categories_list')->with([
             'success' => 'Category Updated successfully'
         ]);
     }

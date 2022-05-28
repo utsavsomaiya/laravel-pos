@@ -40,7 +40,7 @@
             >
                 <option value="">--Select Product--</option>
                 @foreach($products as $product)
-                    <option value="{{ $product->name }}">{{ $product->name }}</option>
+                    <option value="{{ $product->id }}">{{ $product->name }}</option>
                 @endforeach
             </select>
             <label class="text-danger mb-1 product-error"></label>

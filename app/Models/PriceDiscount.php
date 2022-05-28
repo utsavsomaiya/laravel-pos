@@ -13,6 +13,6 @@ class PriceDiscount extends Model
 
     public function discount()
     {
-        $this->belongsTo(Discount::class, 'discount_id', 'id');
+        return $this->belongsTo(Discount::class, 'discount_id', 'id');
     }
 }

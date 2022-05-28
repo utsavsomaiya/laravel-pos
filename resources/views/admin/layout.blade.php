@@ -51,7 +51,7 @@
                         <span class="nav-category mt-2 mb-2 ms-2">Discounts</span>
                         <hr class="mt-0 mb-2">
                         <li class="nav-item m-2">
-                            <a class="nav-link text-light" href="{{ route('discounts-list') }}">
+                            <a class="nav-link text-light" href="{{ route('discounts_list') }}">
                                 <i class="fa-solid fa-percent pe-2"></i>
                                 <span>Discounts</span>
                             </a>

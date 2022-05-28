@@ -9,10 +9,15 @@ class GiftDiscount extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['discount_id','product','minimum_spend_amount'];
+    protected $fillable = ['discount_id','product_id','minimum_spend_amount'];
 
     public function discount()
     {
-        $this->belongsTo(Discount::class, 'discount_id', 'id');
+        return $this->belongsTo(Discount::class, 'discount_id', 'id');
+    }
+
+    public function products()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 }

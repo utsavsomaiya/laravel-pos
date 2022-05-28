@@ -11,13 +11,13 @@ class Discount extends Model
 
     protected $fillable = ['name','status','category'];
 
-    public function priceDiscount()
+    public function priceDiscounts()
     {
-        $this->hasMany(PriceDiscount::class);
+        return $this->hasMany(PriceDiscount::class);
     }
 
-    public function giftDiscount()
+    public function giftDiscounts()
     {
-        $this->hasMany(giftDiscount::class);
+        return $this->hasMany(GiftDiscount::class);
     }
 }

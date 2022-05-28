@@ -59,7 +59,7 @@ function renderMinimumSpendTemplate() {
             minimumSpendRowTemplate = document.getElementById('price-minimum-spend-template').innerHTML;
             minimumSpendRowContainer.innerHTML += minimumSpendRowTemplate;
             if (key === "0") {
-                document.querySelector('.price-remove-minimum-spend').setAttribute('class', 'd-none');
+                document.querySelector('.price-remove-minimum-spend').classList.add('d-none');
             }
         }
         if (flag == 2) {
@@ -67,7 +67,7 @@ function renderMinimumSpendTemplate() {
             minimumSpendRowTemplate = document.getElementById('gift-minimum-spend-template').innerHTML;
             minimumSpendRowContainer.innerHTML += minimumSpendRowTemplate;
             if (key === "0") {
-                document.querySelector('.gift-remove-minimum-spend').setAttribute('class', 'd-none');
+                document.querySelector('.gift-remove-minimum-spend').classList.add('d-none');
             }
         }
     }
@@ -91,19 +91,57 @@ function renderMinimumSpendTemplate() {
             }
         });
     }
+    if (minimumSpendAmounts.length > 0) {
+        for (i = 0; i < minimumSpendAmounts.length; i++) {
+            document.getElementsByClassName('minimum-spend-amount')[i].value = parseFloat(minimumSpendAmounts[i]);
+            if (digits.length > 0) {
+                document.getElementsByClassName('digit')[i].value = parseFloat(digits[i]);
+            }
+            if (products.length > 0) {
+                var select = document.querySelectorAll('.product')[i].options;
+                [...select].forEach((element) => {
+                    if (element.value == products[i]+'')
+                        element.setAttribute('selected', 'selected');
+                });
+            }
+        }
+    }
     document.getElementById('add-row').onclick = function () {
         addMinimumSpendRow();
     }
 }
 
+function editRenderMinimumSpendTemplate() {
+    if (minimumSpendAmounts.length > 0) {
+        for (i = 1; i < minimumSpendAmounts.length ; i++){
+            minimumSpendContainer.push(i);
+        }
+    }
+    checkDiscountCategory();
+}
+
 function addMinimumSpendRow() {
+    if (flag == 2) {
+        if (countOfProduct == minimumSpendContainer.length) {
+            return alert('We have only '+countOfProduct+' Products');
+        }
+    }
     minimumSpendContainer.push(1);
     renderMinimumSpendTemplate();
 }
 
 function removeMinimumSpendRow(index) {
-    if ((index + 1) > -1) {
-        minimumSpendContainer.splice((index + 1), 1);
+    if ((index) > -1) {
+        minimumSpendContainer.splice((index), 1);
+        if (minimumSpendAmounts.length > 0) {
+            minimumSpendAmounts.splice((index), 1);
+            if (digits.length > 0) {
+                digits.splice((index), 1);
+            }
+            if (products.length > 0) {
+                products.splice((index), 1);
+            }
+        }
         renderMinimumSpendTemplate();
     }
 }

@@ -11,11 +11,11 @@ use Illuminate\Http\Request;
 
 class DiscountController extends Controller
 {
-    public function show()
+    public function index()
     {
         $discounts = Discount::all();
 
-        return view('admin.discounts.show', compact('discounts'));
+        return view('admin.discounts.index', compact('discounts'));
     }
 
     public function add()
@@ -71,20 +71,20 @@ class DiscountController extends Controller
                 $giftDiscount = [
                     'discount_id' => $mainDiscount->id,
                     'minimum_spend_amount' => (double) $discount['minimum_spend_amount'][$i],
-                    'product' => $discount['product'][$i]
+                    'product_id' => $discount['product'][$i]
                 ];
                 GiftDiscount::create($giftDiscount);
             }
         }
 
-        return to_route('discounts-list')->with([
+        return to_route('discounts_list')->with([
             'success' => 'Discount added successfully'
         ]);
     }
 
-    public function delete($id)
+    public function delete($discountId)
     {
-        Discount::find($id)->delete();
+        Discount::findOrFail($discountId)->delete();
         return back()->with([
             'success' => 'Discount deleted successfully'
         ]);
@@ -92,12 +92,13 @@ class DiscountController extends Controller
 
     public function statusChanged(Request $request)
     {
-        Discount::find($request->id)->update(['status' => $request->status]);
+        Discount::findOrFail($request->id)->update(['status' => $request->status]);
     }
 
-    public function edit($id)
+    public function edit($discountId)
     {
-        $discount = Discount::find($id);
-        dd($discount);
+        $discounts = Discount::with(['priceDiscounts','giftDiscounts','giftDiscounts.products:name,id'])->findOrFail($discountId);
+        $products = Product::all();
+        return view('admin.discounts.add', compact('discounts', 'products'));
     }
 }

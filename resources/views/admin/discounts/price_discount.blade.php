@@ -8,10 +8,18 @@
             >
                 <option value="">--Discount Type--</option>
                 <option value="0"
-                    @selected(old('type') == "0")
+                    @isset($discounts)
+                        @selected($discounts->priceDiscounts[0]->type == "0")
+                    @else
+                        @selected(old('type') == "0")
+                    @endisset
                 >Percentage Discount</option>
                 <option value="1"
-                    @selected(old('type') == "1")
+                     @isset($discounts)
+                        @selected($discounts->priceDiscounts[0]->type == "1")
+                    @else
+                        @selected(old('type') == "1")
+                    @endisset
                 >Price Discount</option>
             </select>
             @error('type')

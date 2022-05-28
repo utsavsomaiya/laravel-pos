@@ -6,7 +6,7 @@
                 <div class="mt-2">
                     <span class="h4 ms-3 me-5">Products</span>
                     <span class="ms-3">
-                        <a href="{{ route('product-add') }}"
+                        <a href="{{ route('product_add') }}"
                             class="link-dark h6"
                         >
                             Add New Product
@@ -41,7 +41,7 @@
                                 <td>
                                     <img src="{{ asset('storage/image').'/'.$product->image }}"></td>
                                 <td>
-                                    <a href="{{ route('product-edit',[ 'id' => $product->id ]) }}"
+                                    <a href="{{ route('product_edit',[ 'id' => $product->id ]) }}"
                                         class="link-dark"
                                     >
                                         <i class="fa-solid fa-pencil"></i>
@@ -49,7 +49,7 @@
                                 </td>
                                 <td>
                                     <form method="post"
-                                        action="{{ route('product-delete', ['id' => $product->id]) }}"
+                                        action="{{ route('product_delete', ['id' => $product->id]) }}"
                                         id="delete-product"
                                     >
                                         @csrf

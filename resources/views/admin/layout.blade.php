@@ -37,7 +37,7 @@
                         <span class="nav-category mt-2 mb-2 ms-2">Products</span>
                         <hr class="mt-0 mb-2">
                         <li class="nav-item m-2">
-                            <a class="nav-link text-light" href="{{ route('products-list') }}">
+                            <a class="nav-link text-light" href="{{ route('products_list') }}">
                                 <i class="fa-solid fa-list pe-2"></i>
                                 <span>Products</span>
                             </a>

@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function show()
+    public function index()
     {
         $products = Product::with('category')->get();
 
-        return view('admin.products.show', compact('products'));
+        return view('admin.products.index', compact('products'));
     }
     public function add()
     {
@@ -41,18 +41,18 @@ class ProductController extends Controller
 
         Product::create($product);
 
-        return to_route('products-list')->with([
+        return to_route('products_list')->with([
             'success' => 'Products added successfully.'
         ]);
     }
 
     public function delete($id)
     {
-        $product = Product::find($id)->get()->first();
+        $product = Product::findOrFail($id)->get()->first();
 
         Storage::delete('public/image'.'/'.$product->image);
 
-        Product::find($id)->delete();
+        Product::findOrFail($id)->delete();
 
         return back()->with([
             'success' => 'Product deleted successfully.'
@@ -61,9 +61,9 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
 
-        $categories = Category::find($product->category_id)->get();
+        $categories = Category::findOrFail($product->category_id)->get();
 
         return view('admin.products.add', compact('product', 'categories'));
     }
@@ -89,7 +89,7 @@ class ProductController extends Controller
 
         Product::find($id)->update($product);
 
-        return to_route('products-list')->with([
+        return to_route('products_list')->with([
             'success' => 'Product updated successfully.'
         ]);
     }

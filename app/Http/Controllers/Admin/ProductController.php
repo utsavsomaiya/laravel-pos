@@ -25,7 +25,7 @@ class ProductController extends Controller
     }
     public function store(Request $request)
     {
-        $product = $request->validate([
+        $validatedData = $request->validate([
             'name' => ['required','min:3','max:255','unique:products,name'],
             'price' => ['required'],
             'category_id' => ['required'],
@@ -38,45 +38,33 @@ class ProductController extends Controller
 
         $request->file('image')->storeAs('public/image', $name);
 
-        $product['image'] = $name;
+        $validatedData['image'] = $name;
 
-        Product::create($product);
+        $validatedData['path'] = asset('storage/image').'/'.$name;
+
+        Product::create($validatedData);
 
         return to_route('products')->with([
             'success' => 'Products added successfully.'
         ]);
     }
 
-    public function delete($productId)
+
+    public function edit(Product $product)
     {
-        $product = Product::findOrFail($productId)->get()->first();
-
-        Storage::delete('public/image'.'/'.$product->image);
-
-        Product::findOrFail($productId)->delete();
-
-        return back()->with([
-            'success' => 'Product deleted successfully.'
-        ]);
-    }
-
-    public function edit($productId)
-    {
-        $product = Product::findOrFail($productId);
-
         $categories = Category::findOrFail($product->category_id)->get();
 
         return view('admin.products.add', compact('product', 'categories'));
     }
 
-    public function update($productId, Request $request)
+    public function update(Product $product, Request $request)
     {
-        $product = $request->validate([
+        $validatedData = $request->validate([
             'name' => [
                 'required',
                 'min:3',
                 'max:255',
-                Rule::unique('products', 'name')->ignore($productId),
+                Rule::unique('products', 'name')->ignore($product->id),
             ],
             'price' => ['required'],
             'category_id' => ['required'],
@@ -86,17 +74,32 @@ class ProductController extends Controller
         ]);
 
         if ($request->file('image') != null) {
+            Storage::delete('public/image'.'/'.$product->image);
+
             $name = $request->file('image')->getClientOriginalName();
 
             $request->file('image')->storeAs('public/image', $name);
 
-            $product['image'] = $name;
+            $validatedData['image'] = $name;
+
+            $validatedData['path'] = asset('storage/image').'/'.$name;
         }
 
-        Product::findOrFail($productId)->update($product);
+        $product->update($validatedData);
 
         return to_route('products')->with([
             'success' => 'Product updated successfully.'
+        ]);
+    }
+
+    public function delete(Product $product)
+    {
+        Storage::delete('public/image'.'/'.$product->image);
+
+        $product->delete();
+
+        return back()->with([
+            'success' => 'Product deleted successfully.'
         ]);
     }
 }

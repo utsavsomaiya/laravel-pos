@@ -9,7 +9,7 @@ class Product extends Authenticatable
 {
     use HasFactory;
 
-    protected $fillable = ['name','price','category_id','tax','stock','image'];
+    protected $fillable = ['name','price','category_id','tax','stock','image','path'];
 
     public function category()
     {

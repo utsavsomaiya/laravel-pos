@@ -19,7 +19,7 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        $category = $request->validate([
+        $validatedData = $request->validate([
             'name' => [
                 'required',
                 'min:3',
@@ -28,53 +28,42 @@ class CategoryController extends Controller
             ]
         ]);
 
-        Category::create($category);
+        Category::create($validatedData);
 
         return to_route('categories')->with([
             'success' => 'Category added successfully.'
         ]);
     }
 
-    public function edit($categoryId)
+    public function edit(Category $category)
     {
-        $category = Product::where('category_id', $categoryId)->first();
-
-        if ($category == null) {
-            Category::findOrFail($categoryId)->delete();
-            return back()->with([
-                'success' => 'Category deleted successfully.'
-            ]);
-        }
-
-        return back()->with([
-            'error' => 'This category is used in product.'
-        ]);
+        return view('admin.categories.add', compact('category'));
     }
 
-    public function update($categoryId, Request $request)
+    public function update(Category $category, Request $request)
     {
-        $category = $request->validate([
+        $validatedData = $request->validate([
             'name' => [
                 'required',
                 'min:3',
                 'max:255',
-                Rule::unique('categories', 'name')->ignore($categoryId),
+                Rule::unique('categories', 'name')->ignore($category->id),
             ]
         ]);
 
-        Category::findOrFail($categoryId)->update($category);
+        $category->update($validatedData);
 
         return to_route('categories')->with([
             'success' => 'Category Updated successfully'
         ]);
     }
 
-    public function delete($categoryId)
+    public function delete(Category $category)
     {
-        $category = Product::where('category_id', $categoryId)->first();
+        $productCategory = Product::where('category_id', $category->id)->first();
 
-        if ($category == null) {
-            Category::findOrFail($categoryId)->delete();
+        if ($productCategory == null) {
+            $category->delete();
             return back()->with([
                 'success' => 'Category deleted successfully.'
             ]);

@@ -18,45 +18,48 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        $category = $request->validate([
-            'name' => ['required','min:3','max:255','unique:categories,name']
+        $validatedData = $request->validate([
+            'name' => [
+                'required',
+                'min:3',
+                'max:255',
+                'unique:categories,name'
+            ]
         ]);
 
-        Category::create($category);
+        Category::create($validatedData);
 
         return to_route('categories')->with(
             ['success' => 'Category added successfully.']
         );
     }
 
-    public function edit($categoryId)
+    public function edit(Category $category)
     {
-        $category = Category::findOrFail($categoryId);
-
         return view('admin.categories.add', compact('category'));
     }
 
-    public function update($categoryId, Request $request)
+    public function update(Category $category, Request $request)
     {
-        $category = $request->validate([
+        $validatedData = $request->validate([
             'name' => [
                 'required',
                 'min:3',
                 'max:255',
-                Rule::unique('categories', 'name')->ignore($categoryId),
+                Rule::unique('categories', 'name')->ignore($category->id),
             ]
         ]);
 
-        Category::findOrFail($categoryId)->update($category);
+        $category->update($validatedData);
 
         return to_route('categories')->with([
             'success' => 'Category Updated successfully'
         ]);
     }
 
-    public function delete($categoryId)
+    public function delete(Category $category)
     {
-        Category::findOrFail($categoryId)->delete();
+        $category->delete();
 
         return back()->with([
             'success' => 'Category deleted successfully.'

@@ -8,8 +8,14 @@
                 </div>
             </div>
             <div class="card-body">
-                <form class="forms-sample w-50" method="post">
+                <form class="forms-sample w-50"
+                    @empty($category) action="{{ route('categories') }}" @endempty
+                    method="POST"
+                >
                     @csrf
+                    @isset($category)
+                        @method('PUT')
+                    @endisset
                     <div class="form-group">
                         <label class="pb-1">Category Name</label>
                         <input type=" text"
@@ -24,11 +30,7 @@
                         @enderror
                     </div>
                     <button type="submit" class="btn btn-primary me-2 mt-3" name="submit">
-                        @isset($category)
-                            Update
-                        @else
-                            Submit
-                        @endisset
+                        {{ isset($category) ? 'Update' : 'Submit' }}
                     </button>
                     <a href="{{ route('categories') }}" class="btn btn-light mt-3">Cancel</a>
                 </form>

@@ -6,7 +6,7 @@
                 <div class="mt-2">
                     <span class="h4 ms-3 me-5">Discounts</span>
                     <span class="ms-3">
-                        <a href="{{ route('discount_add') }}" class="link-dark h6">Add New Discount</a>
+                        <a href="{{ route('discounts.add') }}" class="link-dark h6">Add New Discount</a>
                     </span>
                 </div>
             </div>
@@ -18,7 +18,7 @@
                             <th>Name</th>
                             <th>Status</th>
                             <th>Category</th>
-                            <th colspan="2">Action</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,21 +49,20 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('discount_edit',['id' => $discount->id] ) }}"
-                                        class="link-dark"
+                                    <a href="{{ route('discounts.edit', ['id' => $discount->id ]) }}"
+                                        class="link-dark text-decoration-none me-4"
                                     >
                                         <i class="fa-solid fa-pencil"></i>
                                     </a>
-                                </td>
-                                <td>
                                     <form method="post"
-                                        id="delete-discount"
-                                        action="{{ route('discount_delete',['id' => $discount->id]) }}"
+                                        action="{{ route('discounts.delete', ['id' => $discount->id]) }}"
+                                        id="delete-discount-{{ $discount->id }}"
+                                        class="d-inline-block"
                                     >
                                         @csrf
                                         <button type="button"
                                             class="bg-light border-0"
-                                            onclick="deleteConfirm('discounts')"
+                                            onclick="deleteConfirm('discounts','{{ $discount->id }}')"
                                         >
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>

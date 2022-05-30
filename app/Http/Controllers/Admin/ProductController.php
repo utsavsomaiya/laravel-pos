@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -41,7 +42,7 @@ class ProductController extends Controller
 
         Product::create($product);
 
-        return to_route('products_list')->with([
+        return to_route('products')->with([
             'success' => 'Products added successfully.'
         ]);
     }
@@ -71,7 +72,12 @@ class ProductController extends Controller
     public function update($productId, Request $request)
     {
         $product = $request->validate([
-            'name' => ['required','min:3','max:255'],
+            'name' => [
+                'required',
+                'min:3',
+                'max:255',
+                Rule::unique('products', 'name')->ignore($productId),
+            ],
             'price' => ['required'],
             'category_id' => ['required'],
             'tax' => ['required'],
@@ -89,7 +95,7 @@ class ProductController extends Controller
 
         Product::findOrFail($productId)->update($product);
 
-        return to_route('products_list')->with([
+        return to_route('products')->with([
             'success' => 'Product updated successfully.'
         ]);
     }

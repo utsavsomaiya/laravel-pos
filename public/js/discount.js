@@ -114,9 +114,15 @@ function renderMinimumSpendTemplate() {
 function editRenderMinimumSpendTemplate() {
     if (minimumSpendAmounts.length > 0) {
         for (i = 1; i < minimumSpendAmounts.length ; i++){
-            minimumSpendContainer.push(i);
+            minimumSpendContainer.push(1);
         }
     }
+    var select = document.getElementById('discount-category').options;
+    [...select].forEach(function (element) {
+        if (element.selected == false) {
+            element.setAttribute('disabled',true);
+        }
+    });
     checkDiscountCategory();
 }
 

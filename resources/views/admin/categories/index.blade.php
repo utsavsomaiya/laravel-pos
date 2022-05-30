@@ -6,7 +6,7 @@
                 <div class="mt-2">
                     <span class="h4 ms-3 me-5">Categories</span>
                     <span class="ms-3">
-                        <a href="{{ route('category_add') }}" class="link-dark h6">Add New Category</a>
+                        <a href="{{ route('categories.add') }}" class="link-dark h6">Add New Category</a>
                     </span>
                 </div>
             </div>
@@ -16,7 +16,7 @@
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
-                            <th colspan="2">Action</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -25,21 +25,20 @@
                                 <td>{{ $category->id }}</td>
                                 <td>{{ $category->name }}</td>
                                 <td>
-                                    <a href="{{ route('category_edit', ['id' => $category->id ]) }}"
-                                        class="link-dark"
+                                    <a href="{{ route('categories.edit', ['id' => $category->id ]) }}"
+                                        class="link-dark text-decoration-none me-4"
                                     >
                                         <i class="fa-solid fa-pencil"></i>
                                     </a>
-                                </td>
-                                <td>
                                     <form method="post"
-                                        action="{{ route('category_delete', ['id' => $category->id]) }}"
-                                        id="delete-category"
+                                        action="{{ route('categories.delete', ['id' => $category->id]) }}"
+                                        id="delete-category-{{ $category->id }}"
+                                        class="d-inline-block"
                                     >
                                         @csrf
                                         <button type="button"
                                             class="bg-light border-0"
-                                            onclick="deleteConfirm('categories')"
+                                            onclick="deleteConfirm('categories','{{ $category->id }}')"
                                         >
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>

@@ -30,7 +30,7 @@
                             Submit
                         @endisset
                     </button>
-                    <a href="{{ route('categories_list') }}" class="btn btn-light mt-3">Cancel</a>
+                    <a href="{{ route('categories') }}" class="btn btn-light mt-3">Cancel</a>
                 </form>
             </div>
         </div>

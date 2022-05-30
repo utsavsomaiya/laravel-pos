@@ -86,9 +86,13 @@
                         @enderror
                     </div>
                     <button type="submit" class="btn btn-primary me-2 mt-3" name="submit">
-                        Submit
+                        @isset($discount)
+                            Update
+                        @else
+                            Submit
+                        @endisset
                     </button>
-                    <a href="{{ route('discounts_list') }}" class="btn btn-light mt-3">Cancel</a>
+                    <a href="{{ route('discounts') }}" class="btn btn-light mt-3">Cancel</a>
                 </form>
             </div>
         </div>
@@ -97,42 +101,51 @@
         var minimumSpendAmounts = [];
         var digits = [];
         var products = [];
+        var edit = '';
         var countOfProduct =  {{ Js::from(sizeof($products)) }} ;
     </script>
     @empty($discounts)
         {{ view('admin.discounts.price_discount') }}
         {{ view('admin.discounts.gift_discount',compact('products')) }}
     @else
+        @if($errors->count() == 0)
+            @if($discounts->category == "0")
+                {{ view('admin.discounts.price_discount',compact('discounts','products')) }}
+            @endif
+            @if($discounts->category == "1")
+                {{ view('admin.discounts.gift_discount',compact('discounts','products')) }}
+            @endif
+            <script src="{{ asset('js/discount.js') }}"></script>
+            @if($discounts->category == "0")
+                @foreach($discounts->priceDiscounts as $key=>$priceDiscount)
+                    <script>
+                        var key = '{{ Js::from($key) }}';
+                        minimumSpendAmounts[key] = '{{ $priceDiscount->minimum_spend_amount }}';
+                        digits[key] = '{{ $priceDiscount->digit }}';
+                    </script>
+                @endforeach
+            @endif
+            @if($discounts->category == "1")
+                @foreach($discounts->giftDiscounts as $key=>$giftDiscount)
+                    <script>
+                        var key = '{{ Js::from($key) }}';
+                        minimumSpendAmounts[key] = '{{ $giftDiscount->minimum_spend_amount }}';
+                        products[key] = '{{ $giftDiscount->products->id }}';
+                    </script>
+                @endforeach
+            @endif
+            <script>editRenderMinimumSpendTemplate();</script>
+        @endif
+    @endempty
+
+
+    @if($errors->count() > 0)
         @if($discounts->category == "0")
             {{ view('admin.discounts.price_discount',compact('discounts','products')) }}
         @endif
         @if($discounts->category == "1")
             {{ view('admin.discounts.gift_discount',compact('discounts','products')) }}
         @endif
-        <script src="{{ asset('js/discount.js') }}"></script>
-        @if($discounts->category == "0")
-            @foreach($discounts->priceDiscounts as $key=>$priceDiscount)
-                <script>
-                    var key = '{{ Js::from($key) }}';
-                    minimumSpendAmounts[key] = '{{ $priceDiscount->minimum_spend_amount }}';
-                    digits[key] = '{{ $priceDiscount->digit }}';
-                </script>
-            @endforeach
-        @endif
-        @if($discounts->category == "1")
-            @foreach($discounts->giftDiscounts as $key=>$giftDiscount)
-                <script>
-                    var key = '{{ Js::from($key) }}';
-                    minimumSpendAmounts[key] = '{{ $giftDiscount->minimum_spend_amount }}';
-                    products[key] = '{{ $giftDiscount->products->id }}';
-                </script>
-            @endforeach
-        @endif
-        <script>editRenderMinimumSpendTemplate();</script>
-    @endempty
-
-
-    @if($errors->count() > 0)
         @if(old('minimum_spend_amount'))
             <script src="{{ asset('js/discount.js') }}"></script>
             @for($i = 0; $i < (count(old('minimum_spend_amount')) - 1) ; $i++)

@@ -38,8 +38,8 @@ class ProductController extends Controller
 
         $request->file('image')->storeAs('public/image', $name);
 
-        $product['image'] = $name;
-
+        $product['image'] = asset('storage/image').'/'.$name;
+        
         Product::create($product);
 
         return to_route('products')->with([

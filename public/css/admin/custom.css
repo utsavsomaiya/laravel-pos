@@ -18,3 +18,7 @@ img{
     border-radius: 100%;
     vertical-align: middle;
 }
+
+:hover {
+  color: var(--hover-color);
+}

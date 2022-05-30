@@ -59,7 +59,7 @@
                         <span class="nav-category mt-2 mb-2 ms-2">Sales Details</span>
                         <hr class="mt-0 mb-2">
                         <li class="nav-item m-2">
-                            <a class="nav-link text-light" href="#">
+                            <a class="nav-link text-light" href="{{ route('sales') }}">
                                 <i class="fa-solid fa-cart-plus pe-2"></i>
                                 <span>Sales</span>
                             </a>

@@ -38,7 +38,7 @@
                                 <td>{{ $product->tax.'%' }}</td>
                                 <td>{{ $product->stock }}</td>
                                 <td>
-                                    <img src="{{ asset('storage/image').'/'.$product->image }}"></td>
+                                    <img src="{{ $product->image }}"></td>
                                 <td>
                                     <a href="{{ route('products.edit', ['id' => $product->id ]) }}"
                                         class="link-dark text-decoration-none me-4"

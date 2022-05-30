@@ -20,4 +20,14 @@ class Discount extends Model
     {
         return $this->hasMany(GiftDiscount::class);
     }
+
+    public function sales()
+    {
+        return $this->hasMany(Sales::class);
+    }
+
+    public function salesDetails()
+    {
+        return $this->hasMany(SalesDetails::class);
+    }
 }

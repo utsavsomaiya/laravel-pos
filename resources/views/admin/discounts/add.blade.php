@@ -140,12 +140,14 @@
 
 
     @if($errors->count() > 0)
-        @if($discounts->category == "0")
-            {{ view('admin.discounts.price_discount',compact('discounts','products')) }}
-        @endif
-        @if($discounts->category == "1")
-            {{ view('admin.discounts.gift_discount',compact('discounts','products')) }}
-        @endif
+        @isset($discounts)
+            @if($discounts->category == "0")
+                {{ view('admin.discounts.price_discount',compact('discounts','products')) }}
+            @endif
+            @if($discounts->category == "1")
+                {{ view('admin.discounts.gift_discount',compact('discounts','products')) }}
+            @endif
+        @endisset
         @if(old('minimum_spend_amount'))
             <script src="{{ asset('js/discount.js') }}"></script>
             @for($i = 0; $i < (count(old('minimum_spend_amount')) - 1) ; $i++)

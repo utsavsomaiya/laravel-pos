@@ -20,4 +20,9 @@ class Product extends Authenticatable
     {
         return $this->hasMany(GiftDiscount::class);
     }
+
+    public function salesDetails()
+    {
+        return $this->hasMany(SalesDetails::class);
+    }
 }

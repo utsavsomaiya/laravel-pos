@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SalesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/discounts/delete/{id}', [DiscountController::class,'delete'])->name('discounts.delete');
     Route::get('/admin/discounts/edit/{id}', [DiscountController::class,'edit'])->name('discounts.edit');
     Route::post('/admin/discounts/edit/{id}', [DiscountController::class,'update']);
+
+    Route::get('/admin/sales', [SalesController::class, 'sales'])->name('sales');
+    Route::get('/admin/sales/{id}', [SalesController::class, 'salesDetails'])->name('sales.details');
 
     Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('logout');
 });

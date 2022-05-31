@@ -10,7 +10,7 @@
             <div class="card-body">
                 <form class="forms-sample"
                     method="post"
-                    @empty($discount) action="{{ route('discounts') }}" @endempty
+                    @empty($discount) action="{{ route('discounts.store') }}" @endempty
                 >
                     @isset($discount)
                         @method('PUT')
@@ -144,12 +144,14 @@
 
 
     @if($errors->count() > 0)
-        @if($discount->category == "0")
-            {{ view('admin.discounts.price_discount',compact('discount','products')) }}
-        @endif
-        @if($discount->category == "1")
-            {{ view('admin.discounts.gift_discount',compact('discount','products')) }}
-        @endif
+        @isset($discount)
+            @if($discount->category == "0")
+                {{ view('admin.discounts.price_discount',compact('discount','products')) }}
+            @endif
+            @if($discount->category == "1")
+                {{ view('admin.discounts.gift_discount',compact('discount','products')) }}
+            @endif
+        @endisset
         @if(old('minimum_spend_amount'))
             <script src="{{ asset('js/discount.js') }}"></script>
             @for($i = 0; $i < (count(old('minimum_spend_amount')) - 1) ; $i++)

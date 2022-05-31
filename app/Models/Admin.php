@@ -14,10 +14,10 @@ class Admin extends Authenticatable
 
     protected $hidden = ['password'];
 
-    /* public function password(): Attribute
+    public function password(): Attribute
     {
         return Attribute::make(
             set: fn ($value) => bcrypt($value),
         );
-    } */
+    }
 }

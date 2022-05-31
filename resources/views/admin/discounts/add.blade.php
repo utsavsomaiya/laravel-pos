@@ -10,7 +10,7 @@
             <div class="card-body">
                 <form class="forms-sample"
                     method="post"
-                    @empty($discount) action="{{ route('discounts') }}" @endempty
+                    @empty($discount) action="{{ route('discounts.store') }}" @endempty
                 >
                     @isset($discount)
                         @method('PUT')

@@ -11,7 +11,7 @@
                 <form class="forms-sample"
                     method="post"
                     enctype="multipart/form-data"
-                    @empty($product) action="{{ route('products') }}" @endempty
+                    @empty($product) action="{{ route('products.store') }}" @endempty
                 >
                     @csrf
                     @isset($product)

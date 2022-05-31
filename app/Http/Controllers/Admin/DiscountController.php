@@ -87,32 +87,20 @@ class DiscountController extends Controller
         ]);
     }
 
-    public function delete($discountId)
-    {
-        Discount::findOrFail($discountId)->delete();
-        return back()->with([
-            'success' => 'Discount deleted successfully'
-        ]);
-    }
 
-    public function statusChanged(Request $request)
+    public function edit(Discount $discount)
     {
-        Discount::findOrFail($request->id)->update(['status' => $request->status]);
-    }
-
-    public function edit($discountId)
-    {
-        $discounts = Discount::with(['priceDiscounts','giftDiscounts','giftDiscounts.products:name,id'])->findOrFail($discountId);
         $products = Product::all();
-        return view('admin.discounts.add', compact('discounts', 'products'));
+
+        return view('admin.discounts.add', compact('discount', 'products'));
     }
 
-    public function update($discountId, Request $request)
+    public function update(Discount $discount, Request $request)
     {
         $discounts = $request->validate([
             'name' => [
                 'required',
-                Rule::unique('discounts', 'name')->ignore($discountId)
+                Rule::unique('discounts', 'name')->ignore($discount->id)
             ],
             'category' => ['required'],
             'type' => ['required_if:category,in:"0"'],
@@ -142,10 +130,10 @@ class DiscountController extends Controller
             'status' => $discounts['status']
         ];
 
-        Discount::findOrFail($discountId)->update($MainDiscount);
+        $discount->update($MainDiscount);
 
         if ($discounts['category'] == 0) {
-            $priceDiscounts = PriceDiscount::where('discount_id', $discountId)->get();
+            $priceDiscounts = PriceDiscount::where('discount_id', $discount->id)->get();
             if (sizeof($priceDiscounts) == sizeof($discounts['minimum_spend_amount'])) {
                 for ($i = 0; $i < sizeof($discounts['minimum_spend_amount']); $i++) {
                     $priceDiscount = [
@@ -153,7 +141,7 @@ class DiscountController extends Controller
                         'minimum_spend_amount' => (double) $discounts['minimum_spend_amount'][$i],
                         'digit' => (double) $discounts['digit'][$i]
                     ];
-                    PriceDiscount::where('discount_id', $discountId)
+                    PriceDiscount::where('discount_id', $discount->id)
                         ->where('minimum_spend_amount', $priceDiscounts[$i]->minimum_spend_amount)
                         ->update($priceDiscount);
                 }
@@ -165,13 +153,13 @@ class DiscountController extends Controller
                         'minimum_spend_amount' => (double) $discounts['minimum_spend_amount'][$i],
                         'digit' => (double) $discounts['digit'][$i]
                     ];
-                    PriceDiscount::where('discount_id', $discountId)
+                    PriceDiscount::where('discount_id', $discount->id)
                         ->where('minimum_spend_amount', $priceDiscounts[$i]->minimum_spend_amount)
                         ->update($priceDiscount);
                 }
                 for ($i = sizeof($priceDiscounts); $i < sizeof($discounts['minimum_spend_amount']); $i++) {
                     $priceDiscount = [
-                        'discount_id' =>$discountId,
+                        'discount_id' => $discount->id,
                         'type' => (int) $discounts['type'],
                         'minimum_spend_amount' => (double) $discounts['minimum_spend_amount'][$i],
                         'digit' => (double) $discounts['digit'][$i]
@@ -187,7 +175,7 @@ class DiscountController extends Controller
                         'minimum_spend_amount' => (double) $discounts['minimum_spend_amount'][$i],
                         'digit' => (double) $discounts['digit'][$i]
                     ];
-                    PriceDiscount::where('discount_id', $discountId)
+                    PriceDiscount::where('discount_id', $discount->id)
                         ->where('minimum_spend_amount', $priceDiscounts[$i]->minimum_spend_amount)
                         ->update($priceDiscount);
                 }
@@ -196,20 +184,20 @@ class DiscountController extends Controller
                 }
                 $differenceOfPriceDiscount = array_diff($minimumSpendAmount, $discounts['minimum_spend_amount']);
                 PriceDiscount::whereIn('minimum_spend_amount', $differenceOfPriceDiscount)
-                    ->where('discount_id', $discountId)
+                    ->where('discount_id', $discount->id)
                     ->delete();
             }
         }
 
         if ($discounts['category'] == 1) {
-            $giftDiscounts = GiftDiscount::where('discount_id', $discountId)->get();
+            $giftDiscounts = GiftDiscount::where('discount_id', $discount->id)->get();
             if (sizeof($giftDiscounts) == sizeof($discounts['minimum_spend_amount'])) {
                 for ($i = 0; $i < sizeof($discounts['minimum_spend_amount']); $i++) {
                     $giftDiscount = [
                         'minimum_spend_amount' => (double) $discounts['minimum_spend_amount'][$i],
                         'product_id' => $discounts['product'][$i]
                     ];
-                    GiftDiscount::where('discount_id', $discountId)
+                    GiftDiscount::where('discount_id', $discount->id)
                         ->where('minimum_spend_amount', $giftDiscounts[$i]->minimum_spend_amount)
                         ->update($giftDiscount);
                 }
@@ -220,13 +208,13 @@ class DiscountController extends Controller
                         'minimum_spend_amount' => (double) $discounts['minimum_spend_amount'][$i],
                         'product_id' => $discounts['product'][$i]
                     ];
-                    GiftDiscount::where('discount_id', $discountId)
+                    GiftDiscount::where('discount_id', $discount->id)
                         ->where('minimum_spend_amount', $giftDiscounts[$i]->minimum_spend_amount)
                         ->update($giftDiscount);
                 }
                 for ($i = sizeof($giftDiscounts); $i < sizeof($discounts['minimum_spend_amount']); $i++) {
                     $giftDiscount = [
-                        'discount_id' =>$discountId,
+                        'discount_id' => $discount->id,
                         'minimum_spend_amount' => (double) $discounts['minimum_spend_amount'][$i],
                         'product_id' => $discounts['product'][$i]
                     ];
@@ -240,7 +228,7 @@ class DiscountController extends Controller
                         'minimum_spend_amount' => (double) $discounts['minimum_spend_amount'][$i],
                         'product_id' => $discounts['product'][$i]
                     ];
-                    GiftDiscount::where('discount_id', $discountId)
+                    GiftDiscount::where('discount_id', $discount->id)
                         ->where('minimum_spend_amount', $giftDiscounts[$i]->minimum_spend_amount)
                         ->update($giftDiscount);
                 }
@@ -249,7 +237,7 @@ class DiscountController extends Controller
                 }
                 $differenceOfGiftDiscount = array_diff($minimumSpendAmount, $discounts['minimum_spend_amount']);
                 GiftDiscount::whereIn('minimum_spend_amount', $differenceOfGiftDiscount)
-                    ->where('discount_id', $discountId)
+                    ->where('discount_id', $discount->id)
                     ->delete();
             }
         }
@@ -257,5 +245,18 @@ class DiscountController extends Controller
         return to_route('discounts')->with([
             'success' => 'Discount updated successfully.'
         ]);
+    }
+
+    public function delete(Discount $discount)
+    {
+        $discount->delete();
+        return back()->with([
+                'success' => 'Discount deleted successfully'
+            ]);
+    }
+
+    public function statusChanged(Discount $discount, Request $request)
+    {
+        $discount->update(['status' => $request->status]);
     }
 }

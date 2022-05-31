@@ -38,15 +38,15 @@
                                 <td>{{ $product->tax.'%' }}</td>
                                 <td>{{ $product->stock }}</td>
                                 <td>
-                                    <img src="{{ $product->image }}"></td>
+                                    <img src="{{ $product->path }}"></td>
                                 <td>
-                                    <a href="{{ route('products.edit', ['id' => $product->id ]) }}"
+                                    <a href="{{ route('products.edit', ['product' => $product->id ]) }}"
                                         class="link-dark text-decoration-none me-4"
                                     >
                                         <i class="fa-solid fa-pencil"></i>
                                     </a>
                                     <form method="post"
-                                        action="{{ route('products.delete', ['id' => $product->id]) }}"
+                                        action="{{ route('products.delete', ['product' => $product->id]) }}"
                                         id="delete-product-{{ $product->id }}"
                                         class="d-inline-block"
                                     >

@@ -25,13 +25,13 @@
                                 <td>{{ $category->id }}</td>
                                 <td>{{ $category->name }}</td>
                                 <td>
-                                    <a href="{{ route('categories.edit', ['id' => $category->id ]) }}"
+                                    <a href="{{ route('categories.edit', ['category' => $category->id ]) }}"
                                         class="link-dark text-decoration-none me-4"
                                     >
                                         <i class="fa-solid fa-pencil"></i>
                                     </a>
                                     <form method="post"
-                                        action="{{ route('categories.delete', ['id' => $category->id]) }}"
+                                        action="{{ route('categories.delete', ['category' => $category->id]) }}"
                                         id="delete-category-{{ $category->id }}"
                                         class="d-inline-block"
                                     >

@@ -6,7 +6,7 @@ function discountStatusChanged(id, status, token) {
     else
         status = status - 1;
     $.ajax({
-        url: "/admin/discounts",
+        url: "/admin/discounts/edit/"+id,
         data: {
             id: id,
             _token: token,
@@ -123,6 +123,7 @@ function editRenderMinimumSpendTemplate() {
             element.setAttribute('disabled',true);
         }
     });
+    console.log('abc');
     checkDiscountCategory();
 }
 

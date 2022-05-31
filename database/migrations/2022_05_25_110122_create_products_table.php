@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->float('tax');
             $table->integer('stock');
             $table->string('image');
+            $table->string('path');
             $table->timestamps();
         });
     }

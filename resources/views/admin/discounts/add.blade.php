@@ -10,7 +10,11 @@
             <div class="card-body">
                 <form class="forms-sample"
                     method="post"
+                    @empty($discount) action="{{ route('discounts') }}" @endempty
                 >
+                    @isset($discount)
+                        @method('PUT')
+                    @endisset
                     @csrf
                     <div class="form-group pb-3">
                         <label class="pb-1">Discount Name</label>
@@ -18,7 +22,7 @@
                             class="form-control @error('name') is-invalid @enderror"
                             placeholder="Discount Name"
                             name="name"
-                            value="@isset($discounts){{ $discounts->name }}@else{{ old('name') }}@endisset"
+                            value="@isset($discount){{ $discount->name }}@else{{ old('name') }}@endisset"
                             required
                         >
                         @error('name')
@@ -34,8 +38,8 @@
                         >
                             <option value="">--Select Discount Category--</option>
                             <option value="0"
-                                @isset($discounts)
-                                    @selected($discounts->category == "0")
+                                @isset($discount)
+                                    @selected($discount->category == "0")
                                 @else
                                     @selected(old('category') == "0")
                                 @endisset
@@ -43,8 +47,8 @@
                                 Price Discount
                             </option>
                             <option value="1"
-                                @isset($discounts)
-                                    @selected($discounts->category == "1")
+                                @isset($discount)
+                                    @selected($discount->category == "1")
                                 @else
                                     @selected(old('category') == "1")
                                 @endisset
@@ -67,15 +71,15 @@
                         >
                             <option value="">--Select Discount Status--</option>
                             <option value="0"
-                                @isset($discounts)
-                                    @selected($discounts->status == "0")
+                                @isset($discount)
+                                    @selected($discount->status == "0")
                                 @else
                                     @selected(old('status') == "0")
                                 @endisset
                             >Active</option>
                             <option value="1"
-                                @isset($discounts)
-                                    @selected($discounts->status == "1")
+                                @isset($discount)
+                                    @selected($discount->status == "1")
                                 @else
                                     @selected(old('status') == "1")
                                 @endisset
@@ -104,20 +108,20 @@
         var edit = '';
         var countOfProduct =  {{ Js::from(sizeof($products)) }} ;
     </script>
-    @empty($discounts)
+    @empty($discount)
         {{ view('admin.discounts.price_discount') }}
         {{ view('admin.discounts.gift_discount',compact('products')) }}
     @else
         @if($errors->count() == 0)
-            @if($discounts->category == "0")
-                {{ view('admin.discounts.price_discount',compact('discounts','products')) }}
+            @if($discount->category == "0")
+                {{ view('admin.discounts.price_discount',compact('discount','products')) }}
             @endif
-            @if($discounts->category == "1")
-                {{ view('admin.discounts.gift_discount',compact('discounts','products')) }}
+            @if($discount->category == "1")
+                {{ view('admin.discounts.gift_discount',compact('discount','products')) }}
             @endif
             <script src="{{ asset('js/discount.js') }}"></script>
-            @if($discounts->category == "0")
-                @foreach($discounts->priceDiscounts as $key=>$priceDiscount)
+            @if($discount->category == "0")
+                @foreach($discount->priceDiscounts as $key=>$priceDiscount)
                     <script>
                         var key = '{{ Js::from($key) }}';
                         minimumSpendAmounts[key] = '{{ $priceDiscount->minimum_spend_amount }}';
@@ -125,8 +129,8 @@
                     </script>
                 @endforeach
             @endif
-            @if($discounts->category == "1")
-                @foreach($discounts->giftDiscounts as $key=>$giftDiscount)
+            @if($discount->category == "1")
+                @foreach($discount->giftDiscounts as $key=>$giftDiscount)
                     <script>
                         var key = '{{ Js::from($key) }}';
                         minimumSpendAmounts[key] = '{{ $giftDiscount->minimum_spend_amount }}';
@@ -140,11 +144,11 @@
 
 
     @if($errors->count() > 0)
-        @if($discounts->category == "0")
-            {{ view('admin.discounts.price_discount',compact('discounts','products')) }}
+        @if($discount->category == "0")
+            {{ view('admin.discounts.price_discount',compact('discount','products')) }}
         @endif
-        @if($discounts->category == "1")
-            {{ view('admin.discounts.gift_discount',compact('discounts','products')) }}
+        @if($discount->category == "1")
+            {{ view('admin.discounts.gift_discount',compact('discount','products')) }}
         @endif
         @if(old('minimum_spend_amount'))
             <script src="{{ asset('js/discount.js') }}"></script>

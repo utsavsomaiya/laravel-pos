@@ -49,13 +49,13 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('discounts.edit', ['id' => $discount->id ]) }}"
+                                    <a href="{{ route('discounts.edit', ['discount' => $discount->id ]) }}"
                                         class="link-dark text-decoration-none me-4"
                                     >
                                         <i class="fa-solid fa-pencil"></i>
                                     </a>
                                     <form method="post"
-                                        action="{{ route('discounts.delete', ['id' => $discount->id]) }}"
+                                        action="{{ route('discounts.delete', ['discount' => $discount->id]) }}"
                                         id="delete-discount-{{ $discount->id }}"
                                         class="d-inline-block"
                                     >

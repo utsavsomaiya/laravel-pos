@@ -8,8 +8,15 @@
                 </div>
             </div>
             <div class="card-body">
-                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                <form class="forms-sample"
+                    method="post"
+                    enctype="multipart/form-data"
+                    @empty($product) action="{{ route('products') }}" @endempty
+                >
                     @csrf
+                    @isset($product)
+                        @method('PUT')
+                    @endisset
                     <div class="form-group mb-2">
                         <label class="pb-1">Product Name</label>
                         <input type=" text"
@@ -137,11 +144,7 @@
                         @enderror
                     </div>
                     <button type="submit" class="btn btn-primary me-2" name="submit">
-                        @isset($product)
-                            Update
-                        @else
-                            Submit
-                        @endisset
+                        {{ isset($product) ? 'Update' : 'Submit' }}
                     </button>
                     <a href="{{ route('products') }}" class="btn btn-light">
                         Cancel

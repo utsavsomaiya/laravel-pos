@@ -20,7 +20,6 @@ return new class extends Migration {
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->integer('product_quantity');
             $table->unsignedBigInteger('product_discount_id')->nullable();
-            $table->foreign('product_discount_id')->references('id')->on('discounts')->onDelete('cascade');
             $table->double('product_discount')->nullable()->default(0);
             $table->timestamps();
         });

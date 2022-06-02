@@ -137,7 +137,6 @@ var check = 0;
 var discountFinalPrice = [];
 
 function displayCart() {
-    console.log(discountPrice);
     subTotal = 0;
 
     for (let i = 0; i < cart.length; i++) {

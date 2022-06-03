@@ -43,7 +43,7 @@
                             </a>
                         </li>
                         <li class="nav-item m-2">
-                            <a class="nav-link text-light" href="#">
+                            <a class="nav-link text-light" href="{{ route('categories') }}">
                                 <i class="fa-solid fa-list-ol pe-2"></i>
                                 <span>Categories</span>
                             </a>
@@ -104,6 +104,7 @@
                 </div>
             </div>
         </div>
+        <script src="{{ asset('js/custom.js') }}"></script>
         <script src="{{ asset('js/alertify.min.js') }}"></script>
         @if(session('success'))
             <script>

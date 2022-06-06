@@ -1,14 +1,14 @@
 @extends('admin.layout')
 @section('content')
-    <div class="col-md-10">
-        <div class="card border-0 shadow-lg">
+    <div class="col-md-12">
+        <div class="card border-0 shadow-lg bg-light">
             <div class="card-title">
                 <div class="mt-2">
                     <span class="h4 ms-3 me-5">Products</span>
                 </div>
             </div>
             <div class="card-body">
-                <table class="table">
+                <table class="table table-striped" id="sales-details">
                     <thead>
                         <tr>
                             <th>Id</th>
@@ -77,21 +77,15 @@
                                 </tr>
                             @endif
                         @endif
-                        <tr>
-                            <td colspan="11" class="mt-3">
-                                <span class="badge bg-danger">Thank you!!</span>
-                                <div style="margin-left: 34rem!important;">
-                                    <span class="h6">Subtotal : - &nbsp;&nbsp;&nbsp;{{ "$".$salesDetails[0]->sales->subtotal }}</span><br>
-                                    <span class="h6">Discount : - &nbsp;&nbsp; {{ "-$".$salesDetails[0]->sales->total_discount }}</span><br>
-                                    <span class="h6"><span class="pe-5">Tax : -</span> {{ "+$".$salesDetails[0]->sales->total_tax }}</span><br>
-                                    <span>=================</span><br>
-                                    <span class="h6"><span class="pe-5">Total:-</span>{{ "$".$salesDetails[0]->sales->total}}</span>
-                                </div>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+    <script>
+        var subtotal = parseFloat('{{ $salesDetails[0]->sales->subtotal }}');
+        var discount = parseFloat('{{ $salesDetails[0]->sales->total_discount }}');
+        var tax = parseFloat('{{ $salesDetails[0]->sales->total_tax }}');
+        var total = parseFloat('{{ $salesDetails[0]->sales->total }}');
+    </script>
 @endsection

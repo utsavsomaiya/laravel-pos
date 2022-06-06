@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SalesController;
@@ -33,33 +34,40 @@ Route::prefix('admin')->group(function () {
     });
 
     Route::middleware('auth:admin')->group(function () {
-        Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
 
-        Route::get('/categories', [CategoryController::class,'index'])->name('categories');
-        Route::view('/categories/add', 'admin.categories.add')->name('categories.add');
-        Route::post('/categories', [CategoryController::class,'store'])->name('categories.store');
-        Route::get("/categories/edit/{category}", [CategoryController::class,'edit'])->name('categories.edit');
-        Route::put("/categories/edit/{category}", [CategoryController::class,'update']);
-        Route::post("/categories/delete/{category}", [CategoryController::class,'delete'])->name('categories.delete');
+        Route::controller(CategoryController::class)->group(function () {
+            Route::get('/categories', 'index')->name('categories');
+            Route::get('/categories/add', 'add')->name('categories.add');
+            Route::post('/categories', 'store')->name('categories.store');
+            Route::get("/categories/edit/{category}", 'edit')->name('categories.edit');
+            Route::put("/categories/edit/{category}", 'update');
+            Route::post("/categories/delete/{category}", 'delete')->name('categories.delete');
+        });
 
+        Route::controller(ProductController::class)->group(function () {
+            Route::get('/products', 'index')->name('products');
+            Route::get('/products/add', 'add')->name('products.add');
+            Route::post('/products', 'store')->name('products.store');
+            Route::get('/products/edit/{product}', 'edit')->name('products.edit');
+            Route::put('/products/edit/{product}', 'update');
+            Route::post('/products/delete/{product}', 'delete')->name('products.delete');
+        });
 
-        Route::get('/products', [ProductController::class,'index'])->name('products');
-        Route::get('/products/add', [ProductController::class,'add'])->name('products.add');
-        Route::post('/products', [ProductController::class,'store'])->name('products.store');
-        Route::get('/products/edit/{product}', [ProductController::class,'edit'])->name('products.edit');
-        Route::put('/products/edit/{product}', [ProductController::class,'update']);
-        Route::post('/products/delete/{product}', [ProductController::class,'delete'])->name('products.delete');
+        Route::controller(DiscountController::class)->group(function () {
+            Route::get('/discounts', 'index')->name('discounts');
+            Route::get('/discounts/add', 'add')->name('discounts.add');
+            Route::post('/discounts', 'store')->name('discounts.store');
+            Route::get('/discounts/edit/{discount}', 'edit')->name('discounts.edit');
+            Route::post('/discounts/edit/{discount}', 'statusChanged');
+            Route::put('/discounts/edit/{discount}', 'update');
+            Route::post('/discounts/delete/{discount}', 'delete')->name('discounts.delete');
+        });
 
-        Route::get('/discounts', [DiscountController::class,'index'])->name('discounts');
-        Route::get('/discounts/add', [DiscountController::class,'add'])->name('discounts.add');
-        Route::post('/discounts', [DiscountController::class, 'store'])->name('discounts.store');
-        Route::get('/discounts/edit/{discount}', [DiscountController::class,'edit'])->name('discounts.edit');
-        Route::post('/discounts/edit/{discount}', [DiscountController::class,'statusChanged']);
-        Route::put('/discounts/edit/{discount}', [DiscountController::class,'update']);
-        Route::post('/discounts/delete/{discount}', [DiscountController::class,'delete'])->name('discounts.delete');
-
-        Route::get('/sales', [SalesController::class, 'sales'])->name('sales');
-        Route::get('/sales/{id}', [SalesController::class, 'salesDetails'])->name('sales.details');
+        Route::controller(SalesController::class)->group(function () {
+            Route::get('/sales', 'sales')->name('sales');
+            Route::get('/sales/{id}', 'salesDetails')->name('sales.details');
+        });
 
         Route::get('/logout', [AdminAuthController::class, 'logout'])->name('logout');
     });

@@ -2,16 +2,23 @@
 {
     height: 800px;
 }
+
 li:hover
 {
     background-color: gray;
     border-radius: 20px;
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
+.page-item:hover {
+  border: none;
+}
+
 img{
     width: 36px;
     height: 36px;

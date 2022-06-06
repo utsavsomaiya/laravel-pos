@@ -1,7 +1,7 @@
 @extends('admin.layout')
 @section('content')
-    <div class="col-md-8">
-        <div class="card border-0 shadow-lg">
+    <div class="col-md-12">
+        <div class="card border-0 shadow-lg bg-light">
             <div class="card-title">
                 <div class="mt-2">
                     <span class="h4 ms-3 me-5">Categories</span>
@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <table class="table w-50">
+                <table class="table table-striped" id="category">
                     <thead>
                         <tr>
                             <th>Id</th>

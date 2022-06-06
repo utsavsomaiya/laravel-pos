@@ -1,7 +1,7 @@
 @extends('admin.layout')
 @section('content')
-    <div class="col-md-8">
-        <div class="card border-0 shadow-lg">
+    <div class="col-md-12">
+        <div class="card border-0 shadow-lg bg-light">
             <div class="card-title">
                 <div class="mt-2">
                     <span class="h4 ms-3 me-5">Products</span>
@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <table class="table">
+                <table class="table table-striped" id="products">
                     <thead>
                         <tr>
                             <th>Id</th>
@@ -41,7 +41,7 @@
                                     <img src="{{ $product->path }}"></td>
                                 <td>
                                     <a href="{{ route('products.edit', ['product' => $product->id ]) }}"
-                                        class="link-dark text-decoration-none me-4"
+                                        class="link-dark text-decoration-none"
                                     >
                                         <i class="fa-solid fa-pencil"></i>
                                     </a>

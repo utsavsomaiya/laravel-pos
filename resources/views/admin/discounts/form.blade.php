@@ -10,7 +10,11 @@
             <div class="card-body">
                 <form class="forms-sample"
                     method="post"
-                    @empty($discount) action="{{ route('discounts.store') }}" @endempty
+                    @empty($discount)
+                        action="{{ route('discounts.store') }}"
+                    @else
+                        action="{{ route('discounts.update' , ['discount' => $discount->id ]) }}"
+                    @endempty
                 >
                     @isset($discount)
                         @method('PUT')
@@ -30,33 +34,27 @@
                         @enderror
                     </div>
                     <div class="form-group pb-3">
-                        <label class="pb-1">Discount Category</label>
-                        <select class="form-control @error('category') is-invalid @enderror"
-                            name="category"
+                        <label class="pb-1">Promotion Type</label>
+                        <select class="form-control @error('promotion_type') is-invalid @enderror"
+                            name="promotion_type"
                             required
-                            id="discount-category"
+                            id="promotion-type"
                         >
-                            <option value="">--Select Discount Category--</option>
-                            <option value="0"
-                                @isset($discount)
-                                    @selected($discount->category == "0")
-                                @else
-                                    @selected(old('category') == "0")
-                                @endisset
-                            >
-                                Price Discount
-                            </option>
-                            <option value="1"
-                                @isset($discount)
-                                    @selected($discount->category == "1")
-                                @else
-                                    @selected(old('category') == "1")
-                                @endisset
-                            >
-                                Gift Discount
-                            </option>
+                            <option value="">--Select Promotion Type--</option>
+                            @php $type = App\Models\Discount::PROMOTION_TYPE @endphp
+                            @for($i = 1; $i <= count($type); $i++)
+                                <option value="{{ $i }}"
+                                    @isset($discount)
+                                        @selected($discount->promotion_type == $i)
+                                    @else
+                                        @selected(old('promotion_type') == $i)
+                                    @endisset
+                                >
+                                    {{ $type[$i] }}
+                                </option>
+                            @endfor
                         </select>
-                        @error('category')
+                        @error('promotion_type')
                             <label class="text-danger">{{ $message }}</label>
                         @enderror
                     </div>

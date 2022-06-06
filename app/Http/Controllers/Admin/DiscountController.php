@@ -30,11 +30,11 @@ class DiscountController extends Controller
     {
         $discount = $request->validate([
             'name' => ['required','unique:discounts,name'],
-            'category' => ['required'],
-            'type' => ['required_if:category,in:"0"'],
+            'promotion_type' => ['required'],
+            'type' => ['required_if:promotion_type,in:"1"'],
             'minimum_spend_amount' => ['required','array'],
             'minimum_spend_amount.*' => ['required','distinct'],
-            'digit' => ['required_if:category,in:"0"','array'],
+            'digit' => ['required_if:promotion_type,in:"1"','array'],
             'digit.*' => [
                 'required',
                 'distinct',
@@ -44,23 +44,23 @@ class DiscountController extends Controller
                     }
                 }
             ],
-            'product' => ['required_if:category,in:"1"','array'],
+            'product' => ['required_if:promotion_type,in:"2"','array'],
             'product.*' => ['required','distinct'],
             'status' => ['required'],
         ]);
 
-        $discount['category'] = (int) $discount['category'];
+        $discount['promotion_type'] = (int) $discount['promotion_type'];
         $discount['status'] = (int) $discount['status'];
 
         $MainDiscount = [
             'name' => $discount['name'],
-            'category' => $discount['category'],
+            'promotion_type' => $discount['promotion_type'],
             'status' => $discount['status']
         ];
 
         $mainDiscount = Discount::create($MainDiscount);
 
-        if ($discount['category'] == 0) {
+        if ($discount['promotion_type'] == 1) {
             for ($i = 0; $i < sizeof($discount['minimum_spend_amount']); $i++) {
                 $priceDiscount = [
                     'discount_id' => $mainDiscount->id,
@@ -71,7 +71,7 @@ class DiscountController extends Controller
                 PriceDiscount::create($priceDiscount);
             }
         }
-        if ($discount['category'] == 1) {
+        if ($discount['promotion_type'] == 2) {
             for ($i = 0; $i < sizeof($discount['minimum_spend_amount']); $i++) {
                 $giftDiscount = [
                     'discount_id' => $mainDiscount->id,

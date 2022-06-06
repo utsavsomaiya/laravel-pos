@@ -62,7 +62,7 @@
                                         @csrf
                                         <button type="button"
                                             class="bg-light border-0"
-                                            onclick="deleteConfirm('discounts','{{ $discount->id }}')"
+                                            onclick="deleteConfirm('discount','{{ $discount->id }}')"
                                         >
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>

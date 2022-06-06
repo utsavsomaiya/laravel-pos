@@ -16,8 +16,8 @@ function discountStatusChanged(id, status, token) {
     });
 }
 
-if (document.getElementById('discount-category') != null) {
-    document.getElementById('discount-category').onchange = function () {
+if (document.getElementById('promotion-type') != null) {
+    document.getElementById('promotion-type').onchange = function () {
         checkDiscountCategory();
     }
 }
@@ -25,16 +25,16 @@ if (document.getElementById('discount-category') != null) {
 var flag;
 
 function checkDiscountCategory() {
-    var category = document.getElementById('discount-category').value;
+    var category = document.getElementById('promotion-type').value;
     document.getElementById('template-render').innerHTML = '';
-    if (category === '0')
+    if (category === '1')
     {
         container = document.getElementById('template-render');
         priceTemplate = document.getElementById('price-template').innerHTML;
         container.innerHTML += priceTemplate;
         flag = 1;
     }
-    if (category === '1')
+    if (category === '2')
     {
         container = document.getElementById('template-render');
         giftTemplate = document.getElementById('gift-template').innerHTML;
@@ -117,7 +117,7 @@ function editRenderMinimumSpendTemplate() {
             minimumSpendContainer.push(1);
         }
     }
-    var select = document.getElementById('discount-category').options;
+    var select = document.getElementById('promotion-type').options;
     [...select].forEach(function (element) {
         if (element.selected == false) {
             element.setAttribute('disabled',true);

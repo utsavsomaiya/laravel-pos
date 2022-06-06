@@ -9,7 +9,17 @@ class Discount extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','status','category'];
+    public const STATUS = [
+        1 => [0, 'Inactive'],
+        2 => [1, 'Active'],
+    ];
+
+    public const PROMOTION_TYPE = [
+        1 => 'Price Discount',
+        2 => 'Gift Discount'
+    ];
+
+    protected $fillable = ['name','status','promotion_type'];
 
     public function priceDiscounts()
     {

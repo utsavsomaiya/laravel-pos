@@ -68,20 +68,18 @@
                             required
                         >
                             <option value="">--Select Discount Status--</option>
-                            <option value="0"
-                                @isset($discount)
-                                    @selected($discount->status == "0")
-                                @else
-                                    @selected(old('status') == "0")
-                                @endisset
-                            >Active</option>
-                            <option value="1"
-                                @isset($discount)
-                                    @selected($discount->status == "1")
-                                @else
-                                    @selected(old('status') == "1")
-                                @endisset
-                            >Inactive</option>
+                            @php $status = App\Models\Discount::STATUS; @endphp
+                            @for($i = 1; $i <= count($status); $i++)
+                                <option value="{{ $status[$i][0] }}"
+                                    @isset($discount)
+                                        @selected($discount->status == $status[$i][0])
+                                    @else
+                                        @if(old('status'))
+                                            @selected(old('status') == $status[$i][0])
+                                        @endif
+                                    @endisset
+                                >{{ $status[$i][1] }}</option>
+                            @endfor
                         </select>
                         @error('status')
                             <label class="text-danger">{{ $message }}</label>
@@ -111,14 +109,14 @@
         {{ view('admin.discounts.gift_discount',compact('products')) }}
     @else
         @if($errors->count() == 0)
-            @if($discount->category == "0")
+            @if($discount->promotion_type == "1")
                 {{ view('admin.discounts.price_discount',compact('discount','products')) }}
             @endif
-            @if($discount->category == "1")
+            @if($discount->promotion_type == "2")
                 {{ view('admin.discounts.gift_discount',compact('discount','products')) }}
             @endif
             <script src="{{ asset('js/discount.js') }}"></script>
-            @if($discount->category == "0")
+            @if($discount->promotion_type == "1")
                 @foreach($discount->priceDiscounts as $key=>$priceDiscount)
                     <script>
                         var key = '{{ Js::from($key) }}';
@@ -127,7 +125,7 @@
                     </script>
                 @endforeach
             @endif
-            @if($discount->category == "1")
+            @if($discount->promotion_type == "2")
                 @foreach($discount->giftDiscounts as $key=>$giftDiscount)
                     <script>
                         var key = '{{ Js::from($key) }}';
@@ -143,10 +141,10 @@
 
     @if($errors->count() > 0)
         @isset($discount)
-            @if($discount->category == "0")
+            @if($discount->promotion_type == "1")
                 {{ view('admin.discounts.price_discount',compact('discount','products')) }}
             @endif
-            @if($discount->category == "1")
+            @if($discount->promotion_type == "2")
                 {{ view('admin.discounts.gift_discount',compact('discount','products')) }}
             @endif
         @endisset
@@ -155,7 +153,7 @@
             @for($i = 0; $i < (count(old('minimum_spend_amount')) - 1) ; $i++)
                 <script>minimumSpendContainer.push(1)</script>
             @endfor
-            <script>checkDiscountCategory();</script>
+            <script>checkPromotionType();</script>
             @for($i = 0; $i < count(old('minimum_spend_amount')) ; $i++)
                 <script>
                     var i = {{ Js::from($i) }};

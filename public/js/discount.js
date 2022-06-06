@@ -18,23 +18,23 @@ function discountStatusChanged(id, status, token) {
 
 if (document.getElementById('promotion-type') != null) {
     document.getElementById('promotion-type').onchange = function () {
-        checkDiscountCategory();
+        checkPromotionType();
     }
 }
 
 var flag;
 
-function checkDiscountCategory() {
-    var category = document.getElementById('promotion-type').value;
+function checkPromotionType() {
+    var promotionType = document.getElementById('promotion-type').value;
     document.getElementById('template-render').innerHTML = '';
-    if (category === '1')
+    if (promotionType === '1')
     {
         container = document.getElementById('template-render');
         priceTemplate = document.getElementById('price-template').innerHTML;
         container.innerHTML += priceTemplate;
         flag = 1;
     }
-    if (category === '2')
+    if (promotionType === '2')
     {
         container = document.getElementById('template-render');
         giftTemplate = document.getElementById('gift-template').innerHTML;
@@ -123,8 +123,7 @@ function editRenderMinimumSpendTemplate() {
             element.setAttribute('disabled',true);
         }
     });
-    console.log('abc');
-    checkDiscountCategory();
+    checkPromotionType();
 }
 
 function addMinimumSpendRow() {

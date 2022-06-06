@@ -33,12 +33,12 @@
                                             role="switch"
                                             id="flexSwitchCheckChecked"
                                             onclick="discountStatusChanged('{{ $discount->id }}','{{ $discount->status }}','{{ csrf_token() }}')"
-                                            @checked($discount->status == 0)
+                                            @checked($discount->status == 1)
                                         >
                                     </div>
                                 </td>
                                 <td>
-                                    @if($discount->category == 0)
+                                    @if($discount->promotion_type == 1)
                                         <h6 class="badge bg-secondary mb-0">
                                             Price Discount
                                         </h6>

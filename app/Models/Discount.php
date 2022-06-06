@@ -10,8 +10,8 @@ class Discount extends Model
     use HasFactory;
 
     public const STATUS = [
-        1 => [0, 'Inactive'],
-        2 => [1, 'Active'],
+        1 => [1, 'Active'],
+        2 => [0, 'Inactive'],
     ];
 
     public const PROMOTION_TYPE = [

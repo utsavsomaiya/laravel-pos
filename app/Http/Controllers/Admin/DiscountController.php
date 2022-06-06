@@ -23,7 +23,7 @@ class DiscountController extends Controller
     {
         $products = Product::all();
 
-        return view('admin.discounts.add', compact('products'));
+        return view('admin.discounts.form', compact('products'));
     }
 
     public function store(Request $request)
@@ -92,7 +92,7 @@ class DiscountController extends Controller
     {
         $products = Product::all();
 
-        return view('admin.discounts.add', compact('discount', 'products'));
+        return view('admin.discounts.form', compact('discount', 'products'));
     }
 
     public function update(Discount $discount, Request $request)

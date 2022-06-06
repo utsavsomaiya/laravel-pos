@@ -17,20 +17,22 @@ class ProductController extends Controller
 
         return view('admin.products.index', compact('products'));
     }
+
     public function add()
     {
         $categories = Category::all();
 
         return view('admin.products.add', compact('categories'));
     }
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => ['required','min:3','max:255','unique:products,name'],
-            'price' => ['required'],
-            'category_id' => ['required'],
-            'tax' => ['required'],
-            'stock' => ['required'],
+            'name' => ['required','max:255','unique:products,name'],
+            'price' => ['required','numeric'],
+            'category_id' => ['required','exists:categories,id'],
+            'tax' => ['required','numeric'],
+            'stock' => ['required','integer'],
             'image' => ['required','image'],
         ]);
 
@@ -45,16 +47,16 @@ class ProductController extends Controller
         Product::create($validatedData);
 
         return to_route('products')->with([
-            'success' => 'Products added successfully.'
+            'success' => 'Product added successfully.'
         ]);
     }
 
 
     public function edit(Product $product)
     {
-        $categories = Category::findOrFail($product->category_id)->get();
-
-        return view('admin.products.add', compact('product', 'categories'));
+        $categories = Category::all();
+        
+        return view('admin.products.form', compact('product', 'categories'));
     }
 
     public function update(Product $product, Request $request)
@@ -62,20 +64,19 @@ class ProductController extends Controller
         $validatedData = $request->validate([
             'name' => [
                 'required',
-                'min:3',
                 'max:255',
                 Rule::unique('products', 'name')->ignore($product->id),
             ],
-            'price' => ['required'],
-            'category_id' => ['required'],
-            'tax' => ['required'],
-            'stock' => ['required'],
+            'price' => ['required','numeric'],
+            'category_id' => ['required','exists:categories,id'],
+            'tax' => ['required','numeric'],
+            'stock' => ['required','integer'],
             'image' => ['image'],
         ]);
 
-        if ($request->file('image') != null) {
-            Storage::delete('public/image'.'/'.$product->image);
+        $oldImage = $product->image;
 
+        if ($request->hasFile('image')) {
             $name = $request->file('image')->getClientOriginalName();
 
             $request->file('image')->storeAs('public/image', $name);
@@ -86,6 +87,10 @@ class ProductController extends Controller
         }
 
         $product->update($validatedData);
+
+        if ($request->hasFile('image')) {
+            Storage::delete('public/image'.'/'.$oldImage);
+        }
 
         return to_route('products')->with([
             'success' => 'Product updated successfully.'

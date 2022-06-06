@@ -9,7 +9,11 @@
             </div>
             <div class="card-body">
                 <form class="forms-sample w-50"
-                    @empty($category) action="{{ route('categories.store') }}" @endempty
+                    @empty($category)
+                        action="{{ route('categories.store') }}"
+                    @else
+                        action="{{ route('categories.update', [ 'category' => $category->id ]) }}"
+                    @endempty
                     method="POST"
                 >
                     @csrf

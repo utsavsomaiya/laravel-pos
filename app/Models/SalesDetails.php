@@ -9,7 +9,7 @@ class SalesDetails extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['sales_id','product_id','product_quantity'];
+    protected $fillable = ['sales_id', 'product_id', 'product_quantity'];
 
     public function sales()
     {

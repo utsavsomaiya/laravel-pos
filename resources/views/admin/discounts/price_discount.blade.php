@@ -7,20 +7,16 @@
                 required
             >
                 <option value="">--Discount Type--</option>
-                <option value="0"
-                    @isset($discount)
-                        @selected($discount->priceDiscounts[0]->type == "0")
-                    @else
-                        @selected(old('type') == "0")
-                    @endisset
-                >Percentage Discount</option>
-                <option value="1"
-                     @isset($discount)
-                        @selected($discount->priceDiscounts[0]->type == "1")
-                    @else
-                        @selected(old('type') == "1")
-                    @endisset
-                >Price Discount</option>
+                @php $type = App\Models\PriceDiscount::TYPE; @endphp
+                @for($i = 1; $i <= count($type); $i++)
+                    <option value="{{ $i }}"
+                        @isset($discount)
+                            @selected($discount->priceDiscounts[0]->type == $i)
+                        @else
+                            @selected(old('type') == $i)
+                        @endisset
+                    >{{ $type[$i] }}</option>
+                @endfor
             </select>
             @error('type')
                 <label class="text-danger">{{ $message }}</label>

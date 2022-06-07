@@ -69,16 +69,16 @@
                         >
                             <option value="">--Select Discount Status--</option>
                             @php $status = App\Models\Discount::STATUS; @endphp
-                            @for($i = 1; $i <= count($status); $i++)
-                                <option value="{{ $status[$i][0] }}"
+                            @for($i = count($status)-1 ; $i >= 0; $i--)
+                                <option value="{{ $i }}"
                                     @isset($discount)
-                                        @selected($discount->status == $status[$i][0])
+                                        @selected($discount->status == $i)
                                     @else
                                         @if(old('status'))
-                                            @selected(old('status') == $status[$i][0])
+                                            @selected(old('status') == $i)
                                         @endif
                                     @endisset
-                                >{{ $status[$i][1] }}</option>
+                                >{{ $status[$i] }}</option>
                             @endfor
                         </select>
                         @error('status')
@@ -130,7 +130,7 @@
                     <script>
                         var key = '{{ Js::from($key) }}';
                         minimumSpendAmounts[key] = '{{ $giftDiscount->minimum_spend_amount }}';
-                        products[key] = '{{ $giftDiscount->products->id }}';
+                        products[key] = '{{ $giftDiscount->product->id }}';
                     </script>
                 @endforeach
             @endif

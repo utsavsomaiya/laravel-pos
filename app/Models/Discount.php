@@ -10,8 +10,8 @@ class Discount extends Model
     use HasFactory;
 
     public const STATUS = [
-        1 => [1, 'Active'],
-        2 => [0, 'Inactive'],
+        0 => 'Inactive',
+        1 => 'Active',
     ];
 
     public const PROMOTION_TYPE = [
@@ -19,7 +19,7 @@ class Discount extends Model
         2 => 'Gift Discount'
     ];
 
-    protected $fillable = ['name','status','promotion_type'];
+    protected $fillable = ['name', 'status', 'promotion_type'];
 
     public function priceDiscounts()
     {

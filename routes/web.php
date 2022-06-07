@@ -34,7 +34,7 @@ Route::prefix('admin')->group(function () {
         Route::view('/categories/add', 'admin.categories.add')->name('categories.add');
         Route::post('/categories', [CategoryController::class,'store'])->name('categories.store');
         Route::get("/categories/edit/{category}", [CategoryController::class,'edit'])->name('categories.edit');
-        Route::put("/categories/edit/{category}", [CategoryController::class,'update']);
+        Route::put("/categories/edit/{category}", [CategoryController::class,'update'])->name('categories.update');
         Route::post("/categories/delete/{category}", [CategoryController::class,'delete'])->name('categories.delete');
 
 
@@ -42,14 +42,14 @@ Route::prefix('admin')->group(function () {
         Route::get('/products/add', [ProductController::class,'add'])->name('products.add');
         Route::post('/products', [ProductController::class,'store'])->name('products.store');
         Route::get('/products/edit/{product}', [ProductController::class,'edit'])->name('products.edit');
-        Route::put('/products/edit/{product}', [ProductController::class,'update']);
+        Route::put('/products/edit/{product}', [ProductController::class,'update'])->name('products.update');
         Route::post('/products/delete/{product}', [ProductController::class,'delete'])->name('products.delete');
 
         Route::get('/discounts', [DiscountController::class,'index'])->name('discounts');
         Route::get('/discounts/add', [DiscountController::class,'add'])->name('discounts.add');
         Route::post('/discounts', [DiscountController::class, 'store'])->name('discounts.store');
         Route::get('/discounts/edit/{discount}', [DiscountController::class,'edit'])->name('discounts.edit');
-        Route::post('/discounts/edit/{discount}', [DiscountController::class,'statusChanged']);
+        Route::post('/discounts/edit/{discount}', [DiscountController::class,'statusChanged'])->name('discounts.update');
         Route::put('/discounts/edit/{discount}', [DiscountController::class,'update']);
         Route::post('/discounts/delete/{discount}', [DiscountController::class,'delete'])->name('discounts.delete');
 

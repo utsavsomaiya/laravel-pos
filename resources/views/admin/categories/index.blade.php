@@ -38,7 +38,7 @@
                                         @csrf
                                         <button type="button"
                                             class="bg-light border-0"
-                                            onclick="deleteConfirm('categories','{{ $category->id }}')"
+                                            onclick="deleteConfirm('category','{{ $category->id }}')"
                                         >
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>

@@ -16,7 +16,7 @@ class GiftDiscount extends Model
         return $this->belongsTo(Discount::class, 'discount_id', 'id');
     }
 
-    public function products()
+    public function product()
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }

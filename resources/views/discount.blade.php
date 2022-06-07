@@ -25,8 +25,8 @@
                     <tbody id="discounts-table">
                         @php $count = 0; @endphp
                         @foreach($discounts as $key => $discount)
-                            @if($discount->status == "0")
-                                @if($discount->category == "0")
+                            @if($discount->status == "1")
+                                @if($discount->promotion_type == "1")
                                     @foreach($discount->priceDiscounts as $priceDiscount)
                                         @php $count++; @endphp
                                         <tr id="discounts-{{ $count }}" class="hidden">
@@ -65,7 +65,7 @@
                                         </tr>
                                     @endforeach
                                 @endif
-                                @if($discount->category == "1")
+                                @if($discount->promotion_type == "2")
                                     @foreach($discount->giftDiscounts as $giftDiscount)
                                         @php $count++; @endphp
                                         <tr id="discounts-{{ $count }}" class="hidden">

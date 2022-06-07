@@ -36,7 +36,7 @@ Route::prefix('admin')->group(function () {
         Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
 
         Route::get('/categories', [CategoryController::class,'index'])->name('categories');
-        Route::view('/categories/add', 'admin.categories.add')->name('categories.add');
+        Route::view('/categories/add', 'admin.categories.form')->name('categories.add');
         Route::post('/categories', [CategoryController::class,'store'])->name('categories.store');
         Route::get("/categories/edit/{category}", [CategoryController::class,'edit'])->name('categories.edit');
         Route::put("/categories/edit/{category}", [CategoryController::class,'update'])->name('categories.update');

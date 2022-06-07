@@ -9,10 +9,10 @@ class PriceDiscount extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['discount_id','digit','type','minimum_spend_amount'];
+    public const TYPE = [
+        1 => 'Percentage Discount',
+        2 => 'Flat Discount'
+    ];
 
-    public function discount()
-    {
-        return $this->belongsTo(Discount::class, 'discount_id', 'id');
-    }
+    protected $fillable = ['discount_id', 'digit', 'type', 'minimum_spend_amount'];
 }

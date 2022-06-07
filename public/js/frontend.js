@@ -437,7 +437,7 @@ function inputQuantity(productId, id) {
         $("#input-id-" + id).val($("#stock-" + productId).html().trim());
         cart[indexOfProduct].quantity = $("#input-id-" + id).val();
     }
-    price = parseInt($("#price-" + productId).html().trim()) * cart[indexOfProduct].quantity;
+    price = parseFloat($("#price-" + productId).html().trim()) * cart[indexOfProduct].quantity;
     cart[indexOfProduct].price = price;
     displayCart();
 }

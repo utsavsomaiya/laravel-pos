@@ -24,9 +24,4 @@ class Product extends Authenticatable
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
-
-    public function giftDiscount()
-    {
-        return $this->hasMany(GiftDiscount::class);
-    }
 }

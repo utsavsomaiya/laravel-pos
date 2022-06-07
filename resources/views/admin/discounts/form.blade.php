@@ -58,8 +58,8 @@
                             <label class="text-danger">{{ $message }}</label>
                         @enderror
                     </div>
-                    <div id="template-render">
-                        <!-- Template render here!! -->
+                    <div id="minimum-spend-amount-template">
+                        <!--Minimum Spend Amount Template render here!! -->
                     </div>
                     <div class="form-group pb-2">
                         <label class="pb-1">Discount Status</label>
@@ -137,7 +137,6 @@
             <script>editRenderMinimumSpendTemplate();</script>
         @endif
     @endempty
-
 
     @if($errors->count() > 0)
         @isset($discount)

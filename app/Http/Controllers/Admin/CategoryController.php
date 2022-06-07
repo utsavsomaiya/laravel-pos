@@ -42,7 +42,7 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
-        return view('admin.categories.add', compact('category'));
+        return view('admin.categories.form', compact('category'));
     }
 
     public function update(Category $category, Request $request)
@@ -67,15 +67,16 @@ class CategoryController extends Controller
     {
         $productCategory = Product::where('category_id', $category->id)->first();
 
-        if ($productCategory == null) {
-            $category->delete();
+        if ($productCategory) {
             return back()->with([
-                'success' => 'Category deleted successfully.'
+                'error' => 'This category depends on some of the products'
             ]);
         }
 
+        $category->delete();
+
         return back()->with([
-            'error' => 'This category is used in product.'
+            'success' => 'Category deleted successfully.'
         ]);
     }
 }

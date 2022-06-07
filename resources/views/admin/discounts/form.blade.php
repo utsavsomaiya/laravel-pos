@@ -10,7 +10,11 @@
             <div class="card-body">
                 <form class="forms-sample"
                     method="post"
-                    @empty($discount) action="{{ route('discounts.store') }}" @endempty
+                    @empty($discount)
+                        action="{{ route('discounts.store') }}"
+                    @else
+                        action="{{ route('discounts.update' , ['discount' => $discount->id ]) }}"
+                    @endempty
                 >
                     @isset($discount)
                         @method('PUT')
@@ -30,38 +34,32 @@
                         @enderror
                     </div>
                     <div class="form-group pb-3">
-                        <label class="pb-1">Discount Category</label>
-                        <select class="form-control @error('category') is-invalid @enderror"
-                            name="category"
+                        <label class="pb-1">Promotion Type</label>
+                        <select class="form-control @error('promotion_type') is-invalid @enderror"
+                            name="promotion_type"
                             required
-                            id="discount-category"
+                            id="promotion-type"
                         >
-                            <option value="">--Select Discount Category--</option>
-                            <option value="0"
-                                @isset($discount)
-                                    @selected($discount->category == "0")
-                                @else
-                                    @selected(old('category') == "0")
-                                @endisset
-                            >
-                                Price Discount
-                            </option>
-                            <option value="1"
-                                @isset($discount)
-                                    @selected($discount->category == "1")
-                                @else
-                                    @selected(old('category') == "1")
-                                @endisset
-                            >
-                                Gift Discount
-                            </option>
+                            <option value="">--Select Promotion Type--</option>
+                            @php $type = App\Models\Discount::PROMOTION_TYPE @endphp
+                            @for($i = 1; $i <= count($type); $i++)
+                                <option value="{{ $i }}"
+                                    @isset($discount)
+                                        @selected($discount->promotion_type == $i)
+                                    @else
+                                        @selected(old('promotion_type') == $i)
+                                    @endisset
+                                >
+                                    {{ $type[$i] }}
+                                </option>
+                            @endfor
                         </select>
-                        @error('category')
+                        @error('promotion_type')
                             <label class="text-danger">{{ $message }}</label>
                         @enderror
                     </div>
-                    <div id="template-render">
-                        <!-- Template render here!! -->
+                    <div id="minimum-spend-amount-template">
+                        <!--Minimum Spend Amount Template render here!! -->
                     </div>
                     <div class="form-group pb-2">
                         <label class="pb-1">Discount Status</label>
@@ -70,20 +68,18 @@
                             required
                         >
                             <option value="">--Select Discount Status--</option>
-                            <option value="0"
-                                @isset($discount)
-                                    @selected($discount->status == "0")
-                                @else
-                                    @selected(old('status') == "0")
-                                @endisset
-                            >Active</option>
-                            <option value="1"
-                                @isset($discount)
-                                    @selected($discount->status == "1")
-                                @else
-                                    @selected(old('status') == "1")
-                                @endisset
-                            >Inactive</option>
+                            @php $status = App\Models\Discount::STATUS; @endphp
+                            @for($i = 1; $i <= count($status); $i++)
+                                <option value="{{ $status[$i][0] }}"
+                                    @isset($discount)
+                                        @selected($discount->status == $status[$i][0])
+                                    @else
+                                        @if(old('status'))
+                                            @selected(old('status') == $status[$i][0])
+                                        @endif
+                                    @endisset
+                                >{{ $status[$i][1] }}</option>
+                            @endfor
                         </select>
                         @error('status')
                             <label class="text-danger">{{ $message }}</label>
@@ -113,14 +109,14 @@
         {{ view('admin.discounts.gift_discount',compact('products')) }}
     @else
         @if($errors->count() == 0)
-            @if($discount->category == "0")
+            @if($discount->promotion_type == "1")
                 {{ view('admin.discounts.price_discount',compact('discount','products')) }}
             @endif
-            @if($discount->category == "1")
+            @if($discount->promotion_type == "2")
                 {{ view('admin.discounts.gift_discount',compact('discount','products')) }}
             @endif
             <script src="{{ asset('js/discount.js') }}"></script>
-            @if($discount->category == "0")
+            @if($discount->promotion_type == "1")
                 @foreach($discount->priceDiscounts as $key=>$priceDiscount)
                     <script>
                         var key = '{{ Js::from($key) }}';
@@ -129,7 +125,7 @@
                     </script>
                 @endforeach
             @endif
-            @if($discount->category == "1")
+            @if($discount->promotion_type == "2")
                 @foreach($discount->giftDiscounts as $key=>$giftDiscount)
                     <script>
                         var key = '{{ Js::from($key) }}';
@@ -142,13 +138,12 @@
         @endif
     @endempty
 
-
     @if($errors->count() > 0)
         @isset($discount)
-            @if($discount->category == "0")
+            @if($discount->promotion_type == "1")
                 {{ view('admin.discounts.price_discount',compact('discount','products')) }}
             @endif
-            @if($discount->category == "1")
+            @if($discount->promotion_type == "2")
                 {{ view('admin.discounts.gift_discount',compact('discount','products')) }}
             @endif
         @endisset
@@ -157,7 +152,7 @@
             @for($i = 0; $i < (count(old('minimum_spend_amount')) - 1) ; $i++)
                 <script>minimumSpendContainer.push(1)</script>
             @endfor
-            <script>checkDiscountCategory();</script>
+            <script>checkPromotionType();</script>
             @for($i = 0; $i < count(old('minimum_spend_amount')) ; $i++)
                 <script>
                     var i = {{ Js::from($i) }};

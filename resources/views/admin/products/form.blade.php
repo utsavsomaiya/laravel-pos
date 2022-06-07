@@ -11,7 +11,11 @@
                 <form class="forms-sample"
                     method="post"
                     enctype="multipart/form-data"
-                    @empty($product) action="{{ route('products.store') }}" @endempty
+                    @empty($product)
+                        action="{{ route('products.store') }}"
+                    @else
+                        action="{{ route('products.update', ['product' => $product->id ]) }}"
+                    @endempty
                 >
                     @csrf
                     @isset($product)
@@ -36,6 +40,7 @@
                             class="form-control @error('price') is-invalid @enderror"
                             placeholder="Product Price"
                             name="price"
+                            step="0.01"
                             value="@isset($product){{ $product->price }}@else{{ old('price') }}@endisset"
                             required
                         >
@@ -73,41 +78,16 @@
                             required
                         >
                             <option value="">--Select Tax--</option>
-                            <option value="5"
-                                @isset($product)
-                                    @selected($product->tax == "5")
-                                @else
-                                    @selected(old('tax') == "5")
-                                @endisset
-                            >5%</option>
-                            <option value="10"
-                                @isset($product)
-                                    @selected($product->tax == "10")
-                                @else
-                                    @selected(old('tax') == "10")
-                                @endisset
-                            >10%</option>
-                            <option value="15"
-                                @isset($product)
-                                    @selected($product->tax == "15")
-                                @else
-                                    @selected(old('tax') == "15")
-                                @endisset
-                            >15%</option>
-                            <option value="20"
-                                @isset($product)
-                                    @selected($product->tax == "20")
-                                @else
-                                    @selected(old('tax') == "20")
-                                @endisset
-                            >20%</option>
-                            <option value="25"
-                                @isset($product)
-                                    @selected($product->tax == "25")
-                                @else
-                                    @selected(old('tax') == "25")
-                                @endisset
-                            >25%</option>
+                            @php $taxes = App\Models\Product::TAXES; @endphp
+                            @for($i = 1; $i <= count($taxes); $i++)
+                                <option value="{{ $taxes[$i] }}"
+                                    @isset($product)
+                                        @selected($product->tax == $taxes[$i])
+                                    @else
+                                        @selected(old('tax') == $taxes[$i])
+                                    @endisset
+                                >{{ $taxes[$i]."%" }}</option>
+                            @endfor
                         </select>
                         @error('tax')
                             <label class="text-danger">{{ $message }}</label>

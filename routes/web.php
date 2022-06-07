@@ -36,37 +36,45 @@ Route::prefix('admin')->group(function () {
     Route::middleware('auth:admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
 
-        Route::controller(CategoryController::class)->group(function () {
-            Route::get('/categories', 'index')->name('categories');
-            Route::get('/categories/add', 'add')->name('categories.add');
-            Route::post('/categories', 'store')->name('categories.store');
-            Route::get("/categories/edit/{category}", 'edit')->name('categories.edit');
-            Route::put("/categories/edit/{category}", 'update');
-            Route::post("/categories/delete/{category}", 'delete')->name('categories.delete');
+        Route::prefix('categories')->group(function () {
+            Route::controller(CategoryController::class)->group(function () {
+                Route::get('/', 'index')->name('categories');
+                Route::get('/add', 'add')->name('categories.add');
+                Route::post('/', 'store')->name('categories.store');
+                Route::get("/edit/{category}", 'edit')->name('categories.edit');
+                Route::put("/edit/{category}", 'update')->name('categories.update');
+                Route::post("/delete/{category}", 'delete')->name('categories.delete');
+            });
         });
 
-        Route::controller(ProductController::class)->group(function () {
-            Route::get('/products', 'index')->name('products');
-            Route::get('/products/add', 'add')->name('products.add');
-            Route::post('/products', 'store')->name('products.store');
-            Route::get('/products/edit/{product}', 'edit')->name('products.edit');
-            Route::put('/products/edit/{product}', 'update');
-            Route::post('/products/delete/{product}', 'delete')->name('products.delete');
+        Route::prefix('products')->group(function () {
+            Route::controller(ProductController::class)->group(function () {
+                Route::get('/', 'index')->name('products');
+                Route::get('/add', 'add')->name('products.add');
+                Route::post('/', 'store')->name('products.store');
+                Route::get('/edit/{product}', 'edit')->name('products.edit');
+                Route::put('/edit/{product}', 'update');
+                Route::post('/delete/{product}', 'delete')->name('products.delete');
+            });
         });
 
-        Route::controller(DiscountController::class)->group(function () {
-            Route::get('/discounts', 'index')->name('discounts');
-            Route::get('/discounts/add', 'add')->name('discounts.add');
-            Route::post('/discounts', 'store')->name('discounts.store');
-            Route::get('/discounts/edit/{discount}', 'edit')->name('discounts.edit');
-            Route::post('/discounts/edit/{discount}', 'statusChanged');
-            Route::put('/discounts/edit/{discount}', 'update');
-            Route::post('/discounts/delete/{discount}', 'delete')->name('discounts.delete');
+        Route::prefix('discounts')->group(function () {
+            Route::controller(DiscountController::class)->group(function () {
+                Route::get('/', 'index')->name('discounts');
+                Route::get('/add', 'add')->name('discounts.add');
+                Route::post('/', 'store')->name('discounts.store');
+                Route::get('/edit/{discount}', 'edit')->name('discounts.edit');
+                Route::post('/edit/{discount}', 'statusChanged');
+                Route::put('/edit/{discount}', 'update')->name('discounts.update');
+                Route::post('/delete/{discount}', 'delete')->name('discounts.delete');
+            });
         });
 
-        Route::controller(SalesController::class)->group(function () {
-            Route::get('/sales', 'sales')->name('sales');
-            Route::get('/sales/{id}', 'salesDetails')->name('sales.details');
+        Route::prefix('sales')->group(function () {
+            Route::controller(SalesController::class)->group(function () {
+                Route::get('/', 'sales')->name('sales');
+                Route::get('/{id}', 'salesDetails')->name('sales.details');
+            });
         });
 
         Route::get('/logout', [AdminAuthController::class, 'logout'])->name('logout');

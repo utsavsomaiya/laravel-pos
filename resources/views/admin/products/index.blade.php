@@ -29,7 +29,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($products as $key => $product)
+                        @forelse($products as $product)
                             <tr>
                                 <td>{{ $product->id }}</td>
                                 <td>{{ $product->name }}</td>
@@ -53,7 +53,7 @@
                                         @csrf
                                         <button type="button"
                                             class="bg-light border-0"
-                                            onclick="deleteConfirm('products','{{ $product->id }}')"
+                                            onclick="deleteConfirm('product','{{ $product->id }}')"
                                         >
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>

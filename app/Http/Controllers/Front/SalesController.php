@@ -31,18 +31,18 @@ class SalesController extends Controller
         foreach ($products as $key => $product) {
             $subtotal += ($product->price * (int) $validatedData['quantity'][$key]);
         }
-        $discount = Discount::with('priceDiscounts', 'giftDiscounts', 'giftDiscounts.products')->find($request['discounts_id']);
+        $discount = Discount::with('priceDiscounts', 'giftDiscounts', 'giftDiscounts.product')->find($request['discounts_id']);
         if ($discount != null) {
-            if ($discount->category == 0) {
+            if ($discount->promotion_type == 1) {
                 $mainDiscount = $discount->priceDiscounts->find($request['discounts_tier_id']);
             }
 
-            if ($discount->category == 1) {
+            if ($discount->promotion_type == 2) {
                 $mainDiscount =  $discount->giftDiscounts->find($request['discounts_tier_id']);
             }
 
             foreach ($products as $key => $product) {
-                if ($discount->category == 0) {
+                if ($discount->promotion_type == 1) {
                     $productDiscount[$key] = round((($product->price * (int) $validatedData['quantity'][$key]) * $mainDiscount->digit)/$subtotal, 2);
                     if ($mainDiscount->type == 0) {
                         $discountDigit = ($subtotal * $mainDiscount->digit)/100;
@@ -52,15 +52,15 @@ class SalesController extends Controller
                     $tax = round(((($product->price * (int) $validatedData['quantity'][$key]) - $productDiscount[$key]) * $product->tax)/100, 2);
                     $totalTax += $tax;
                 }
-                if ($discount->category == 1) {
+                if ($discount->promotion_type == 2) {
                     $productDiscount[$key] = 0;
                     $tax = round(((($product->price * (int) $validatedData['quantity'][$key]) - $productDiscount[$key]) * $product->tax)/100, 2);
                     $totalTax += $tax;
                 }
             }
-            if ($discount->category == 1) {
-                $subtotal = $subtotal + $mainDiscount->products->price;
-                $totalDiscount = $mainDiscount->products->price;
+            if ($discount->promotion_type == 2) {
+                $subtotal = $subtotal + $mainDiscount->product->price;
+                $totalDiscount = $mainDiscount->product->price;
             }
         } else {
             foreach ($products as $key => $product) {

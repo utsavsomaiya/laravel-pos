@@ -15,8 +15,8 @@ return new class extends Migration {
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->boolean('status');
-            $table->boolean('category');
+            $table->boolean('status')->comment('0:Inactive, 1:Active');
+            $table->tinyInteger('promotion_type')->comment('1:Price Discount, 2:Gift Discount');
             $table->timestamps();
         });
     }

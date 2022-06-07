@@ -27,7 +27,9 @@
                                 "Aashirvad", 7-Nandhinagar, Nanavati Chowk, Rajkot-360007
                             </span>
                         </div>
-                        <input type="text" placeholder="Search Products" class="w-full h-12 px-4 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg lg:w-20 xl:transition-all xl:duration-300 xl:w-36 xl:focus:w-44 lg:h-10 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-teal-500 dark:focus:border-teal-500 focus:outline-none focus:ring focus:ring-primary dark:placeholder-gray-400 focus:ring-opacity-40" id="searchbar">
+                        @if(count($products) > 0)
+                            <input type="text" placeholder="Search Products" class="w-full h-12 px-4 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg lg:w-20 xl:transition-all xl:duration-300 xl:w-36 xl:focus:w-44 lg:h-10 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-teal-500 dark:focus:border-teal-500 focus:outline-none focus:ring focus:ring-primary dark:placeholder-gray-400 focus:ring-opacity-40" id="searchbar">
+                        @endif
                     </div>
                     <div class="grid grid-cols-3 gap-4 px-5 mt-5 overflow-y-auto h-3/4">
                         <div id="not-available" style="display: none;">
@@ -94,13 +96,13 @@
                         <div class="py-4 rounded-md shadow-lg">
                             <div class=" px-4 flex justify-between">
                                 <span class="font-semibold text-sm">Subtotal</span>
-                                <span class="font-bold" id="subtotal">$0</span>
+                                <span class="font-bold" id="subtotal">$0.00</span>
                             </div>
                             <div class="px-4 flex justify-between">
                                 @php $flag = 0; @endphp
                                 @if(sizeof($discounts) > 0)
                                     @foreach($discounts as $key => $discount)
-                                        @if($discount->status == "0")
+                                        @if($discount->status == "1")
                                             @php $flag = 1; @endphp
                                             @break;
                                         @endif
@@ -152,7 +154,7 @@
         </script>
         @isset($discounts)
             @foreach($discounts as $discount)
-                @if($discount->status == "0")
+                @if($discount->status == "1")
                     @if(sizeof($discount->priceDiscounts) > 0)
                         <script> discountsCount += parseInt('{{ sizeof($discount->priceDiscounts) }}');  </script>
                     @endif

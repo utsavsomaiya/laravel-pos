@@ -34,7 +34,7 @@ function addTocart(id) {
             } else {
                 alert('Out of stock!!');
             }
-            var price = parseInt($("#price-" + id).html().trim());
+            var price = parseFloat($("#price-" + id).html().trim());
             price *= cart[index].quantity;
             cart[index].price = price;
         } else {
@@ -140,7 +140,7 @@ function displayCart() {
     subTotal = 0;
 
     for (let i = 0; i < cart.length; i++) {
-        subTotal += parseInt(cart[i].price);
+        subTotal += parseFloat(cart[i].price);
     }
 
     if (discountsCount > 0) {
@@ -332,7 +332,7 @@ function displayCart() {
         });
 
         $(".price").each(function (index) {
-            $(this).html(cart[index].price);
+            $(this).html(cart[index].price.toFixed(2));
         });
 
         let removeButtons = $(".bg-red-300");
@@ -374,18 +374,18 @@ function displayCart() {
     $("#discount-form").html(hiddenFormHTML);
 
     for (let i = 0; i < cart.length; i++) {
-        discount = (parseInt(cart[i].price) * finalDiscountAmount) / subTotal;
+        discount = (parseFloat(cart[i].price) * finalDiscountAmount) / subTotal;
         totalDiscount += discount;
         if (discountProductPrice !== 0) {
             discount = 0;
         }
-        tax = ((parseInt(cart[i].price) - discount) * parseInt(cart[i].tax) / 100);
+        tax = ((parseFloat(cart[i].price) - discount) * parseFloat(cart[i].tax) / 100);
         totalTax += tax;
     }
 
     grandTotal = subTotal - finalDiscountAmount + totalTax;
 
-    $("#subtotal").html("$" + subTotal);
+    $("#subtotal").html("$" + (subTotal).toFixed(2));
 
     if ($("#discount-price") != null) {
         $("#discount-price").html("- $"+finalDiscountAmount);
@@ -404,7 +404,7 @@ function changeQuantity(productId, checked) {
         } else {
             alert('Out of stock!!');
         }
-        price = parseInt($("#price-" + productId).html().trim()) * cart[indexOfProduct].quantity;
+        price = parseFloat($("#price-" + productId).html().trim()) * cart[indexOfProduct].quantity;
         cart[indexOfProduct].price = price;
         displayCart();
     }
@@ -412,7 +412,7 @@ function changeQuantity(productId, checked) {
         cart[indexOfProduct].quantity = isNaN(cart[indexOfProduct].quantity) ? 0 : cart[indexOfProduct].quantity;
         if (cart[indexOfProduct].quantity > 1) {
             cart[indexOfProduct].quantity = parseInt(cart[indexOfProduct].quantity) - 1;
-            price = parseInt($("#price-" + productId).html().trim()) * cart[indexOfProduct].quantity;
+            price = parseFloat($("#price-" + productId).html().trim()) * cart[indexOfProduct].quantity;
             cart[indexOfProduct].price = price;
             subTotal -= price;
             if (minimumSpendAmount > subTotal) {

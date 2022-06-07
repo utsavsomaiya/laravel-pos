@@ -25,8 +25,8 @@
                     <tbody id="discounts-table">
                         @php $count = 0; @endphp
                         @foreach($discounts as $key => $discount)
-                            @if($discount->status == "0")
-                                @if($discount->category == "0")
+                            @if($discount->status == "1")
+                                @if($discount->promotion_type == "1")
                                     @foreach($discount->priceDiscounts as $priceDiscount)
                                         @php $count++; @endphp
                                         <tr id="discounts-{{ $count }}" class="hidden">
@@ -65,7 +65,7 @@
                                         </tr>
                                     @endforeach
                                 @endif
-                                @if($discount->category == "1")
+                                @if($discount->promotion_type == "2")
                                     @foreach($discount->giftDiscounts as $giftDiscount)
                                         @php $count++; @endphp
                                         <tr id="discounts-{{ $count }}" class="hidden">
@@ -80,14 +80,14 @@
                                             </td>
                                             <td class="flex pt-2" id="discounts-price-{{ $count }}">
                                                 <label hidden id="discount-product-price-{{ $count }}">
-                                                    {{ $giftDiscount->products->price }}
+                                                    {{ $giftDiscount->product->price }}
                                                 </label>
                                                 <img class="w-11 h-11 object-cover rounded-md"
-                                                    src="{{ $giftDiscount->products->path }}"
+                                                    src="{{ $giftDiscount->product->path }}"
                                                 >
                                             </td>
                                             <label hidden id="discount-product-name-{{ $count }}">
-                                                {{ $giftDiscount->products->name }}
+                                                {{ $giftDiscount->product->name }}
                                             </label>
                                             <td>
                                                 <button class="px-3 py-1 rounded-md bg-red-100 text-red-500"

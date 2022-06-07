@@ -52,26 +52,26 @@
                         @endforelse
                         @php $salesDetail = $salesDetails->first(); @endphp
                         @if(!is_null($salesDetail->sales->discounts))
-                            @if($salesDetail->sales->discounts->category == 1)
+                            @if($salesDetail->sales->discounts->promotion_type == 2)
                                 <tr>
-                                    <td>{{ $salesDetail->sales->discounts->giftDiscounts->find($salesDetail->product_discount_id)->products->id }}</td>
+                                    <td>{{ $salesDetail->sales->discounts->giftDiscounts->find($salesDetail->product_discount_id)->product->id }}</td>
                                     <td>
-                                        {{ $salesDetail->sales->discounts->giftDiscounts->find($salesDetail->product_discount_id)->products->name }}
+                                        {{ $salesDetail->sales->discounts->giftDiscounts->find($salesDetail->product_discount_id)->product->name }}
                                         <span class="badge bg-warning ">Free</span>
                                     </td>
                                     <td>
-                                        <img src="{{ $salesDetail->sales->discounts->giftDiscounts->find($salesDetail->product_discount_id)->products->path }}">
+                                        <img src="{{ $salesDetail->sales->discounts->giftDiscounts->find($salesDetail->product_discount_id)->product->path }}">
                                     </td>
                                     <td>
-                                        {{ '$'.$salesDetail->sales->discounts->giftDiscounts->find($salesDetail->product_discount_id)->products->price }}
+                                        {{ '$'.$salesDetail->sales->discounts->giftDiscounts->find($salesDetail->product_discount_id)->product->price }}
                                     </td>
                                     <td>1</td>
                                     <td>
-                                        {{ '$'.($salesDetail->sales->discounts->giftDiscounts->find($salesDetail->product_discount_id)->products->price * 1) }}
+                                        {{ '$'.($salesDetail->sales->discounts->giftDiscounts->find($salesDetail->product_discount_id)->product->price * 1) }}
                                     </td>
                                     <td>{{ '$'.$salesDetail->sales->total_discount }}</td>
                                     <td>0</td>
-                                    <td>{{ $salesDetail->sales->discounts->giftDiscounts->find($salesDetail->product_discount_id)->products->tax.'%' }}</td>
+                                    <td>{{ $salesDetail->sales->discounts->giftDiscounts->find($salesDetail->product_discount_id)->product->tax.'%' }}</td>
                                     <td>$0</td>
                                     <td>$0</td>
                                 </tr>

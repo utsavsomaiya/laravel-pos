@@ -374,12 +374,12 @@ function displayCart() {
     $("#discount-form").html(hiddenFormHTML);
 
     for (let i = 0; i < cart.length; i++) {
-        discount = (parseInt(cart[i].price) * finalDiscountAmount) / subTotal;
+        discount = (parseFloat(cart[i].price) * finalDiscountAmount) / subTotal;
         totalDiscount += discount;
         if (discountProductPrice !== 0) {
             discount = 0;
         }
-        tax = ((parseInt(cart[i].price) - discount) * parseInt(cart[i].tax) / 100);
+        tax = ((parseFloat(cart[i].price) - discount) * parseFloat(cart[i].tax) / 100);
         totalTax += tax;
     }
 

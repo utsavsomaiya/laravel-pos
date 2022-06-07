@@ -12,7 +12,7 @@ class ProductController extends Controller
     {
         $products = Product::with('category:id,name')->get();
 
-        $discounts = Discount::with('priceDiscounts', 'giftDiscounts', 'giftDiscounts.products')->get();
+        $discounts = Discount::with('priceDiscounts', 'giftDiscounts', 'giftDiscounts.product')->get();
 
         return view('index', compact('products', 'discounts'));
     }

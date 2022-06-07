@@ -80,14 +80,14 @@
                                             </td>
                                             <td class="flex pt-2" id="discounts-price-{{ $count }}">
                                                 <label hidden id="discount-product-price-{{ $count }}">
-                                                    {{ $giftDiscount->products->price }}
+                                                    {{ $giftDiscount->product->price }}
                                                 </label>
                                                 <img class="w-11 h-11 object-cover rounded-md"
-                                                    src="{{ $giftDiscount->products->path }}"
+                                                    src="{{ $giftDiscount->product->path }}"
                                                 >
                                             </td>
                                             <label hidden id="discount-product-name-{{ $count }}">
-                                                {{ $giftDiscount->products->name }}
+                                                {{ $giftDiscount->product->name }}
                                             </label>
                                             <td>
                                                 <button class="px-3 py-1 rounded-md bg-red-100 text-red-500"

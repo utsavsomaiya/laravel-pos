@@ -24,10 +24,7 @@ class SalesController extends Controller
             'sales.discounts',
             'products',
             'sales.discounts.giftDiscounts',
-        ])->where(
-            'sales_id',
-            $salesId
-        )->get();
+        ])->where('sales_id', $salesId)->get();
 
         return view('admin.sales.sales_details', compact('salesDetails'));
     }

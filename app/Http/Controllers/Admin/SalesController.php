@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -17,7 +19,15 @@ class SalesController extends Controller
 
     public function salesDetails($salesId)
     {
-        $salesDetails = SalesDetails::with(['sales','sales.discounts','products','sales.discounts.giftDiscounts'])->where('sales_id', $salesId)->get();
+        $salesDetails = SalesDetails::with([
+            'sales',
+            'sales.discounts',
+            'products',
+            'sales.discounts.giftDiscounts',
+        ])->where(
+            'sales_id',
+            $salesId
+        )->get();
 
         return view('admin.sales.sales_details', compact('salesDetails'));
     }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1abc7822bd9f28e9a62986817bf04f76",
+    "content-hash": "5ee759ecc103d8af08f69c72320aad1b",
     "packages": [
         {
             "name": "brick/math",
@@ -7694,6 +7694,61 @@
                 }
             ],
             "time": "2022-05-05T15:53:24+00:00"
+        },
+        {
+            "name": "symplify/easy-coding-standard",
+            "version": "10.2.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symplify/easy-coding-standard.git",
+                "reference": "20899c6ed601ec426d9e8311798abb3166496cac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symplify/easy-coding-standard/zipball/20899c6ed601ec426d9e8311798abb3166496cac",
+                "reference": "20899c6ed601ec426d9e8311798abb3166496cac",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "conflict": {
+                "friendsofphp/php-cs-fixer": "<3.0",
+                "squizlabs/php_codesniffer": "<3.6"
+            },
+            "bin": [
+                "bin/ecs"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "10.3-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Prefixed scoped version of ECS package",
+            "support": {
+                "source": "https://github.com/symplify/easy-coding-standard/tree/10.2.11"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/rectorphp",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/tomasvotruba",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-06-07T07:47:12+00:00"
         },
         {
             "name": "theseer/tokenizer",

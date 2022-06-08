@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +18,7 @@ class Discount extends Model
 
     public const PROMOTION_TYPE = [
         1 => 'Price Discount',
-        2 => 'Gift Discount'
+        2 => 'Gift Discount',
     ];
 
     protected $fillable = ['name', 'status', 'promotion_type'];

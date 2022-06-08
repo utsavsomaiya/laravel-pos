@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -35,10 +37,9 @@ class DiscountController extends Controller
         DiscountServices::saveDetails($validatedData);
 
         return to_route('discounts')->with([
-            'success' => 'Discount added successfully'
+            'success' => 'Discount added successfully',
         ]);
     }
-
 
     public function edit(Discount $discount)
     {
@@ -58,19 +59,19 @@ class DiscountController extends Controller
         $discount->update([
             'name' => $validatedData['name'],
             'promotion_type' => $validatedData['promotion_type'],
-            'status' => $validatedData['status']
+            'status' => $validatedData['status'],
         ]);
 
-        if ($validatedData['promotion_type'] == 1) {
+        if (1 === $validatedData['promotion_type']) {
             DiscountServices::updatePriceDiscount($validatedData, $discount);
         }
 
-        if ($validatedData['promotion_type'] == 2) {
+        if (2 === $validatedData['promotion_type']) {
             DiscountServices::updateGiftDiscount($validatedData, $discount);
         }
 
         return to_route('discounts')->with([
-            'success' => 'Discount updated successfully.'
+            'success' => 'Discount updated successfully.',
         ]);
     }
 
@@ -78,14 +79,14 @@ class DiscountController extends Controller
     {
         $discount->delete();
         return back()->with([
-                'success' => 'Discount deleted successfully'
-            ]);
+            'success' => 'Discount deleted successfully',
+        ]);
     }
 
     public function statusChanged(Discount $discount)
     {
         $validatedData = request()->validate([
-            'status' => ['required', 'boolean']
+            'status' => ['required', 'boolean'],
         ]);
         $discount->update($validatedData);
     }

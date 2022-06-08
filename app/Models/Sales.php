@@ -9,7 +9,7 @@ class Sales extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['subtotal','total_tax','total','total_discount','discount_id'];
+    protected $fillable = ['subtotal', 'total_tax', 'total', 'total_discount', 'discount_id'];
 
     public function discounts()
     {

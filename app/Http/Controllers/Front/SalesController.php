@@ -26,11 +26,12 @@ class SalesController extends Controller
         $grandTotal = 0;
         $tax = 0;
 
-
-        $products = Product::whereIn('id', $validatedData['id'])->get(['price', 'tax']);
-        foreach ($products as $key => $product) {
-            $subtotal += ($product->price * (int) $validatedData['quantity'][$key]);
+        $products = Product::whereIn('id', $validatedData['id'])->get();
+        foreach ($validatedData['id'] as $key => $id) {
+            $product = $products->firstWhere('id', $id);
+            $subtotal += ((float) $product->price * (int) $validatedData['quantity'][$key]);
         }
+
         $discount = Discount::with('priceDiscounts', 'giftDiscounts', 'giftDiscounts.product')->find($request['discounts_id']);
         if ($discount != null) {
             if ($discount->promotion_type == 1) {
@@ -41,10 +42,11 @@ class SalesController extends Controller
                 $mainDiscount =  $discount->giftDiscounts->find($request['discounts_tier_id']);
             }
 
-            foreach ($products as $key => $product) {
+            foreach ($validatedData['id'] as $key => $id) {
+                $product = $products->firstWhere('id', $id);
                 if ($discount->promotion_type == 1) {
                     $productDiscount[$key] = round((($product->price * (int) $validatedData['quantity'][$key]) * $mainDiscount->digit)/$subtotal, 2);
-                    if ($mainDiscount->type == 0) {
+                    if ($mainDiscount->type == 1) {
                         $discountDigit = ($subtotal * $mainDiscount->digit)/100;
                         $productDiscount[$key] = round((($product->price * (int) $validatedData['quantity'][$key]) * $discountDigit)/$subtotal, 2);
                     }
@@ -63,7 +65,8 @@ class SalesController extends Controller
                 $totalDiscount = $mainDiscount->product->price;
             }
         } else {
-            foreach ($products as $key => $product) {
+            foreach ($validatedData['id'] as $key => $id) {
+                $product = $products->firstWhere('id', $id);
                 $tax = (($product->price * (int) $validatedData['quantity'][$key]) * $product->tax)/100;
                 $totalTax += $tax;
             }
@@ -87,7 +90,7 @@ class SalesController extends Controller
             ]);
         }
 
-        foreach ($products as $key => $product) {
+        foreach ($validatedData['id'] as $key => $id) {
             if (sizeof($productDiscount) > 0) {
                 SalesDetails::create([
                     'product_id' => $validatedData['id'][$key],

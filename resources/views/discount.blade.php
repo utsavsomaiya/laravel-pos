@@ -41,13 +41,13 @@
                                             </td>
                                             <td class="flex pt-2" id="discounts-price-{{ $count }}">
                                                 @if(!is_null($priceDiscount->type))
-                                                    @if($priceDiscount->type == "0")
+                                                    @if($priceDiscount->type == "1")
                                                         <div id="discount-digits-{{ $count }}">
                                                             {{ $priceDiscount->digit }}
                                                         </div>
                                                         <div id="discount-type-{{ $count }}">%</div>
                                                     @endif
-                                                    @if($priceDiscount->type == "1")
+                                                    @if($priceDiscount->type == "2")
                                                         <div id="discount-type-{{ $count }}">$</div>
                                                         <div id="discount-digit-{{ $count }}">
                                                             {{ $priceDiscount->digit }}

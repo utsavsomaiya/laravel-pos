@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DiscountRequest;
 use App\Models\Discount;
 use App\Models\Product;
-use Illuminate\Validation\Rule;
 use App\Services\DiscountServices;
 
 class DiscountController extends Controller
@@ -24,15 +24,15 @@ class DiscountController extends Controller
         return view('admin.discounts.form', compact('products'));
     }
 
-    public function store()
+    public function store(DiscountRequest $request)
     {
-        $validatedData = $this->validateDiscount();
+        $validatedData = $request->validated();
 
         $validatedData['promotion_type'] = (int) $validatedData['promotion_type'];
 
         $validatedData['status'] = (int) $validatedData['status'];
 
-        DiscountServices::createOrUpdateDiscount($validatedData, new Discount());
+        DiscountServices::saveDetails($validatedData);
 
         return to_route('discounts')->with([
             'success' => 'Discount added successfully'
@@ -47,15 +47,19 @@ class DiscountController extends Controller
         return view('admin.discounts.form', compact('discount', 'products'));
     }
 
-    public function update(Discount $discount)
+    public function update(DiscountRequest $request, Discount $discount)
     {
-        $validatedData = $this->validateDiscount($discount);
+        $validatedData = $request->validated();
 
         $validatedData['promotion_type'] = (int) $validatedData['promotion_type'];
 
         $validatedData['status'] = (int) $validatedData['status'];
 
-        DiscountServices::createOrUpdateDiscount($validatedData, $discount);
+        $discount->update([
+            'name' => $validatedData['name'],
+            'promotion_type' => $validatedData['promotion_type'],
+            'status' => $validatedData['status']
+        ]);
 
         if ($validatedData['promotion_type'] == 1) {
             DiscountServices::updatePriceDiscount($validatedData, $discount);
@@ -84,34 +88,5 @@ class DiscountController extends Controller
             'status' => ['required', 'boolean']
         ]);
         $discount->update($validatedData);
-    }
-
-    protected function validateDiscount(?Discount $discount = null)
-    {
-        $discount ??= new Discount();
-
-        return request()->validate([
-            'name' => [
-                'required',
-                Rule::unique('discounts', 'name')->ignore($discount)
-            ],
-            'promotion_type' => ['required'],
-            'type' => ['required_if:promotion_type,in:"1"'],
-            'minimum_spend_amount' => ['required','array'],
-            'minimum_spend_amount.*' => ['required','distinct'],
-            'digit' => ['required_if:promotion_type,in:"1"','array'],
-            'digit.*' => [
-                'required',
-                'distinct',
-                function ($attribute, $value, $fail) {
-                    if (request()->input('type') == 0 && $value > 100) {
-                        $fail('Percentage is not greater than 100');
-                    }
-                }
-            ],
-            'product' => ['required_if:promotion_type,in:"2"','array'],
-            'product.*' => ['required','distinct'],
-            'status' => ['required'],
-        ]);
     }
 }

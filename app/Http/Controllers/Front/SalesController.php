@@ -31,6 +31,7 @@ class SalesController extends Controller
         $products = Product::whereIn('id', $validatedData['id'])->get();
         foreach ($validatedData['id'] as $key => $id) {
             $product = $products->firstWhere('id', $id);
+            $product->update(['stock' => $product->stock - $validatedData['quantity'][$key]]);
             $subtotal += ((float) $product->price * (int) $validatedData['quantity'][$key]);
         }
 

@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/products/edit/{product}', [ProductController::class,'edit'])->name('products.edit');
     Route::put('/admin/products/edit/{product}', [ProductController::class,'update'])->name('products.update');
     Route::post('/admin/products/delete/{product}', [ProductController::class,'delete'])->name('products.delete');
+    Route::get('/admin/products/export', [ProductController::class,'fileExport'])->name('products-export');
 
     Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('logout');
 });

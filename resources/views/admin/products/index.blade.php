@@ -7,9 +7,33 @@
                     <span class="h4 ms-3 me-5">Products</span>
                     <span class="ms-3">
                         <a href="{{ route('products.add') }}"
-                            class="link-dark h6"
+                            class="btn btn-dark"
                         >
                             Add New Product
+                        </a>
+                    </span>
+                    <span class="ms-3 btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Import Products
+                    </span>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Import Products</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <span class="btn btn-warning">
+                                        <i class="fa-solid fa-file-import me-1"></i>
+                                        Import Products
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="ms-3 btn btn-dark">
+                        <a class="text-decoration-none text-white" href="{{ route('products-export') }}">
+                            Export Products
                         </a>
                     </span>
                 </div>

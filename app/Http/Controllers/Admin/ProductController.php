@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ProductExport;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -105,5 +107,10 @@ class ProductController extends Controller
         $validatedData['path'] = asset('storage/image').'/'.$name;
 
         return $validatedData;
+    }
+
+    public function fileExport()
+    {
+        return Excel::download(new ProductExport, 'products.xlsx');
     }
 }

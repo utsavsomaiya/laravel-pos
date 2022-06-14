@@ -1,0 +1,20 @@
+<table>
+    <thead>
+    <tr>
+        <th>name</th>
+        <th>price</th>
+        <th>category</th>
+        <th>tax</th>
+        <th>stock</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Crunchy</td>
+            <td>22</td>
+            <td>1</td>
+            <td>25</td>
+            <td>22</td>
+        </tr>
+    </tbody>
+</table>

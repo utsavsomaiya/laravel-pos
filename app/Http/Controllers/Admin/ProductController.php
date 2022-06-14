@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\ProductExport;
+use App\Exports\SampleExport;
 use App\Http\Controllers\Controller;
+use App\Imports\ProductImport;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Validation\Rule;
@@ -112,5 +114,21 @@ class ProductController extends Controller
     public function fileExport()
     {
         return Excel::download(new ProductExport, 'products.xlsx');
+    }
+
+    public function fileImport()
+    {
+        request()->validate([
+            'import_file' => ['required','mimes:xlsx'],
+        ]);
+
+        Excel::import(new ProductImport, request()->file('import_file')->store('temp'));
+
+        return back()->with('success', 'File imported successfully!!');
+    }
+
+    public function importFileSampleDownload()
+    {
+        return Excel::download(new SampleExport, 'products.xlsx');
     }
 }

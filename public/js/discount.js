@@ -1,7 +1,7 @@
 function discountStatusChanged(id, status, token) {
     status = parseInt(status);
     id = parseInt(id);
-    if (status == 0) {
+    if (status === 0) {
         status = status + 1;
     } else {
         status = status - 1;
@@ -28,22 +28,22 @@ if (document.getElementById('promotion-type') != null) {
     }
 }
 
-var flag;
+var promotionType;
 
 function checkPromotionType() {
-    var promotionType = document.getElementById('promotion-type').value;
+    var discountType = document.getElementById('promotion-type').value;
     document.getElementById('minimum-spend-amount-template').innerHTML = '';
-    if (promotionType === '1'){
+    if (discountType === '1') {
         container = document.getElementById('minimum-spend-amount-template');
         priceTemplate = document.getElementById('price-template').innerHTML;
         container.innerHTML += priceTemplate;
-        flag = 1;
+        promotionType = 1;
     }
-    if (promotionType === '2'){
+    if (discountType === '2') {
         container = document.getElementById('minimum-spend-amount-template');
         giftTemplate = document.getElementById('gift-template').innerHTML;
         container.innerHTML += giftTemplate;
-        flag = 2;
+        promotionType = 2;
     }
     renderMinimumSpendTemplate();
 }
@@ -53,13 +53,13 @@ if (typeof minimumSpendContainer === 'undefined') {
 }
 
 function renderMinimumSpendTemplate() {
-    if (flag == 1) {
+    if (promotionType === 1) {
         document.getElementById('price-minimum-spend-container').innerHTML = '';
     } else {
         document.getElementById('gift-minimum-spend-container').innerHTML = '';
     }
     for (const key in minimumSpendContainer) {
-        if (flag == 1) {
+        if (promotionType === 1) {
             minimumSpendRowContainer = document.getElementById('price-minimum-spend-container');
             minimumSpendRowTemplate = document.getElementById('price-minimum-spend-template').innerHTML;
             minimumSpendRowContainer.innerHTML += minimumSpendRowTemplate;
@@ -75,7 +75,7 @@ function renderMinimumSpendTemplate() {
             }
         }
     }
-    if (flag == 1) {
+    if (promotionType === 1) {
         removeObject = document.getElementsByClassName('price-remove-minimum-spend');
         removeTemplate = document.getElementsByClassName('price-remove-minimum-spend-row')[0];
         [...removeObject].forEach((remove, i) => {
@@ -103,7 +103,7 @@ function renderMinimumSpendTemplate() {
             if (products.length > 0) {
                 var select = document.querySelectorAll('.product')[i].options;
                 [...select].forEach((element) => {
-                    if (element.value == products[i]+'')
+                    if (element.value === products[i]+'')
                         element.setAttribute('selected', 'selected');
                 });
             }
@@ -122,7 +122,7 @@ function editRenderMinimumSpendTemplate() {
     }
     var select = document.getElementById('promotion-type').options;
     [...select].forEach(function (element) {
-        if (element.selected == false) {
+        if (element.selected === false) {
             element.setAttribute('disabled',true);
         }
     });
@@ -130,8 +130,8 @@ function editRenderMinimumSpendTemplate() {
 }
 
 function addMinimumSpendRow() {
-    if (flag == 2) {
-        if (countOfProduct == minimumSpendContainer.length) {
+    if (promotionType === 2) {
+        if (countOfProduct === minimumSpendContainer.length) {
             return alert('We have only '+countOfProduct+' Products');
         }
     }

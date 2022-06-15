@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,34 +16,35 @@ use App\Http\Controllers\Admin\ProductController;
 |
 */
 
-Route::middleware('guest')->group(function () {
-    Route::view('/admin', 'admin.auth.login')->name('login');
-    Route::post('/admin', [AdminAuthController::class,'login']);
+Route::prefix('admin')->group(function () {
+    Route::view('/', 'admin.auth.login')->name('login');
+    Route::post('/', [AdminAuthController::class,'login']);
 
-    Route::view('/admin/register', 'admin.auth.register')->name('register');
-    Route::post('/admin/register', [AdminAuthController::class,'register']);
+    Route::view('/register', 'admin.auth.register')->name('register');
+    Route::post('/register', [AdminAuthController::class,'register']);
 });
 
-Route::middleware('auth')->group(function () {
-    Route::view('/admin/dashboard', 'admin.dashboard')->name('dashboard');
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
 
-    Route::get('/admin/categories', [CategoryController::class,'index'])->name('categories');
-    Route::view('/admin/categories/add', 'admin.categories.form')->name('categories.add');
-    Route::post('admin/categories', [CategoryController::class,'store'])->name('categories.store');
-    Route::get("admin/categories/edit/{category}", [CategoryController::class,'edit'])->name('categories.edit');
-    Route::put("admin/categories/edit/{category}", [CategoryController::class,'update'])->name('categories.update');
-    Route::post("admin/categories/delete/{category}", [CategoryController::class,'delete'])->name('categories.delete');
+    Route::prefix('categories')->controller(CategoryController::class)->group(function () {
+        Route::get('/', 'index')->name('categories');
+        Route::view('/add', 'admin.categories.form')->name('categories.add');
+        Route::post('/', 'store')->name('categories.store');
+        Route::get("/edit/{category}", 'edit')->name('categories.edit');
+        Route::put("/edit/{category}", 'update')->name('categories.update');
+        Route::post("/delete/{category}", 'delete')->name('categories.delete');
+    });
 
 
-    Route::get('/admin/products', [ProductController::class,'index'])->name('products');
-    Route::get('/admin/products/add', [ProductController::class,'add'])->name('products.add');
-    Route::post('/admin/products', [ProductController::class,'store'])->name('products.store');
-    Route::get('/admin/products/edit/{product}', [ProductController::class,'edit'])->name('products.edit');
-    Route::put('/admin/products/edit/{product}', [ProductController::class,'update'])->name('products.update');
-    Route::post('/admin/products/delete/{product}', [ProductController::class,'delete'])->name('products.delete');
-    Route::get('/admin/products/export', [ProductController::class,'fileExport'])->name('products-export');
-    Route::post('/admin/products/import', [ProductController::class,'fileImport'])->name('products-import');
-    Route::get('/admin/products/import-sample', [ProductController::class,'importFileSampleDownload'])->name('products-import-sample');
+    Route::prefix('products')->controller(ProductController::class)->group(function () {
+        Route::get('/', 'index')->name('products');
+        Route::get('/add', 'add')->name('products.add');
+        Route::post('/', 'store')->name('products.store');
+        Route::get('/edit/{product}', 'edit')->name('products.edit');
+        Route::put('/edit/{product}', 'update')->name('products.update');
+        Route::post('/delete/{product}', 'delete')->name('products.delete');
+    });
 
     Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('logout');
 });

@@ -43,7 +43,7 @@
                             </a>
                         </li>
                         <li class="nav-item m-2">
-                            <a class="nav-link text-light" href="{{ route('categories') }}">
+                            <a class="nav-link text-light" href="{{ route('categories.index') }}">
                                 <i class="fa-solid fa-list-ol pe-2"></i>
                                 <span>Categories</span>
                             </a>

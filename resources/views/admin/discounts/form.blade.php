@@ -26,7 +26,7 @@
                             class="form-control @error('name') is-invalid @enderror"
                             placeholder="Discount Name"
                             name="name"
-                            value="@isset($discount){{ $discount->name }}@else{{ old('name') }}@endisset"
+                            value="{{ isset($discount) ? $discount->name : old('name') }}"
                             required
                         >
                         @error('name')
@@ -86,38 +86,39 @@
                         @enderror
                     </div>
                     <button type="submit" class="btn btn-primary me-2 mt-3" name="submit">
-                        @isset($discount)
-                            Update
-                        @else
-                            Submit
-                        @endisset
+                        {{ isset($discount) ? 'Update' : 'Submit' }}
                     </button>
                     <a href="{{ route('discounts') }}" class="btn btn-light mt-3">Cancel</a>
                 </form>
             </div>
         </div>
     </div>
+
     <script>
         var minimumSpendAmounts = [];
         var digits = [];
         var products = [];
         var edit = '';
-        var countOfProduct =  {{ Js::from(sizeof($products)) }} ;
+        var countOfProduct =  {{ Js::from(count($products)) }} ;
     </script>
-    @empty($discount)
+
+    @empty ($discount)
         {{ view('admin.discounts.price_discount') }}
-        {{ view('admin.discounts.gift_discount',compact('products')) }}
+        {{ view('admin.discounts.gift_discount', compact('products')) }}
     @else
-        @if($errors->count() == 0)
-            @if($discount->promotion_type == "1")
-                {{ view('admin.discounts.price_discount',compact('discount','products')) }}
+        @if ($errors->count() == 0)
+            @if ($discount->promotion_type === App\Models\Discount::PRICE_DISCOUNT)
+                {{ view('admin.discounts.price_discount', compact('discount', 'products')) }}
             @endif
-            @if($discount->promotion_type == "2")
-                {{ view('admin.discounts.gift_discount',compact('discount','products')) }}
+
+            @if ($discount->promotion_type === App\Models\Discount::GIFT_DISCOUNT)
+                {{ view('admin.discounts.gift_discount', compact('discount', 'products')) }}
             @endif
+
             <script src="{{ asset('js/discount.js') }}"></script>
-            @if($discount->promotion_type == "1")
-                @foreach($discount->priceDiscounts as $key=>$priceDiscount)
+
+            @if ($discount->promotion_type === App\Models\Discount::PRICE_DISCOUNT)
+                @foreach ($discount->priceDiscounts as $key => $priceDiscount)
                     <script>
                         var key = '{{ Js::from($key) }}';
                         minimumSpendAmounts[key] = '{{ $priceDiscount->minimum_spend_amount }}';
@@ -125,8 +126,9 @@
                     </script>
                 @endforeach
             @endif
-            @if($discount->promotion_type == "2")
-                @foreach($discount->giftDiscounts as $key=>$giftDiscount)
+
+            @if ($discount->promotion_type === App\Models\Discount::GIFT_DISCOUNT)
+                @foreach ($discount->giftDiscounts as $key => $giftDiscount)
                     <script>
                         var key = '{{ Js::from($key) }}';
                         minimumSpendAmounts[key] = '{{ $giftDiscount->minimum_spend_amount }}';
@@ -134,77 +136,85 @@
                     </script>
                 @endforeach
             @endif
+
             <script>editRenderMinimumSpendTemplate();</script>
         @endif
     @endempty
 
-    @if($errors->count() > 0)
-        @isset($discount)
-            @if($discount->promotion_type == "1")
-                {{ view('admin.discounts.price_discount',compact('discount','products')) }}
+    @if ($errors->count() > 0)
+        @isset ($discount)
+            @if ($discount->promotion_type === App\Models\Discount::PRICE_DISCOUNT)
+                {{ view('admin.discounts.price_discount', compact('discount', 'products')) }}
             @endif
-            @if($discount->promotion_type == "2")
-                {{ view('admin.discounts.gift_discount',compact('discount','products')) }}
+
+            @if ($discount->promotion_type === App\Models\Discount::GIFT_DISCOUNT)
+                {{ view('admin.discounts.gift_discount', compact('discount', 'products')) }}
             @endif
         @endisset
-        @if(old('minimum_spend_amount'))
+
+        @if (old('minimum_spend_amount'))
             <script src="{{ asset('js/discount.js') }}"></script>
-            @for($i = 0; $i < (count(old('minimum_spend_amount')) - 1) ; $i++)
+            @for ($i = 0; $i < (count(old('minimum_spend_amount')) - 1) ; $i++)
                 <script>minimumSpendContainer.push(1)</script>
             @endfor
             <script>checkPromotionType();</script>
-            @for($i = 0; $i < count(old('minimum_spend_amount')) ; $i++)
+            @foreach (old('minimum_spend_amount') as $key => $minimumSpendAmount)
                 <script>
-                    var i = {{ Js::from($i) }};
-                    var minimumSpendAmount = {{ Js::from(old('minimum_spend_amount.'.$i)) }};
+                    var i = {{ Js::from($key) }};
+                    var minimumSpendAmount = {{ Js::from($minimumSpendAmount) }};
                     document.getElementsByClassName('minimum-spend-amount')[i].value = parseFloat(minimumSpendAmount);
                 </script>
-                @if(old('digit'))
+
+                @if (old('digit'))
                     <script>
-                        var i = {{ Js::from($i) }};
-                        var digit = {{ Js::from(old('digit.'.$i)) }};
+                        var i = {{ Js::from($key) }};
+                        var digit = {{ Js::from(old('digit.'.$key)) }};
                         document.getElementsByClassName('digit')[i].value = parseFloat(digit);
                     </script>
                 @endif
-                @if(old('product'))
+
+                @if (old('product'))
                     <script>
-                        var i = {{ Js::from($i) }};
-                        var product = {{ Js::from(old('product.'.$i)) }};
+                        var i = {{ Js::from($key) }};
+                        var product = {{ Js::from(old('product.'.$key)) }};
                         var select = document.querySelectorAll('.product')[i].options;
                         [...select].forEach((element) => {
                             if(element.value == product)
-                            element.setAttribute('selected','selected');
+                            element.setAttribute('selected', 'selected');
                         });
                     </script>
                 @endif
-                @if($errors->getBags()['default']->has('minimum_spend_amount.*'))
-                    @error('minimum_spend_amount.'.$i)
+
+                @if ($errors->getBags()['default']->has('minimum_spend_amount.*'))
+                    @error('minimum_spend_amount.'.$key)
                         <script>
-                            var i = {{ Js::from($i) }};
+                            var i = {{ Js::from($key) }};
                             var message = {{ Js::from($message) }};
                             document.getElementsByClassName('minimum-spend-error')[i].innerHTML = message;
                         </script>
                     @enderror
                 @endif
-                @if($errors->getBags()['default']->has('product.*'))
-                    @error('product.'.$i)
+
+                @if ($errors->getBags()['default']->has('product.*'))
+                    @error('product.'.$key)
                         <script>
-                            var i = {{ Js::from($i) }};
+                            var i = {{ Js::from($key) }};
                             var message = {{ Js::from($message) }};
                             document.getElementsByClassName('product-error')[i].innerHTML = message;
                         </script>
                     @enderror
                 @endif
-                @if($errors->getBags()['default']->has('digit.*'))
-                    @error('digit.'.$i)
+
+                @if ($errors->getBags()['default']->has('digit.*'))
+                    @error('digit.'.$key)
                         <script>
-                            var i = {{ Js::from($i) }};
+                            var i = {{ Js::from($key) }};
                             var message = {{ Js::from($message) }};
                             document.getElementsByClassName('digit-error')[i].innerHTML = message;
                         </script>
                     @enderror
                 @endif
-            @endfor
+            @endforeach
         @endif
     @endif
 @endsection

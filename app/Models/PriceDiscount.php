@@ -9,9 +9,13 @@ class PriceDiscount extends Model
 {
     use HasFactory;
 
+    public const PERCENTAGE_DISCOUNT = 1;
+
+    public const FLAT_DISCOUNT = 2;
+
     public const TYPE = [
-        1 => 'Percentage Discount',
-        2 => 'Flat Discount'
+        Self::PERCENTAGE_DISCOUNT => 'Percentage Discount',
+        Self::FLAT_DISCOUNT => 'Flat Discount'
     ];
 
     protected $fillable = ['discount_id', 'digit', 'type', 'minimum_spend_amount'];

@@ -27,7 +27,6 @@
             <div class="pb-2">
                 <button type="button"
                     class="input-group-text bg-primary text-white"
-                    style="margin-left: 37rem!important;"
                     id="add-row"
                 >Add new</button>
             </div>
@@ -53,9 +52,7 @@
         <div class="col-lg-6">
             <label class="pb-1">
                 Discount digit
-                <span class="price-remove-minimum-spend"
-                    style="margin-left: 13rem!important;"
-                ></span>
+                <span class="price-remove-minimum-spend"></span>
             </label>
             <input type="number"
                 class="form-control digit"

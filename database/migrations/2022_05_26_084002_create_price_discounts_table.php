@@ -14,10 +14,10 @@ return new class extends Migration {
     {
         Schema::create('price_discounts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('discount_id')->constrained()->onDelete('cascade');
+            $table->foreignId('discount_id')->constrained();
+            $table->tinyInteger('type')->comment('1:Percentage Discount, 2:Flat Discount');
             $table->decimal('minimum_spend_amount', 10, 2);
             $table->decimal('digit', 10, 2);
-            $table->tinyInteger('type')->comment('1:Percentage Discount, 2:Flat Discount');
             $table->timestamps();
         });
     }

@@ -6,7 +6,6 @@
                 <button type="button"
                     class="input-group-text bg-primary text-white"
                     id="add-row"
-                    style="margin-left: 37rem!important;"
                 >Add new</button>
             </div>
             <div id="gift-minimum-spend-container">
@@ -31,9 +30,7 @@
         <div class="col-lg-6">
             <label class="pb-1">
                 Discount Product
-                <span class="gift-remove-minimum-spend"
-                    style="margin-left: 11rem!important;"
-                ></span>
+                <span class="gift-remove-minimum-spend"></span>
             </label>
             <select class="form-control product"
                 name="product[]"

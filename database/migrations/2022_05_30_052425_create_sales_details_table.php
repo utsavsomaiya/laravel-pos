@@ -14,8 +14,8 @@ return new class() extends Migration {
     {
         Schema::create('sales_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sales_id')->constrained()->onDelete('cascade');
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->foreignId('sales_id')->constrained();
+            $table->foreignId('product_id')->constrained();
             $table->integer('product_quantity');
             $table->unsignedBigInteger('product_discount_id')->nullable();
             $table->double('product_discount')->nullable()->default(0);

@@ -11,14 +11,18 @@ class Discount extends Model
 {
     use HasFactory;
 
+    public const PRICE_DISCOUNT = 1;
+
+    public const GIFT_DISCOUNT = 2;
+
     public const STATUS = [
         0 => 'Inactive',
         1 => 'Active',
     ];
 
     public const PROMOTION_TYPE = [
-        1 => 'Price Discount',
-        2 => 'Gift Discount',
+        Self::PRICE_DISCOUNT => 'Price Discount',
+        Self::GIFT_DISCOUNT => 'Gift Discount'
     ];
 
     protected $fillable = ['name', 'status', 'promotion_type'];

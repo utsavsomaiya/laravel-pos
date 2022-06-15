@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Models\Discount;
+use App\Models\PriceDiscount;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -30,21 +32,21 @@ class DiscountRequest extends FormRequest
             'name' => ['required', Rule::unique('discounts', 'name')->ignore(request()->route('discount'))],
             'promotion_type' => ['required'],
             'type' => ['required_if:promotion_type,in:"1"'],
-            'minimum_spend_amount' => ['required', 'array'],
-            'minimum_spend_amount.*' => ['required', 'distinct'],
-            'digit' => ['required_if:promotion_type,in:"1"', 'array'],
+            'minimum_spend_amount' => ['required','array'],
+            'minimum_spend_amount.*' => ['required','distinct'],
+            'digit' => ["required_if:promotion_type,in:".Discount::PRICE_DISCOUNT,'array'],
             'digit.*' => [
                 'required',
                 'distinct',
                 function ($attribute, $value, $fail) {
-                    if (request()->input('type') === 1 && $value > 100) {
+                    if (request()->input('type') === PriceDiscount::PERCENTAGE_DISCOUNT && $value > 100) {
                         $fail('Percentage is not greater than 100');
                     }
                 },
             ],
-            'product' => ['required_if:promotion_type,in:"2"', 'array'],
-            'product.*' => ['required', 'distinct'],
-            'status' => ['required'],
+            'product' => ['required_if:promotion_type,in:'.Discount::GIFT_DISCOUNT,'array'],
+            'product.*' => ['required','distinct'],
+            'status' => ['required','boolean'],
         ];
     }
 }

@@ -17,7 +17,7 @@ return new class() extends Migration {
             $table->double('subtotal');
             $table->double('total_tax');
             $table->double('total_discount')->nullable()->default(0);
-            $table->foreignId('discount_id')->constrained()->onDelete('cascade');
+            $table->foreignId('discount_id')->nullable()->constrained();
             $table->double('total');
             $table->timestamps();
         });

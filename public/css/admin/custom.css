@@ -27,3 +27,15 @@ img {
 :hover {
   color: var(--hover-color);
 }
+
+.price-remove-minimum-spend {
+    margin-left: 13rem !important;
+}
+
+.input-group-text {
+    margin-left: 37rem !important;
+}
+
+.gift-remove-minimum-spend {
+    margin-left: 11rem !important;
+}

@@ -8,9 +8,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <form class="forms-sample"
-                    method="post"
-                    enctype="multipart/form-data"
+                <form class="forms-sample" method="post" enctype="multipart/form-data"
                     @empty($product)
                         action="{{ route('products.store') }}"
                     @else
@@ -23,33 +21,40 @@
                     @endisset
                     <div class="form-group mb-2">
                         <label class="pb-1">Product Name</label>
+
                         <input type=" text"
                             class="form-control @error('name') is-invalid @enderror"
                             placeholder="Product Name"
                             name="name"
-                            value="@isset($product){{ $product->name }}@else{{ old('name') }}@endisset"
+                            value="{{ isset($product) ? $product->name : old('name') }}"
                             required
                         >
+
                         @error('name')
                             <label class="text-danger">{{ $message }}</label>
                         @enderror
                     </div>
+
                     <div class="form-group mb-2">
                         <label class="pb-1">Product Price</label>
+
                         <input type="number"
                             class="form-control @error('price') is-invalid @enderror"
                             placeholder="Product Price"
                             name="price"
                             step="0.01"
-                            value="@isset($product){{ $product->price }}@else{{ old('price') }}@endisset"
+                            value="{{ isset($product) ? $product->price : old('price') }}"
                             required
                         >
+
                         @error('price')
                             <label class="text-danger">{{ $message }}</label>
                         @enderror
                     </div>
+
                     <div class="form-group mb-2">
                         <label class="pb-1">Select Category</label>
+
                         <select class="form-control @error('category_id') is-invalid @enderror"
                             name="category_id"
                             required
@@ -67,12 +72,15 @@
                                 </option>
                             @endforeach
                         </select>
+
                         @error('category_id')
                             <label class="text-danger">{{ $message }}</label>
                         @enderror
                     </div>
+
                     <div class="form-group mb-2">
                         <label class="pb-1">Tax of the Product</label>
+
                         <select class="form-control @error('tax') is-invalid @enderror"
                             name="tax"
                             required
@@ -89,43 +97,51 @@
                                 >{{ $taxes[$i]."%" }}</option>
                             @endfor
                         </select>
+
                         @error('tax')
                             <label class="text-danger">{{ $message }}</label>
                         @enderror
                     </div>
+
                     <div class="form-group mb-2">
                         <label class="pb-1">Product Stock</label>
+
                         <input type="number"
                             class="form-control @error('stock') is-invalid @enderror"
                             placeholder="Product Stock"
                             name="stock"
-                            value="@isset($product){{ $product->stock }}@else{{ old('stock') }}@endisset"
+                            value="{{ isset($product) ? $product->stock : old('stock') }}"
                             required
                         >
+
                         @error('stock')
                             <label class="text-danger">{{ $message }}</label>
                         @enderror
                     </div>
+
                     @isset($product)
                         <img class="m-2" src="{{ asset('storage/image').'/'.$product->image }}">
                     @endisset
+
                     <div class="form-group mb-2">
                         <label class="pb-1">Product Image</label>
+
                         <input type="file"
                             class="form-control @error('image') is-invalid @enderror"
                             accept="image/png, image/gif, image/jpeg, image/jpg"
                             name="image"
-                            @empty($product)
-                                required
-                            @endempty
+                            @empty($product) required @endempty
                         >
+
                         @error('image')
                             <label class="text-danger">{{ $message }}</label>
                         @enderror
                     </div>
+
                     <button type="submit" class="btn btn-primary me-2" name="submit">
                         {{ isset($product) ? 'Update' : 'Submit' }}
                     </button>
+
                     <a href="{{ route('products') }}" class="btn btn-light">
                         Cancel
                     </a>

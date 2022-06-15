@@ -14,9 +14,9 @@ return new class extends Migration {
     {
         Schema::create('gift_discounts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('discount_id')->constrained()->onDelete('cascade');
+            $table->foreignId('discount_id')->constrained();
+            $table->foreignId('product_id')->constrained();
             $table->decimal('minimum_spend_amount', 10, 2);
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

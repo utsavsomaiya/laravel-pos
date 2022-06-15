@@ -39,7 +39,6 @@ class DiscountController extends Controller
         ]);
     }
 
-
     public function edit(Discount $discount)
     {
         $products = Product::all();
@@ -61,11 +60,11 @@ class DiscountController extends Controller
             'status' => $validatedData['status']
         ]);
 
-        if ($validatedData['promotion_type'] == 1) {
+        if ($validatedData['promotion_type'] === Discount::PRICE_DISCOUNT) {
             DiscountServices::updatePriceDiscount($validatedData, $discount);
         }
 
-        if ($validatedData['promotion_type'] == 2) {
+        if ($validatedData['promotion_type'] === Discount::GIFT_DISCOUNT) {
             DiscountServices::updateGiftDiscount($validatedData, $discount);
         }
 
@@ -77,9 +76,10 @@ class DiscountController extends Controller
     public function delete(Discount $discount)
     {
         $discount->delete();
+
         return back()->with([
-                'success' => 'Discount deleted successfully'
-            ]);
+            'success' => 'Discount deleted successfully'
+        ]);
     }
 
     public function statusChanged(Discount $discount)
@@ -87,6 +87,7 @@ class DiscountController extends Controller
         $validatedData = request()->validate([
             'status' => ['required', 'boolean']
         ]);
+
         $discount->update($validatedData);
     }
 }

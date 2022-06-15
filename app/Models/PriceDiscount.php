@@ -17,7 +17,7 @@ class PriceDiscount extends Model
 
     public const TYPE = [
         Self::PERCENTAGE_DISCOUNT => 'Percentage Discount',
-        Self::FLAT_DISCOUNT => 'Flat Discount'
+        Self::FLAT_DISCOUNT => 'Flat Discount',
     ];
 
     protected $fillable = ['discount_id', 'digit', 'type', 'minimum_spend_amount'];

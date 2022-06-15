@@ -22,7 +22,7 @@ class Discount extends Model
 
     public const PROMOTION_TYPE = [
         Self::PRICE_DISCOUNT => 'Price Discount',
-        Self::GIFT_DISCOUNT => 'Gift Discount'
+        Self::GIFT_DISCOUNT => 'Gift Discount',
     ];
 
     protected $fillable = ['name', 'status', 'promotion_type'];

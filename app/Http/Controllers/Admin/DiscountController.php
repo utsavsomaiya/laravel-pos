@@ -62,11 +62,11 @@ class DiscountController extends Controller
             'status' => $validatedData['status'],
         ]);
 
-        if ($validatedData['promotion_type'] === Discount::PRICE_DISCOUNT) {
+        if (Discount::PRICE_DISCOUNT === $validatedData['promotion_type']) {
             DiscountServices::updatePriceDiscount($validatedData, $discount);
         }
 
-        if ($validatedData['promotion_type'] === Discount::GIFT_DISCOUNT) {
+        if (Discount::GIFT_DISCOUNT === $validatedData['promotion_type']) {
             DiscountServices::updateGiftDiscount($validatedData, $discount);
         }
 
@@ -80,11 +80,7 @@ class DiscountController extends Controller
         $discount->delete();
 
         return back()->with([
-<<<<<<< HEAD
             'success' => 'Discount deleted successfully',
-=======
-            'success' => 'Discount deleted successfully'
->>>>>>> datatables
         ]);
     }
 

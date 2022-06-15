@@ -32,9 +32,9 @@ class DiscountRequest extends FormRequest
             'name' => ['required', Rule::unique('discounts', 'name')->ignore(request()->route('discount'))],
             'promotion_type' => ['required'],
             'type' => ['required_if:promotion_type,in:"1"'],
-            'minimum_spend_amount' => ['required','array'],
-            'minimum_spend_amount.*' => ['required','distinct'],
-            'digit' => ["required_if:promotion_type,in:".Discount::PRICE_DISCOUNT,'array'],
+            'minimum_spend_amount' => ['required', 'array'],
+            'minimum_spend_amount.*' => ['required', 'distinct'],
+            'digit' => ['required_if:promotion_type,in:' . Discount::PRICE_DISCOUNT, 'array'],
             'digit.*' => [
                 'required',
                 'distinct',
@@ -44,9 +44,9 @@ class DiscountRequest extends FormRequest
                     }
                 },
             ],
-            'product' => ['required_if:promotion_type,in:'.Discount::GIFT_DISCOUNT,'array'],
-            'product.*' => ['required','distinct'],
-            'status' => ['required','boolean'],
+            'product' => ['required_if:promotion_type,in:' . Discount::GIFT_DISCOUNT, 'array'],
+            'product.*' => ['required', 'distinct'],
+            'status' => ['required', 'boolean'],
         ];
     }
 }

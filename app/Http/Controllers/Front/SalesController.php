@@ -38,24 +38,32 @@ class SalesController extends Controller
             $subtotal += ((float) $product->price * (int) $validatedData['quantity'][$key]);
         }
 
-        $discount = Discount::with('priceDiscounts', 'giftDiscounts', 'giftDiscounts.product')->find($request['discounts_id']);
-        if ($discount != null) {
-            if ($discount->promotion_type === Discount::PRICE_DISCOUNT) {
+        $discount = Discount::with('priceDiscounts', 'giftDiscounts', 'giftDiscounts.product')->find(
+            $request['discounts_id']
+        );
+        if (null !== $discount) {
+            if (Discount::PRICE_DISCOUNT === $discount->promotion_type) {
                 $mainDiscount = $discount->priceDiscounts->find($request['discounts_tier_id']);
             }
 
-            if ($discount->promotion_type === Discount::GIFT_DISCOUNT) {
-                $mainDiscount =  $discount->giftDiscounts->find($request['discounts_tier_id']);
+            if (Discount::GIFT_DISCOUNT === $discount->promotion_type) {
+                $mainDiscount = $discount->giftDiscounts->find($request['discounts_tier_id']);
             }
 
             foreach ($validatedData['id'] as $key => $id) {
                 $product = $products->firstWhere('id', $id);
 
-                if ($discount->promotion_type === Discount::PRICE_DISCOUNT) {
-                    $productDiscount[$key] = round((($product->price * (int) $validatedData['quantity'][$key]) * $mainDiscount->digit)/$subtotal, 2);
-                    if ($mainDiscount->type === PriceDiscount::PERCENTAGE_DISCOUNT) {
-                        $discountDigit = ($subtotal * $mainDiscount->digit)/100;
-                        $productDiscount[$key] = round((($product->price * (int) $validatedData['quantity'][$key]) * $discountDigit)/$subtotal, 2);
+                if (Discount::PRICE_DISCOUNT === $discount->promotion_type) {
+                    $productDiscount[$key] = round(
+                        (($product->price * (int) $validatedData['quantity'][$key]) * $mainDiscount->digit) / $subtotal,
+                        2
+                    );
+                    if (PriceDiscount::PERCENTAGE_DISCOUNT === $mainDiscount->type) {
+                        $discountDigit = ($subtotal * $mainDiscount->digit) / 100;
+                        $productDiscount[$key] = round(
+                            (($product->price * (int) $validatedData['quantity'][$key]) * $discountDigit) / $subtotal,
+                            2
+                        );
                     }
                     $totalDiscount += $productDiscount[$key];
                     $tax = round(
@@ -65,7 +73,7 @@ class SalesController extends Controller
                     $totalTax += $tax;
                 }
 
-                if ($discount->promotion_type === Discount::GIFT_DISCOUNT) {
+                if (Discount::GIFT_DISCOUNT === $discount->promotion_type) {
                     $productDiscount[$key] = 0;
                     $tax = round(
                         ((($product->price * (int) $validatedData['quantity'][$key]) - $productDiscount[$key]) * $product->tax) / 100,
@@ -74,7 +82,7 @@ class SalesController extends Controller
                     $totalTax += $tax;
                 }
             }
-            if ($discount->promotion_type === Discount::GIFT_DISCOUNT) {
+            if (Discount::GIFT_DISCOUNT === $discount->promotion_type) {
                 $subtotal = $subtotal + $mainDiscount->product->price;
                 $totalDiscount = $mainDiscount->product->price;
             }
@@ -87,7 +95,7 @@ class SalesController extends Controller
         }
         $grandTotal = $subtotal - $totalDiscount + $totalTax;
 
-        if ($request['discounts_id'] !== "null") {
+        if ('null' !== $request['discounts_id']) {
             $sales = Sales::create([
                 'subtotal' => $subtotal,
                 'total_tax' => $totalTax,

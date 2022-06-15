@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ee759ecc103d8af08f69c72320aad1b",
+    "content-hash": "29406f487c1342cab3e6e2e1cc2f3c22",
     "packages": [
         {
             "name": "brick/math",
@@ -7697,16 +7697,16 @@
         },
         {
             "name": "symplify/easy-coding-standard",
-            "version": "10.2.11",
+            "version": "11.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symplify/easy-coding-standard.git",
-                "reference": "20899c6ed601ec426d9e8311798abb3166496cac"
+                "reference": "452134abc6bc80482a9e2a85bc4f300fe773879b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symplify/easy-coding-standard/zipball/20899c6ed601ec426d9e8311798abb3166496cac",
-                "reference": "20899c6ed601ec426d9e8311798abb3166496cac",
+                "url": "https://api.github.com/repos/symplify/easy-coding-standard/zipball/452134abc6bc80482a9e2a85bc4f300fe773879b",
+                "reference": "452134abc6bc80482a9e2a85bc4f300fe773879b",
                 "shasum": ""
             },
             "require": {
@@ -7736,7 +7736,7 @@
             ],
             "description": "Prefixed scoped version of ECS package",
             "support": {
-                "source": "https://github.com/symplify/easy-coding-standard/tree/10.2.11"
+                "source": "https://github.com/symplify/easy-coding-standard/tree/11.0.3"
             },
             "funding": [
                 {
@@ -7748,7 +7748,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-06-07T07:47:12+00:00"
+            "time": "2022-06-13T23:35:50+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -7810,5 +7810,5 @@
         "php": "^8.0.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.3.0"
 }

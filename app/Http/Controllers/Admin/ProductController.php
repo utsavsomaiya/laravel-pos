@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -21,18 +21,20 @@ class ProductController extends Controller
     {
         $categories = Category::all();
 
-        return view('admin.products.form', compact('categories'));
+        $taxes = Product::TAXES;
+
+        return view('admin.products.form', compact('categories', 'taxes'));
     }
 
-    public function store()
+    public function store(ProductRequest $request)
     {
-        $validatedData = $this->validateProduct();
+        $validatedData = $request->validated();
 
         $validatedData = $this->storeImage($validatedData);
 
         Product::create($validatedData);
 
-        return to_route('products')->with([
+        return to_route('products.index')->with([
             'success' => 'Product added successfully.'
         ]);
     }
@@ -41,12 +43,14 @@ class ProductController extends Controller
     {
         $categories = Category::all();
 
-        return view('admin.products.form', compact('product', 'categories'));
+        $taxes = Product::TAXES;
+
+        return view('admin.products.form', compact('product', 'categories', 'taxes'));
     }
 
-    public function update(Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        $validatedData = $this->validateProduct($product);
+        $validatedData = $request->validated();
 
         $oldImage = $product->image;
 
@@ -60,7 +64,7 @@ class ProductController extends Controller
             Storage::delete('public/image'.'/'.$oldImage);
         }
 
-        return to_route('products')->with([
+        return to_route('products.index')->with([
             'success' => 'Product updated successfully.'
         ]);
     }
@@ -73,24 +77,6 @@ class ProductController extends Controller
 
         return back()->with([
             'success' => 'Product deleted successfully.'
-        ]);
-    }
-
-    private function validateProduct(?Product $product = null)
-    {
-        $product ??= new Product();
-
-        return request()->validate([
-            'name' => [
-                'required',
-                'max:255',
-                Rule::unique('products', 'name')->ignore($product),
-            ],
-            'price' => ['required','numeric'],
-            'category_id' => ['required','exists:categories,id'],
-            'tax' => ['required','numeric'],
-            'stock' => ['required','integer'],
-            'image' => ['image'],
         ]);
     }
 

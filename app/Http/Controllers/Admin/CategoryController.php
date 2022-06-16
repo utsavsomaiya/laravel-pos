@@ -30,7 +30,7 @@ class CategoryController extends Controller
 
         Category::create($validatedData);
 
-        return to_route('categories')->with([
+        return to_route('categories.index')->with([
             'success' => 'Category added successfully.'
         ]);
     }
@@ -53,16 +53,16 @@ class CategoryController extends Controller
 
         $category->update($validatedData);
 
-        return to_route('categories')->with([
+        return to_route('categories.index')->with([
             'success' => 'Category Updated successfully'
         ]);
     }
 
     public function delete(Category $category)
     {
-        $productCategory = Product::where('category_id', $category->id)->first();
+        $productsExists = Product::where('category_id', $category->id)->first();
 
-        if ($productCategory) {
+        if ($productsExists) {
             return back()->with([
                 'error' => 'This category depends on some of the products'
             ]);

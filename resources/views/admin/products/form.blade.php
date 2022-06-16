@@ -62,11 +62,7 @@
                             <option value="">--Select Category--</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}"
-                                    @isset($product)
-                                        @selected($product->category_id == $category->id)
-                                    @else
-                                        @selected(old('category_id') == $category->id)
-                                    @endisset
+                                    {{ isset($product) && old('category_id', $product->category_id) === $category->id ? 'selected' : '' }}
                                 >
                                     {{ $category->name }}
                                 </option>
@@ -86,14 +82,9 @@
                             required
                         >
                             <option value="">--Select Tax--</option>
-                            @php $taxes = App\Models\Product::TAXES; @endphp
                             @for($i = 1; $i <= count($taxes); $i++)
                                 <option value="{{ $taxes[$i] }}"
-                                    @isset($product)
-                                        @selected($product->tax == $taxes[$i])
-                                    @else
-                                        @selected(old('tax') == $taxes[$i])
-                                    @endisset
+                                    {{ isset($product) && old('tax', intval($product->tax)) === $taxes[$i] ? 'selected' :  '' }}
                                 >{{ $taxes[$i]."%" }}</option>
                             @endfor
                         </select>
@@ -142,7 +133,7 @@
                         {{ isset($product) ? 'Update' : 'Submit' }}
                     </button>
 
-                    <a href="{{ route('products') }}" class="btn btn-light">
+                    <a href="{{ route('products.index') }}" class="btn btn-light">
                         Cancel
                     </a>
                 </form>

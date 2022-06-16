@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Discount;
@@ -23,7 +25,7 @@ class SalesFactory extends Factory
             'total_discount' => $this->faker->numberBetween(0, 1000),
             'total_tax' => $this->faker->numberBetween(0, 1000),
             'discount_id' => $discount->id,
-            'total' => $this->faker->numberBetween(0, 1000)
+            'total' => $this->faker->numberBetween(0, 1000),
         ];
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -19,24 +21,19 @@ class CategoryController extends Controller
 
     public function add()
     {
-        return view('admin.categories.add');
+        return view('admin.categories.form');
     }
 
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => [
-                'required',
-                'min:3',
-                'max:255',
-                'unique:categories,name'
-            ]
+            'name' => ['required', 'min:3', 'max:255', 'unique:categories,name'],
         ]);
 
         Category::create($validatedData);
 
         return to_route('categories')->with([
-            'success' => 'Category added successfully.'
+            'success' => 'Category added successfully.',
         ]);
     }
 
@@ -48,18 +45,13 @@ class CategoryController extends Controller
     public function update(Category $category, Request $request)
     {
         $validatedData = $request->validate([
-            'name' => [
-                'required',
-                'min:3',
-                'max:255',
-                Rule::unique('categories', 'name')->ignore($category->id),
-            ]
+            'name' => ['required', 'min:3', 'max:255', Rule::unique('categories', 'name')->ignore($category->id)],
         ]);
 
         $category->update($validatedData);
 
         return to_route('categories')->with([
-            'success' => 'Category Updated successfully'
+            'success' => 'Category Updated successfully',
         ]);
     }
 
@@ -69,14 +61,14 @@ class CategoryController extends Controller
 
         if ($productCategory) {
             return back()->with([
-                'error' => 'This category depends on some of the products'
+                'error' => 'This category depends on some of the products',
             ]);
         }
 
         $category->delete();
 
         return back()->with([
-            'success' => 'Category deleted successfully.'
+            'success' => 'Category deleted successfully.',
         ]);
     }
 }

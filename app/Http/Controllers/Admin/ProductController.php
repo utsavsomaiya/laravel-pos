@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
@@ -33,7 +35,7 @@ class ProductController extends Controller
         Product::create($validatedData);
 
         return to_route('products')->with([
-            'success' => 'Product added successfully.'
+            'success' => 'Product added successfully.',
         ]);
     }
 
@@ -57,22 +59,22 @@ class ProductController extends Controller
         $product->update($validatedData);
 
         if (request()->hasFile('image')) {
-            Storage::delete('public/image'.'/'.$oldImage);
+            Storage::delete('public/image' . '/' . $oldImage);
         }
 
         return to_route('products')->with([
-            'success' => 'Product updated successfully.'
+            'success' => 'Product updated successfully.',
         ]);
     }
 
     public function delete(Product $product)
     {
-        Storage::delete('public/image'.'/'.$product->image);
+        Storage::delete('public/image' . '/' . $product->image);
 
         $product->delete();
 
         return back()->with([
-            'success' => 'Product deleted successfully.'
+            'success' => 'Product deleted successfully.',
         ]);
     }
 
@@ -81,15 +83,11 @@ class ProductController extends Controller
         $product ??= new Product();
 
         return request()->validate([
-            'name' => [
-                'required',
-                'max:255',
-                Rule::unique('products', 'name')->ignore($product),
-            ],
-            'price' => ['required','numeric'],
-            'category_id' => ['required','exists:categories,id'],
-            'tax' => ['required','numeric'],
-            'stock' => ['required','integer'],
+            'name' => ['required', 'max:255', Rule::unique('products', 'name')->ignore($product)],
+            'price' => ['required', 'numeric'],
+            'category_id' => ['required', 'exists:categories,id'],
+            'tax' => ['required', 'numeric'],
+            'stock' => ['required', 'integer'],
             'image' => ['image'],
         ]);
     }
@@ -102,7 +100,7 @@ class ProductController extends Controller
 
         $validatedData['image'] = $name;
 
-        $validatedData['path'] = asset('storage/image').'/'.$name;
+        $validatedData['path'] = asset('storage/image') . '/' . $name;
 
         return $validatedData;
     }

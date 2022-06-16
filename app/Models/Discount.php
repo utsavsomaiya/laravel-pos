@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +12,7 @@ class Discount extends Model
     use HasFactory;
 
     public const PRICE_DISCOUNT = 1;
-    
+
     public const GIFT_DISCOUNT = 2;
 
     public const STATUS = [
@@ -20,7 +22,7 @@ class Discount extends Model
 
     public const PROMOTION_TYPE = [
         Self::PRICE_DISCOUNT => 'Price Discount',
-        Self::GIFT_DISCOUNT => 'Gift Discount'
+        Self::GIFT_DISCOUNT => 'Gift Discount',
     ];
 
     protected $fillable = ['name', 'status', 'promotion_type'];

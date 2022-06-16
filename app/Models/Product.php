@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +17,7 @@ class Product extends Authenticatable
         3 => 15,
         4 => 20,
         5 => 25,
-        6 => 30
+        6 => 30,
     ];
 
     protected $fillable = ['name', 'price', 'category_id', 'tax', 'stock', 'image', 'path'];

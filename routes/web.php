@@ -28,24 +28,30 @@ Route::prefix('admin')->group(function () {
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
 
-    Route::prefix('categories')->controller(CategoryController::class)->group(function () {
-        Route::get('/', 'index')->name('categories');
-        Route::view('/add', 'admin.categories.form')->name('categories.add');
-        Route::post('/', 'store')->name('categories.store');
-        Route::get("/edit/{category}", 'edit')->name('categories.edit');
-        Route::put("/edit/{category}", 'update')->name('categories.update');
-        Route::post("/delete/{category}", 'delete')->name('categories.delete');
-    });
+    Route::prefix('categories')
+        ->controller(CategoryController::class)
+        ->name('categories.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::view('/add', 'admin.categories.form')->name('add');
+            Route::post('/', 'store')->name('store');
+            Route::get("/edit/{category}", 'edit')->name('edit');
+            Route::put("/edit/{category}", 'update')->name('update');
+            Route::post("/delete/{category}", 'delete')->name('delete');
+        });
 
 
-    Route::prefix('products')->controller(ProductController::class)->group(function () {
-        Route::get('/', 'index')->name('products');
-        Route::get('/add', 'add')->name('products.add');
-        Route::post('/', 'store')->name('products.store');
-        Route::get('/edit/{product}', 'edit')->name('products.edit');
-        Route::put('/edit/{product}', 'update')->name('products.update');
-        Route::post('/delete/{product}', 'delete')->name('products.delete');
-    });
+    Route::prefix('products')
+        ->controller(ProductController::class)
+        ->name('products.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/add', 'add')->name('add');
+            Route::post('/', 'store')->name('store');
+            Route::get('/edit/{product}', 'edit')->name('edit');
+            Route::put('/edit/{product}', 'update')->name('update');
+            Route::post('/delete/{product}', 'delete')->name('delete');
+        });
 
     Route::prefix('discounts')->controller(DiscountController::class)->group(function () {
         Route::get('/', 'index')->name('discounts');

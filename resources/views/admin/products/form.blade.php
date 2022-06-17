@@ -62,7 +62,7 @@
                             <option value="">--Select Category--</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}"
-                                    {{ isset($product) && old('category_id', $product->category_id) === $category->id ? 'selected' : '' }}
+                                    {{ old('category_id', isset($product) ? $product->category_id : '') === $category->id ? 'selected' : '' }}
                                 >
                                     {{ $category->name }}
                                 </option>
@@ -84,7 +84,7 @@
                             <option value="">--Select Tax--</option>
                             @for($i = 1; $i <= count($taxes); $i++)
                                 <option value="{{ $taxes[$i] }}"
-                                    {{ isset($product) && old('tax', intval($product->tax)) === $taxes[$i] ? 'selected' :  '' }}
+                                    {{ old('tax', isset($product) ? intval($product->tax) : '') === $taxes[$i] ? 'selected' :  '' }}
                                 >{{ $taxes[$i]."%" }}</option>
                             @endfor
                         </select>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DiscountRequest;
 use App\Models\Discount;
+use App\Models\PriceDiscount;
 use App\Models\Product;
 use App\Services\DiscountServices;
 
@@ -21,7 +22,17 @@ class DiscountController extends Controller
     {
         $products = Product::all();
 
-        return view('admin.discounts.form', compact('products'));
+        $promotionTypes = Discount::PROMOTION_TYPE;
+
+        $priceDiscount = Discount::PRICE_DISCOUNT;
+
+        $discountTypes = PriceDiscount::TYPE;
+
+        $giftDiscount = Discount::GIFT_DISCOUNT;
+
+        $discountStatus = Discount::STATUS;
+
+        return view('admin.discounts.form', compact('products', 'promotionTypes', 'priceDiscount', 'discountTypes', 'giftDiscount', 'discountStatus'));
     }
 
     public function store(DiscountRequest $request)
@@ -43,7 +54,17 @@ class DiscountController extends Controller
     {
         $products = Product::all();
 
-        return view('admin.discounts.form', compact('discount', 'products'));
+        $promotionTypes = Discount::PROMOTION_TYPE;
+
+        $priceDiscount = Discount::PRICE_DISCOUNT;
+
+        $discountTypes = PriceDiscount::TYPE;
+
+        $giftDiscount = Discount::GIFT_DISCOUNT;
+
+        $discountStatus = Discount::STATUS;
+
+        return view('admin.discounts.form', compact('discount', 'products', 'promotionTypes', 'priceDiscount', 'discountTypes', 'giftDiscount', 'discountStatus'));
     }
 
     public function update(DiscountRequest $request, Discount $discount)

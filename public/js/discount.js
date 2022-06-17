@@ -95,7 +95,7 @@ function renderMinimumSpendTemplate() {
         });
     }
     if (minimumSpendAmounts.length > 0) {
-        for (i = 0; i < minimumSpendAmounts.length; i++) {
+        for (const i in minimumSpendAmounts) {
             document.getElementsByClassName('minimum-spend-amount')[i].value = parseFloat(minimumSpendAmounts[i]);
             if (digits.length > 0) {
                 document.getElementsByClassName('digit')[i].value = parseFloat(digits[i]);
@@ -130,25 +130,23 @@ function editRenderMinimumSpendTemplate() {
 }
 
 function addMinimumSpendRow() {
-    if (promotionType === 2) {
-        if (countOfProduct === minimumSpendContainer.length) {
-            return alert('We have only '+countOfProduct+' Products');
-        }
+    if (promotionType === 2  && countOfProduct === minimumSpendContainer.length) {
+        return alert('We have only '+countOfProduct+' Products');
     }
     minimumSpendContainer.push(1);
     renderMinimumSpendTemplate();
 }
 
 function removeMinimumSpendRow(index) {
-    if ((index) > -1) {
-        minimumSpendContainer.splice((index), 1);
+    if (index > -1) {
+        minimumSpendContainer.splice(index, 1);
         if (minimumSpendAmounts.length > 0) {
-            minimumSpendAmounts.splice((index), 1);
+            minimumSpendAmounts.splice(index, 1);
             if (digits.length > 0) {
-                digits.splice((index), 1);
+                digits.splice(index, 1);
             }
             if (products.length > 0) {
-                products.splice((index), 1);
+                products.splice(index, 1);
             }
         }
         renderMinimumSpendTemplate();

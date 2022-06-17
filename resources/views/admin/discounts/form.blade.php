@@ -22,6 +22,7 @@
                     @csrf
                     <div class="form-group pb-3">
                         <label class="pb-1">Discount Name</label>
+
                         <input type="text"
                             class="form-control @error('name') is-invalid @enderror"
                             placeholder="Discount Name"
@@ -29,58 +30,53 @@
                             value="{{ isset($discount) ? $discount->name : old('name') }}"
                             required
                         >
+
                         @error('name')
                             <label class="text-danger">{{ $message }}</label>
                         @enderror
                     </div>
                     <div class="form-group pb-3">
                         <label class="pb-1">Promotion Type</label>
+
                         <select class="form-control @error('promotion_type') is-invalid @enderror"
                             name="promotion_type"
                             required
                             id="promotion-type"
                         >
                             <option value="">--Select Promotion Type--</option>
-                            @php $type = App\Models\Discount::PROMOTION_TYPE @endphp
-                            @for($i = 1; $i <= count($type); $i++)
+                            @for($i = 1; $i <= count($promotionTypes); $i++)
                                 <option value="{{ $i }}"
-                                    @isset($discount)
-                                        @selected($discount->promotion_type == $i)
-                                    @else
-                                        @selected(old('promotion_type') == $i)
-                                    @endisset
+                                    {{ intval(old('promotion_type', isset($discount) ? ($discount->promotion_type) : '')) === $i ? 'selected' : '' }}
                                 >
-                                    {{ $type[$i] }}
+                                    {{ $promotionTypes[$i] }}
                                 </option>
                             @endfor
                         </select>
+
                         @error('promotion_type')
                             <label class="text-danger">{{ $message }}</label>
                         @enderror
                     </div>
+
                     <div id="minimum-spend-amount-template">
                         <!--Minimum Spend Amount Template render here!! -->
                     </div>
+
                     <div class="form-group pb-2">
                         <label class="pb-1">Discount Status</label>
+
                         <select class="form-control @error('status') is-invalid @enderror"
                             name="status"
                             required
                         >
                             <option value="">--Select Discount Status--</option>
-                            @php $status = App\Models\Discount::STATUS; @endphp
-                            @for($i = count($status)-1 ; $i >= 0; $i--)
+                            @for($i = count($discountStatus)-1 ; $i >= 0; $i--)
                                 <option value="{{ $i }}"
-                                    @isset($discount)
-                                        @selected($discount->status == $i)
-                                    @else
-                                        @if(old('status'))
-                                            @selected(old('status') == $i)
-                                        @endif
-                                    @endisset
-                                >{{ $status[$i] }}</option>
+                                    {{ old('status', isset($discount) ? ($discount->status.'') : '') === $i.'' ? 'selected' : '' }}
+                                >{{ $discountStatus[$i] }}</option>
                             @endfor
                         </select>
+                        
                         @error('status')
                             <label class="text-danger">{{ $message }}</label>
                         @enderror
@@ -103,21 +99,21 @@
     </script>
 
     @empty ($discount)
-        {{ view('admin.discounts.price_discount') }}
+        {{ view('admin.discounts.price_discount', compact('discountTypes')) }}
         {{ view('admin.discounts.gift_discount', compact('products')) }}
     @else
         @if ($errors->count() == 0)
-            @if ($discount->promotion_type === App\Models\Discount::PRICE_DISCOUNT)
-                {{ view('admin.discounts.price_discount', compact('discount', 'products')) }}
+            @if ($discount->promotion_type === $priceDiscount)
+                {{ view('admin.discounts.price_discount', compact('discount', 'discountTypes')) }}
             @endif
 
-            @if ($discount->promotion_type === App\Models\Discount::GIFT_DISCOUNT)
+            @if ($discount->promotion_type === $giftDiscount)
                 {{ view('admin.discounts.gift_discount', compact('discount', 'products')) }}
             @endif
 
             <script src="{{ asset('js/discount.js') }}"></script>
 
-            @if ($discount->promotion_type === App\Models\Discount::PRICE_DISCOUNT)
+            @if ($discount->promotion_type === $priceDiscount)
                 @foreach ($discount->priceDiscounts as $key => $priceDiscount)
                     <script>
                         var key = '{{ Js::from($key) }}';
@@ -127,7 +123,7 @@
                 @endforeach
             @endif
 
-            @if ($discount->promotion_type === App\Models\Discount::GIFT_DISCOUNT)
+            @if ($discount->promotion_type === $giftDiscount)
                 @foreach ($discount->giftDiscounts as $key => $giftDiscount)
                     <script>
                         var key = '{{ Js::from($key) }}';
@@ -143,11 +139,11 @@
 
     @if ($errors->count() > 0)
         @isset ($discount)
-            @if ($discount->promotion_type === App\Models\Discount::PRICE_DISCOUNT)
-                {{ view('admin.discounts.price_discount', compact('discount', 'products')) }}
+            @if ($discount->promotion_type === $priceDiscount)
+                {{ view('admin.discounts.price_discount', compact('discount', 'discountTypes')) }}
             @endif
 
-            @if ($discount->promotion_type === App\Models\Discount::GIFT_DISCOUNT)
+            @if ($discount->promotion_type === $giftDiscount)
                 {{ view('admin.discounts.gift_discount', compact('discount', 'products')) }}
             @endif
         @endisset

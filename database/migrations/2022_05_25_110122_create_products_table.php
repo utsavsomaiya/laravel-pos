@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name')->unique();
             $table->decimal('price', 10, 2);
-            $table->foreignId('category_id')->constrained();
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->decimal('tax', 5, 2);
             $table->integer('stock');
             $table->string('image')->nullable();

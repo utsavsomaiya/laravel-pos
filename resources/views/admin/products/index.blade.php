@@ -4,41 +4,56 @@
         <div class="card border-0 shadow-lg">
             <div class="card-title">
                 <div class="mt-2">
-                    <span class="h4 ms-3 me-5">Categories</span>
+                    <span class="h4 ms-3 me-5">Products</span>
                     <span class="ms-3">
-                        <a href="{{ route('categories.add') }}" class="link-dark h6">Add New Category</a>
+                        <a href="{{ route('products.add') }}"
+                            class="link-dark h6"
+                        >
+                            Add New Product
+                        </a>
                     </span>
                 </div>
             </div>
             <div class="card-body">
-                <table class="table w-50">
+                <table class="table">
                     <thead>
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                            <th>Tax</th>
+                            <th>Stock</th>
+                            <th>Image</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($categories as $category)
+                        @forelse($products as $product)
                             <tr>
-                                <td>{{ $category->id }}</td>
-                                <td>{{ $category->name }}</td>
+                                <td>{{ $product->id }}</td>
+                                <td>{{ $product->name }}</td>
+                                <td>{{ '$'.$product->price }}</td>
+                                <td>{{ $product->category->name }}</td>
+                                <td>{{ $product->tax.'%' }}</td>
+                                <td>{{ $product->stock }}</td>
                                 <td>
-                                    <a href="{{ route('categories.edit', ['category' => $category->id ]) }}"
+                                    <img src="{{ $product->path }}"></td>
+                                <td>
+                                    <a href="{{ route('products.edit', ['product' => $product->id ]) }}"
                                         class="link-dark text-decoration-none me-4"
                                     >
                                         <i class="fa-solid fa-pencil"></i>
                                     </a>
                                     <form method="post"
-                                        action="{{ route('categories.delete', ['category' => $category->id]) }}"
-                                        id="delete-category-{{ $category->id }}"
+                                        action="{{ route('products.delete', ['product' => $product->id]) }}"
+                                        id="delete-product-{{ $product->id }}"
                                         class="d-inline-block"
                                     >
                                         @csrf
                                         <button type="button"
                                             class="bg-light border-0"
-                                            onclick="deleteConfirm('category','{{ $category->id }}')"
+                                            onclick="deleteConfirm('product','{{ $product->id }}')"
                                         >
                                             <i class="fa-solid fa-trash-can"></i>
                                         </button>
@@ -47,7 +62,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="h6">No categories found.</td>
+                                <td colspan="8" class="h6">No products found.</td>
                             </tr>
                         @endforelse
                     </tbody>

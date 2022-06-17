@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,24 +16,41 @@ use App\Http\Controllers\Admin\CategoryController;
 |
 */
 
-Route::middleware('guest')->group(function () {
-    Route::view('/admin', 'admin.auth.login')->name('login');
-    Route::post('/admin', [AdminAuthController::class,'login']);
+Route::prefix('admin')->group(function () {
+    Route::view('/', 'admin.auth.login')->name('login');
+    Route::post('/', [AdminAuthController::class,'login']);
 
-    Route::view('/admin/register', 'admin.auth.register')->name('register');
-    Route::post('/admin/register', [AdminAuthController::class,'register']);
+    Route::view('/register', 'admin.auth.register')->name('register');
+    Route::post('/register', [AdminAuthController::class,'register']);
 });
 
-Route::middleware('auth')->group(function () {
-    Route::view('/admin/dashboard', 'admin.dashboard')->name('dashboard');
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
 
-    Route::get('/admin/categories', [CategoryController::class,'index'])->name('categories');
-    Route::view('/admin/categories/add', 'admin.categories.add')->name('categories.add');
-    Route::post('admin/categories', [CategoryController::class,'store'])->name('categories.store');
-    Route::get("admin/categories/edit/{category}", [CategoryController::class,'edit'])->name('categories.edit');
-    Route::put("admin/categories/edit/{category}", [CategoryController::class,'update']);
-    Route::post("admin/categories/delete/{category}", [CategoryController::class,'delete'])->name('categories.delete');
+    Route::prefix('categories')
+        ->controller(CategoryController::class)
+        ->name('categories.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::view('/add', 'admin.categories.form')->name('add');
+            Route::post('/', 'store')->name('store');
+            Route::get("/edit/{category}", 'edit')->name('edit');
+            Route::put("/edit/{category}", 'update')->name('update');
+            Route::post("/delete/{category}", 'delete')->name('delete');
+        });
 
+
+    Route::prefix('products')
+        ->controller(ProductController::class)
+        ->name('products.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/add', 'add')->name('add');
+            Route::post('/', 'store')->name('store');
+            Route::get('/edit/{product}', 'edit')->name('edit');
+            Route::put('/edit/{product}', 'update')->name('update');
+            Route::post('/delete/{product}', 'delete')->name('delete');
+        });
 
     Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('logout');
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -29,14 +30,14 @@ class CategoryController extends Controller
 
         Category::create($validatedData);
 
-        return to_route('categories')->with(
-            ['success' => 'Category added successfully.']
-        );
+        return to_route('categories.index')->with([
+            'success' => 'Category added successfully.'
+        ]);
     }
 
     public function edit(Category $category)
     {
-        return view('admin.categories.add', compact('category'));
+        return view('admin.categories.form', compact('category'));
     }
 
     public function update(Category $category, Request $request)
@@ -52,13 +53,21 @@ class CategoryController extends Controller
 
         $category->update($validatedData);
 
-        return to_route('categories')->with([
+        return to_route('categories.index')->with([
             'success' => 'Category Updated successfully'
         ]);
     }
 
     public function delete(Category $category)
     {
+        $productsExists = Product::where('category_id', $category->id)->first();
+
+        if ($productsExists) {
+            return back()->with([
+                'error' => 'This category depends on some of the products'
+            ]);
+        }
+
         $category->delete();
 
         return back()->with([

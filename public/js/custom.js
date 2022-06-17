@@ -1,9 +1,7 @@
 function deleteConfirm(type,id) {
-    if (type == "categories") {
-        alertify.confirm('Delete Category', 'Are you sure to delete this category?', function () {
-            document.getElementById("delete-category-"+id).submit();
-        }, function () {
-            return;
-        });
-    }
+    alertify.confirm('Delete  ' + type, 'Are you sure you want to delete this ' + type + '?', function () {
+        document.getElementById("delete-"+ type +"-" + id).submit();
+    }, function () {
+        return;
+    });
 }

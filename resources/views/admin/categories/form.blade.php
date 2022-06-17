@@ -9,7 +9,11 @@
             </div>
             <div class="card-body">
                 <form class="forms-sample w-50"
-                    @empty($category) action="{{ route('categories.store') }}" @endempty
+                    @empty($category)
+                        action="{{ route('categories.store') }}"
+                    @else
+                        action="{{ route('categories.update', [ 'category' => $category->id ]) }}"
+                    @endempty
                     method="POST"
                 >
                     @csrf
@@ -32,7 +36,7 @@
                     <button type="submit" class="btn btn-primary me-2 mt-3" name="submit">
                         {{ isset($category) ? 'Update' : 'Submit' }}
                     </button>
-                    <a href="{{ route('categories') }}" class="btn btn-light mt-3">Cancel</a>
+                    <a href="{{ route('categories.index') }}" class="btn btn-light mt-3">Cancel</a>
                 </form>
             </div>
         </div>

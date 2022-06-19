@@ -2,9 +2,9 @@ function discountStatusChanged(id, status, token) {
     status = parseInt(status);
     id = parseInt(id);
     if (status === 0) {
-        status = status + 1;
+        status = 1;
     } else {
-        status = status - 1;
+        status = 0;
     }
     $.ajax({
         type: "POST",

@@ -51,7 +51,7 @@
                         <span class="nav-category mt-2 mb-2 ms-2">Discounts</span>
                         <hr class="mt-0 mb-2">
                         <li class="nav-item m-2">
-                            <a class="nav-link text-light" href="#">
+                            <a class="nav-link text-light" href="{{ route('discounts') }}">
                                 <i class="fa-solid fa-percent pe-2"></i>
                                 <span>Discounts</span>
                             </a>
@@ -111,6 +111,8 @@
     ></script>
     <script src="{{ asset('js/alertify.min.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
+    <script src="{{ asset('js/discount.js') }}"></script>
+    <script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
     <script src="https://kit.fontawesome.com/40d870b470.js" crossorigin="anonymous"></script>
     @if(session('success'))
         <script>

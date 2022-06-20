@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +52,16 @@ Route::prefix('admin')->middleware('auth')->group(function () {
             Route::put('/edit/{product}', 'update')->name('update');
             Route::post('/delete/{product}', 'delete')->name('delete');
         });
+
+    Route::prefix('discounts')->controller(DiscountController::class)->group(function () {
+        Route::get('/', 'index')->name('discounts');
+        Route::get('/add', 'add')->name('discounts.add');
+        Route::post('/', 'store')->name('discounts.store');
+        Route::get('/edit/{discount}', 'edit')->name('discounts.edit');
+        Route::post('/edit/{discount}', 'statusChanged');
+        Route::put('/edit/{discount}', 'update')->name('discounts.update');
+        Route::post('/delete/{discount}', 'delete')->name('discounts.delete');
+    });
 
     Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('logout');
 });

@@ -40,7 +40,7 @@
                                             </form>
                                         </div>
                                         <div class="col-6 mt-5 pt-1">
-                                            <a class="text-decoration-none text-white btn btn-warning" href="{{ route('products-import-sample') }}">
+                                            <a class="text-decoration-none text-white btn btn-warning" href="/storage/file/products.xlsx">
                                                 <i class="fa-solid fa-download"></i>
                                                 Sample Download
                                             </a>

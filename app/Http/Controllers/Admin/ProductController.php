@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\ProductExport;
-use App\Exports\SampleExport;
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
 use App\Http\Requests\ProductRequest;
@@ -111,10 +110,5 @@ class ProductController extends Controller
         Excel::import(new ProductImport, request()->file('import_file')->store('temp'));
 
         return back()->with('success', 'File imported successfully!!');
-    }
-
-    public function importFileSampleDownload()
-    {
-        return Excel::download(new SampleExport, 'products.xlsx');
     }
 }

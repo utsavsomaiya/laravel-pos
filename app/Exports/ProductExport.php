@@ -3,27 +3,31 @@
 namespace App\Exports;
 
 use App\Models\Product;
-use Maatwebsite\Excel\Concerns\FromView;
-use Illuminate\Contracts\View\View;
-use Maatwebsite\Excel\Concerns\WithStyles;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\FromCollection;
 
-class ProductExport implements FromView, WithStyles
+class ProductExport implements FromCollection
 {
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function view(): View
+    public function collection()
     {
-        return view('admin.products.exports', [
-            'products' => Product::with('category')->get(),
-        ]);
-    }
+        $product = Product::with('category')->get();
 
-    public function styles(Worksheet $sheet)
-    {
-        return [
-            1 => ['font' => ['bold' => true]],
-        ];
+        $product =  collect(
+            $product->map(function ($product) {
+                return [
+                    $product->name,
+                    $product->category->name,
+                    $product->price,
+                    $product->tax,
+                    $product->stock
+                ];
+            })
+        );
+
+        $product = $product->prepend(['Name', 'Category', 'Price', 'Tax', 'Stock']);
+
+        return $product;
     }
 }

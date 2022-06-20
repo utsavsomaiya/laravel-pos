@@ -32,7 +32,7 @@ class DiscountRequest extends FormRequest
                 Rule::unique('discounts', 'name')->ignore(request()->route('discount'))
             ],
             'promotion_type' => ['required'],
-            'type' => ['required_if:promotion_type,in:"1"'],
+            'type' => ['required_if:promotion_type,in:'.Discount::PRICE_DISCOUNT],
             'minimum_spend_amount' => ['required','array'],
             'minimum_spend_amount.*' => ['required','distinct'],
             'digit' => ["required_if:promotion_type,in:".Discount::PRICE_DISCOUNT,'array'],

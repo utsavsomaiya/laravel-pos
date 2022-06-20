@@ -7,15 +7,10 @@
                 required
             >
                 <option value="">--Discount Type--</option>
-                @php $type = App\Models\PriceDiscount::TYPE; @endphp
-                @for($i = 1; $i <= count($type); $i++)
+                @for($i = 1; $i <= count($discountTypes); $i++)
                     <option value="{{ $i }}"
-                        @isset($discount)
-                            @selected($discount->priceDiscounts[0]->type == $i)
-                        @else
-                            @selected(old('type') == $i)
-                        @endisset
-                    >{{ $type[$i] }}</option>
+                        {{ intval(old('type', isset($discount) ? ($discount->priceDiscounts->first()->type) : '')) === $i ? 'selected' : '' }}
+                    >{{ $discountTypes[$i] }}</option>
                 @endfor
             </select>
             @error('type')

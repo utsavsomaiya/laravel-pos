@@ -18,8 +18,8 @@ class DiscountServices
                     ->where('minimum_spend_amount', $priceDiscounts[$key]->minimum_spend_amount)
                     ->update([
                         'type' => (int) $validatedData['type'],
-                        'minimum_spend_amount' => (double) $minimumSpendAmount,
-                        'digit' => (double) $validatedData['digit'][$key]
+                        'minimum_spend_amount' => (float) $minimumSpendAmount,
+                        'digit' => (float) $validatedData['digit'][$key]
                     ]);
             }
         }
@@ -30,16 +30,16 @@ class DiscountServices
                     ->where('minimum_spend_amount', $priceDiscount->minimum_spend_amount)
                     ->update([
                         'type' => (int) $validatedData['type'],
-                        'minimum_spend_amount' => (double) $validatedData['minimum_spend_amount'][$key],
-                        'digit' => (double) $validatedData['digit'][$key]
+                        'minimum_spend_amount' => (float) $validatedData['minimum_spend_amount'][$key],
+                        'digit' => (float) $validatedData['digit'][$key]
                     ]);
             }
             for ($i = count($priceDiscounts); $i < count($validatedData['minimum_spend_amount']); $i++) {
                 PriceDiscount::create([
                     'discount_id' => $discount->id,
                     'type' => (int) $validatedData['type'],
-                    'minimum_spend_amount' => (double) $validatedData['minimum_spend_amount'][$i],
-                    'digit' => (double) $validatedData['digit'][$i]
+                    'minimum_spend_amount' => (float) $validatedData['minimum_spend_amount'][$i],
+                    'digit' => (float) $validatedData['digit'][$i]
                 ]);
             }
         }
@@ -50,8 +50,8 @@ class DiscountServices
                 PriceDiscount::create([
                     'discount_id' => $discount->id,
                     'type' => (int) $validatedData['type'],
-                    'minimum_spend_amount' => (double) $minimumSpendAmount,
-                    'digit' => (double) $validatedData['digit'][$key]
+                    'minimum_spend_amount' => (float) $minimumSpendAmount,
+                    'digit' => (float) $validatedData['digit'][$key]
                 ]);
             }
         }
@@ -66,7 +66,7 @@ class DiscountServices
                 GiftDiscount::where('discount_id', $discount->id)
                     ->where('minimum_spend_amount', $giftDiscounts[$key]->minimum_spend_amount)
                     ->update([
-                        'minimum_spend_amount' => (double) $minimumSpendAmount,
+                        'minimum_spend_amount' => (float) $minimumSpendAmount,
                         'product_id' => $validatedData['product'][$key]
                     ]);
             }
@@ -77,14 +77,14 @@ class DiscountServices
                 GiftDiscount::where('discount_id', $discount->id)
                     ->where('minimum_spend_amount', $giftDiscount->minimum_spend_amount)
                     ->update([
-                        'minimum_spend_amount' => (double) $validatedData['minimum_spend_amount'][$key],
+                        'minimum_spend_amount' => (float) $validatedData['minimum_spend_amount'][$key],
                         'product_id' => $validatedData['product'][$key]
                     ]);
             }
             for ($i = count($giftDiscounts); $i < count($validatedData['minimum_spend_amount']); $i++) {
                 GiftDiscount::create([
                     'discount_id' => $discount->id,
-                    'minimum_spend_amount' => (double) $validatedData['minimum_spend_amount'][$i],
+                    'minimum_spend_amount' => (float) $validatedData['minimum_spend_amount'][$i],
                     'product_id' => $validatedData['product'][$i]
                 ]);
             }
@@ -95,7 +95,7 @@ class DiscountServices
             foreach ($validatedData['minimum_spend_amount'] as $key => $minimumSpendAmount) {
                 GiftDiscount::create([
                     'discount_id' => $discount->id,
-                    'minimum_spend_amount' => (double) $minimumSpendAmount,
+                    'minimum_spend_amount' => (float) $minimumSpendAmount,
                     'product_id' => $validatedData['product'][$key]
                 ]);
             }
@@ -111,22 +111,22 @@ class DiscountServices
         ]);
 
         if ($validatedData['promotion_type'] === Discount::PRICE_DISCOUNT) {
-            for ($i = 0; $i < count($validatedData['minimum_spend_amount']); $i++) {
+            foreach ($validatedData['minimum_spend_amount'] as $key => $minimumSpendAmount) {
                 PriceDiscount::create([
                     'discount_id' => $mainDiscount->id,
                     'type' => (int) $validatedData['type'],
-                    'minimum_spend_amount' => (double) $validatedData['minimum_spend_amount'][$i],
-                    'digit' => (double) $validatedData['digit'][$i]
+                    'minimum_spend_amount' => (float) $minimumSpendAmount,
+                    'digit' => (float) $validatedData['digit'][$key]
                 ]);
             }
         }
 
         if ($validatedData['promotion_type'] === Discount::GIFT_DISCOUNT) {
-            for ($i = 0; $i < count($validatedData['minimum_spend_amount']); $i++) {
+            foreach ($validatedData['minimum_spend_amount'] as $key => $minimumSpendAmount) {
                 GiftDiscount::create([
                     'discount_id' => $mainDiscount->id,
-                    'minimum_spend_amount' => (double) $validatedData['minimum_spend_amount'][$i],
-                    'product_id' => $validatedData['product'][$i]
+                    'minimum_spend_amount' => (float) $minimumSpendAmount,
+                    'product_id' => $validatedData['product'][$key]
                 ]);
             }
         }

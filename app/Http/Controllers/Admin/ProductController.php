@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ProductExport;
 use App\Http\Controllers\Controller;
+use App\Imports\ProductImport;
 use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -91,5 +94,21 @@ class ProductController extends Controller
         $validatedData['path'] = asset('storage/image').'/'.$name;
 
         return $validatedData;
+    }
+
+    public function fileExport()
+    {
+        return Excel::download(new ProductExport, 'products.xlsx');
+    }
+
+    public function fileImport()
+    {
+        request()->validate([
+            'import_file' => ['required','mimes:xlsx'],
+        ]);
+
+        Excel::import(new ProductImport, request()->file('import_file')->store('temp'));
+
+        return back()->with('success', 'File imported successfully!!');
     }
 }

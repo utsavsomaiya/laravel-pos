@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use App\Models\Discount;
@@ -27,27 +29,24 @@ class DiscountRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
-                'required',
-                Rule::unique('discounts', 'name')->ignore(request()->route('discount'))
-            ],
+            'name' => ['required', Rule::unique('discounts', 'name')->ignore(request()->route('discount'))],
             'promotion_type' => ['required'],
             'type' => ['required_if:promotion_type,in:"1"'],
-            'minimum_spend_amount' => ['required','array'],
-            'minimum_spend_amount.*' => ['required','distinct'],
-            'digit' => ["required_if:promotion_type,in:".Discount::PRICE_DISCOUNT,'array'],
+            'minimum_spend_amount' => ['required', 'array'],
+            'minimum_spend_amount.*' => ['required', 'distinct'],
+            'digit' => ['required_if:promotion_type,in:' . Discount::PRICE_DISCOUNT, 'array'],
             'digit.*' => [
                 'required',
                 'distinct',
                 function ($attribute, $value, $fail) {
-                    if (request()->input('type') == PriceDiscount::PERCENTAGE_DISCOUNT && $value > 100) {
+                    if (request()->input('type') === PriceDiscount::PERCENTAGE_DISCOUNT && $value > 100) {
                         $fail('Percentage is not greater than 100');
                     }
-                }
+                },
             ],
-            'product' => ['required_if:promotion_type,in:'.Discount::GIFT_DISCOUNT,'array'],
-            'product.*' => ['required','distinct'],
-            'status' => ['required','boolean'],
+            'product' => ['required_if:promotion_type,in:' . Discount::GIFT_DISCOUNT, 'array'],
+            'product.*' => ['required', 'distinct'],
+            'status' => ['required', 'boolean'],
         ];
     }
 }

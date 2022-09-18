@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +17,7 @@ class PriceDiscount extends Model
 
     public const TYPE = [
         Self::PERCENTAGE_DISCOUNT => 'Percentage Discount',
-        Self::FLAT_DISCOUNT => 'Flat Discount'
+        Self::FLAT_DISCOUNT => 'Flat Discount',
     ];
 
     protected $fillable = ['discount_id', 'digit', 'type', 'minimum_spend_amount'];

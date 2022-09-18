@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Category;
@@ -17,17 +19,17 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
-        $tax = [5,10,15,20,25];
-        
+        $tax = [5, 10, 15, 20, 25];
+
         $category = Category::factory()->create();
 
         return [
             'name' => $this->faker->name(),
             'price' => $this->faker->numberBetween(50, 1000),
-            'category_id' => $category->id ,
+            'category_id' => $category->id,
             'stock' => $this->faker->numberBetween(0, 50),
             'image' => $this->faker->imageUrl($width = 200, $height = 200),
-            'tax' => $tax[array_rand($tax, 1)]
+            'tax' => $tax[array_rand($tax, 1)],
         ];
     }
 }

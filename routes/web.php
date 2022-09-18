@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('admin')->group(function () {
+Route::middleware('guest')->prefix('admin')->group(function () {
     Route::view('/', 'admin.auth.login')->name('login');
     Route::post('/', [AdminAuthController::class,'login']);
 
@@ -41,17 +41,17 @@ Route::prefix('admin')->middleware('auth')->group(function () {
             Route::post("/delete/{category}", 'delete')->name('delete');
         });
 
-
     Route::prefix('products')
         ->controller(ProductController::class)
-        ->name('products.')
         ->group(function () {
-            Route::get('/', 'index')->name('index');
-            Route::get('/add', 'add')->name('add');
-            Route::post('/', 'store')->name('store');
-            Route::get('/edit/{product}', 'edit')->name('edit');
-            Route::put('/edit/{product}', 'update')->name('update');
-            Route::post('/delete/{product}', 'delete')->name('delete');
+            Route::get('/', 'index')->name('products.index');
+            Route::get('/add', 'add')->name('products.add');
+            Route::post('/', 'store')->name('products.store');
+            Route::get('/edit/{product}', 'edit')->name('products.edit');
+            Route::put('/edit/{product}', 'update')->name('products.update');
+            Route::post('/delete/{product}', 'delete')->name('products.delete');
+            Route::get('export', 'fileExport')->name('products-export');
+            Route::post('import', 'fileImport')->name('products-import');
         });
 
     Route::prefix('discounts')->controller(DiscountController::class)->group(function () {

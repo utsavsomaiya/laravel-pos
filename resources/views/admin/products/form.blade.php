@@ -1,6 +1,6 @@
 @extends('admin.layout')
 @section('content')
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div class="card border-0 shadow-lg">
             <div class="card-title">
                 <div class="mt-2">

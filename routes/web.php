@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SalesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,5 +64,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         Route::post('/delete/{discount}', 'delete')->name('discounts.delete');
     });
 
-    Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('logout');
+    Route::get('/sales', [SalesController::class, 'sales'])->name('sales');
+    Route::get('/sales/{id}', [SalesController::class, 'salesDetails'])->name('sales.details');
+
+    Route::get('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 });

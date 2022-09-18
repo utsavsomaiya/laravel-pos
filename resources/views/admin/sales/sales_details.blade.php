@@ -29,15 +29,10 @@
                             <tr>
                                 <td>{{ $salesDetail->products->id }}</td>
                                 <td>
-                                    @if($salesDetail->discounts->category == "1" && $key == sizeof($salesDetails) - 1)
-                                        {{ $salesDetail->products->name }}
-                                        <span class="badge bg-warning">Free</td>
-                                    @else
-                                        {{ $salesDetail->products->name }}
-                                    @endif
+                                    {{ $salesDetail->products->name }}
                                 </td>
                                 <td>
-                                    <img src="{{ $salesDetail->products->image }}">
+                                    <img src="{{ $salesDetail->products->path }}">
                                 </td>
                                 <td>{{ '$'.$salesDetail->products->price }}</td>
                                 <td>{{ $salesDetail->product_quantity }}</td>
@@ -55,6 +50,33 @@
                                 <td colspan="11" class="h6">No sales found.</td>
                             </tr>
                         @endforelse
+                        @php $salesDetail = $salesDetails->first(); @endphp
+                        @if(!is_null($salesDetail->sales->discounts))
+                            @if($salesDetail->sales->discounts->promotion_type == 2)
+                                <tr>
+                                    <td>{{ $salesDetail->sales->discounts->giftDiscounts->find($salesDetail->product_discount_id)->product->id }}</td>
+                                    <td>
+                                        {{ $salesDetail->sales->discounts->giftDiscounts->find($salesDetail->product_discount_id)->product->name }}
+                                        <span class="badge bg-warning ">Free</span>
+                                    </td>
+                                    <td>
+                                        <img src="{{ $salesDetail->sales->discounts->giftDiscounts->find($salesDetail->product_discount_id)->product->path }}">
+                                    </td>
+                                    <td>
+                                        {{ '$'.$salesDetail->sales->discounts->giftDiscounts->find($salesDetail->product_discount_id)->product->price }}
+                                    </td>
+                                    <td>1</td>
+                                    <td>
+                                        {{ '$'.($salesDetail->sales->discounts->giftDiscounts->find($salesDetail->product_discount_id)->product->price * 1) }}
+                                    </td>
+                                    <td>{{ '$'.$salesDetail->sales->total_discount }}</td>
+                                    <td>0</td>
+                                    <td>{{ $salesDetail->sales->discounts->giftDiscounts->find($salesDetail->product_discount_id)->product->tax.'%' }}</td>
+                                    <td>$0</td>
+                                    <td>$0</td>
+                                </tr>
+                            @endif
+                        @endif
                         <tr>
                             <td colspan="11" class="mt-3">
                                 <span class="badge bg-danger">Thank you!!</span>

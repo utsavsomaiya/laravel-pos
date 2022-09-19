@@ -159,9 +159,6 @@ return [
         'product.*' => [
             'required' => 'The product field is required.',
             'distinct' => 'The product field has a duplicate value.'
-        ],
-        'id' =>[
-            'required' => 'Please add some item in your cart'
         ]
     ],
 

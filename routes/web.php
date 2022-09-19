@@ -5,8 +5,6 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SalesController;
-use App\Http\Controllers\Front\ProductController as FrontProductController;
-use App\Http\Controllers\Front\SalesController as FrontSalesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,9 +17,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', [FrontProductController::class,'index']);
-Route::post('/', [FrontSalesController::class,'store']);
 
 Route::prefix('admin')->group(function () {
     Route::view('/', 'admin.auth.login')->name('login');

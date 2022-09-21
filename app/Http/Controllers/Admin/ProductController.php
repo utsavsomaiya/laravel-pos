@@ -33,9 +33,11 @@ class ProductController extends Controller
     {
         $validatedData = $request->validated();
 
-        $validatedData = $this->storeImage($validatedData);
+        $product = Product::create($validatedData);
 
-        Product::create($validatedData);
+        $product
+            ->addMediaFromRequest('image')
+            ->toMediaCollection('product-images');
 
         return to_route('products.index')->with([
             'success' => 'Product added successfully.'
@@ -55,16 +57,12 @@ class ProductController extends Controller
     {
         $validatedData = $request->validated();
 
-        $oldImage = $product->image;
-
-        if (request()->hasFile('image')) {
-            $validatedData = $this->storeImage($validatedData);
-        }
-
         $product->update($validatedData);
 
         if (request()->hasFile('image')) {
-            Storage::delete('public/image'.'/'.$oldImage);
+            $product
+                ->addMediaFromRequest('image')
+                ->toMediaCollection('product-images');
         }
 
         return to_route('products.index')->with([
@@ -81,19 +79,6 @@ class ProductController extends Controller
         return back()->with([
             'success' => 'Product deleted successfully.'
         ]);
-    }
-
-    private function storeImage($validatedData)
-    {
-        $name = request()->file('image')->getClientOriginalName();
-
-        request()->file('image')->storeAs('public/image', $name);
-
-        $validatedData['image'] = $name;
-
-        $validatedData['path'] = asset('storage/image').'/'.$name;
-
-        return $validatedData;
     }
 
     public function fileExport()

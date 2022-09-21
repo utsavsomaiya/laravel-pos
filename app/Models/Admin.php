@@ -13,11 +13,4 @@ class Admin extends Authenticatable
     protected $fillable = ['username','email','password',];
 
     protected $hidden = ['password'];
-
-    public function password(): Attribute
-    {
-        return Attribute::make(
-            set: fn ($value) => bcrypt($value),
-        );
-    }
 }

@@ -30,6 +30,13 @@ class Product extends Model implements HasMedia
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('product-images')
+            ->singleFile()
+            ->acceptsMimeTypes(['image/jpeg', 'image/gif', 'image/png']);
+    }
+
     public function registerMediaConversions(Media $media = null): void
     {
         $this

@@ -111,7 +111,7 @@
                     </div>
 
                     @isset($product)
-                        <img class="m-2" src="{{ asset('storage/image').'/'.$product->image }}">
+                        <img class="m-2" src="{{ $product->getFirstMediaUrl('product-images', 'preview') }}">
                     @endisset
 
                     <div class="form-group mb-2">

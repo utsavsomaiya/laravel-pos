@@ -27,9 +27,12 @@ class DatabaseSeeder extends Seeder
         $categories = Category::factory(10)->create();
         $this->command->info('Categories created successfully');
 
-        Product::factory(25)->sequence(static fn ($sequence) => [
-            'category_id' => $categories->random(1)->first()->id,
-        ])->create();
+        Product::factory(25)
+            ->productImage()
+            ->sequence(static fn ($sequence) => [
+                'category_id' => $categories->random(1)->first()->id,
+            ])
+            ->create();
         $this->command->info('Products created successfully');
     }
 }

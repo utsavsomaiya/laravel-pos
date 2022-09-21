@@ -81,8 +81,8 @@
                                 <td>{{ $product->tax.'%' }}</td>
                                 <td>{{ $product->stock }}</td>
                                 <td>
-                                    <img src="{{ $product->path }}"></td>
-                                <td>
+                                    <img src="{{ $product->getFirstMediaUrl('product-images', 'preview') }}"></td>
+                                <td class="d-flex">
                                     <a href="{{ route('products.edit', ['product' => $product->id ]) }}"
                                         class="link-dark text-decoration-none me-4"
                                     >

@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admin;
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,11 +17,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        Admin::factory()->create([
+            'username' => 'Laravel-Rajkot',
+            'email' => 'laravel@rajkot.com',
+            'password' => bcrypt('laravel_rajkot'),
+        ]);
+        $this->command->info('Admin Created successfully');
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $categories = Category::factory(10)->create();
+        $this->command->info('Categories created successfully');
+
+        Product::factory(25)->sequence(static fn ($sequence) => [
+            'category_id' => $categories->random(1)->first()->id,
+        ])->create();
+        $this->command->info('Products created successfully');
     }
 }
